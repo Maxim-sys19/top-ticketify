@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  #  nest_service:
+  #    build:
+  #      context: ./nest_server
+  #      dockerfile: Dockerfile
+  #    container_name: nestjs-top-ticketify-service
+  #    ports:
+  #      - '8000:8000'
+  #    env_file:
+  #      - .env
+  #    volumes:
+  #      - ./nest_server:/app
+  #      - /app/node_modules
+  #    depends_on:
+  #      - db_service
+  #    networks:
+  #      - app-network
+
+  db_service:
+    image: mysql:latest
+    container_name: top-ticketify-mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: TopTicketify
+    ports:
+      - '3307:3306'
+    networks:
+      - app-network
+
+  maildev:
+    image: maildev/maildev
+    container_name: top-ticketify-maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+  redis_service:
+    image: redis:latest
+    container_name: redis_service_top_ticketify
+    ports:
+      - '6379:6379'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

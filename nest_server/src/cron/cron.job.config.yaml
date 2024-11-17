@@ -1,0 +1,9 @@
+cronJobs:
+  - name: resetPwdExpiredToken
+    id: 1
+    cronTime: "*/15 * * * *"
+    callback: Job 1 executed
+  - name: job2
+    id: 2
+    cronTime: "*/2 * * * *"
+    callback: Job 2 executed

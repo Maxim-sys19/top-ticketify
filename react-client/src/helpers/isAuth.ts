@@ -1,0 +1,1 @@
+export const isAuth = (token: string | null) => token === null;
