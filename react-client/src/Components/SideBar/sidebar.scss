@@ -1,0 +1,21 @@
+.sidebar {
+  width: 20%;
+  min-width: 200px;
+  overflow: hidden;
+  background-color: #eff1f3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    margin-left: -100px;
+  }
+  .list-group {
+    margin-left: 100px;
+    width: 100px!important;
+  }
+}

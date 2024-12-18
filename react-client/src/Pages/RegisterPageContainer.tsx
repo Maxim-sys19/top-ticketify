@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import RegisterForm from "../Components/Form/BaseForm";
 import {Field} from "../Components/Form/FormFieldTypes";
 import {useRegistrationMutation} from "../redux/api/auth/register.service";

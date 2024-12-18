@@ -34,6 +34,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       });
       throw err || new UnauthorizedException();
     }
+    user.password = '';
     return user;
   }
 }

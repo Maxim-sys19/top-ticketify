@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
@@ -15,6 +16,7 @@ import { UpdateCompany } from './dto/update-company';
 import { RolesGuard } from '../guards/rolesGuard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../enums/role.enums';
+import { PaginationDto } from '../dto/pagination/pagination.dto';
 
 @Controller('company')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -29,8 +31,11 @@ export class CompanyController {
     });
   }
   @Get()
-  findAll() {
-    return this.companyService.findAll();
+  findAll(@Query() query: PaginationDto) {
+    const { limit, page } = query;
+    console.log('limit :', limit);
+    console.log('page :', page);
+    return this.companyService.findAll(query);
   }
 
   @Get(':id')

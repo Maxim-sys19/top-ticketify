@@ -6,6 +6,7 @@ export interface FormComponentPropTypes<T> {
   loading: boolean;
   fields: Field[],
   initialValue: T,
+  selectValues?: string[]
   onSubmit: (value: T) => void,
   errors?: ValidationError[] | undefined
   done?: boolean | null,

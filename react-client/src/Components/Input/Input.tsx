@@ -4,7 +4,7 @@ import {Form} from "react-bootstrap";
 const Input = ({field, onChange, values}: any) => (
   <Form.Group className="mb-3">
     <Form.Control
-      hidden={field.name === 'reset_token'}
+      hidden={field.name === 'reset_token' || field.type === 'select'}
       type={field.type}
       name={field.name}
       id={field.name}

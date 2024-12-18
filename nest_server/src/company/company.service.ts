@@ -18,6 +18,7 @@ import { UpdateCompany } from './dto/update-company';
 import { hashPwd } from '../helpers/authHelpers';
 import { plainToClass } from 'class-transformer';
 import { id } from 'date-fns/locale';
+import { PaginationDto } from '../dto/pagination/pagination.dto';
 
 @Injectable()
 export class CompanyService {
@@ -81,8 +82,28 @@ export class CompanyService {
     }
   }
 
-  findAll() {
-    return this.companyRepository.createQueryBuilder('company').getMany();
+  async findAll({ limit, page }: PaginationDto) {
+    const offset = (page - 1) * limit;
+    const companies = await this.companyRepository
+      .createQueryBuilder('company')
+      .leftJoin('company.users', 'user')
+      .select([
+        'company.id',
+        'company.name',
+        'company.description',
+        'user.id',
+        'user.name',
+        'user.email',
+      ])
+      .getMany();
+    const paginated = companies.slice(offset, offset + limit);
+    return {
+      data: paginated,
+      meta: {
+        totalItems: companies.length,
+        totalPages: Math.ceil(companies.length / limit),
+      },
+    };
   }
 
   async findOne(id: number) {

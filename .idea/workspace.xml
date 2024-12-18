@@ -5,41 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ec5ab35-9266-4799-9b2f-1541d24676f4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Input/input.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/NavBar/navbar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/ForgotPasswordContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/HomePageContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/LoginPageContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/ProfilePageContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/RegisterPageContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/ResetPasswordContainer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/helpers/isAuth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/helpers/parseErrors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useApiHooks.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/auth.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/authToken.slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/forgot.password.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/login.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/register.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/store.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/utils.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/toast/toastOptions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Pagination/BasePagination.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Select/Select.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/SideBar/Sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/SideBar/sidebar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/AdminLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CreateCompany.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Dashboard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/admin.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/helpers/isAdmin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/company/company.api.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/logout.api.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.slice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/routes/AdminRoutes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/RegisterPageContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/RegisterPageContainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/auth/authToken.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/authToken.slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +77,7 @@
     &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/user/sites/top-ticketify/nest_server/node_modules/prettier&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/home/user/sites/top-ticketify/react-client/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -89,18 +90,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies" />
+      <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin" />
       <recent name="$PROJECT_DIR$/react-client/src/Components/NavBar" />
       <recent name="$PROJECT_DIR$/nest_server/src/entities/route" />
       <recent name="$PROJECT_DIR$/nest_server/src/entities/seat" />
-      <recent name="$PROJECT_DIR$/nest_server/src/entities/ticket" />
-      <recent name="$PROJECT_DIR$/nest_server/src/entities/transport" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PS-243.21565.202" />
-        <option value="bundled-php-predefined-a98d8de5180a-5fbe0c30323e-com.jetbrains.php.sharedIndexes-PS-243.21565.202" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PS-243.22562.164" />
+        <option value="bundled-php-predefined-a98d8de5180a-7980c7aaca61-com.jetbrains.php.sharedIndexes-PS-243.22562.164" />
       </set>
     </attachedChunks>
   </component>
@@ -135,7 +136,12 @@
       <workItem from="1729940771619" duration="23693000" />
       <workItem from="1730301968371" duration="92543000" />
       <workItem from="1731511572153" duration="10813000" />
-      <workItem from="1731601593743" duration="5012000" />
+      <workItem from="1731601593743" duration="43320000" />
+      <workItem from="1732449126451" duration="13529000" />
+      <workItem from="1732716116135" duration="73874000" />
+      <workItem from="1734426450676" duration="44000" />
+      <workItem from="1734426501696" duration="271000" />
+      <workItem from="1734426788150" duration="8533000" />
     </task>
     <servers />
   </component>

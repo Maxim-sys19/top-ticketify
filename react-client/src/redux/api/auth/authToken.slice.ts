@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {logoutAction} from "../profile/logout.api.service";
 
 export interface TokenState {
   token: string | null;
@@ -16,12 +17,14 @@ const authTokenSlice = createSlice({
       const {token} = action.payload;
       state.token = token;
     },
-    logout: (state: TokenState) => {
-      localStorage.removeItem("jwtToken");
-      state.token = null;
-    }
+  },
+  extraReducers: builder => {
+    builder.addCase(logoutAction.fulfilled, (state, action) => {
+      const {payload} = action
+      state.token = payload
+    })
   }
 })
 
-export const {setToken, logout} = authTokenSlice.actions;
+export const {setToken} = authTokenSlice.actions;
 export default authTokenSlice.reducer;

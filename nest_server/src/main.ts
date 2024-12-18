@@ -9,6 +9,7 @@ import {
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { flattenValidationError } from './validationPipe/flattenValidationError';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -16,15 +17,10 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors: ValidationError[]) => {
-        const customErrors = errors.map((error) => {
-          return {
-            field: error.property,
-            message: Object.values(error.constraints || {}).toString(),
-          };
-        });
+        const formattedError = flattenValidationError(errors);
         return new BadRequestException({
           message: 'Validation error',
-          errors: customErrors,
+          errors: formattedError,
         });
       },
     }),
