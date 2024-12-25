@@ -4,13 +4,13 @@ import UsersCompanyModal from "../../../Components/Modal/BaseModal";
 
 interface ICompanyUsers<T> {
   data: T[] | null
-  show: boolean
+  show: {modalCase: number, open: boolean}
   onClose: () => void
 }
 
 function BaseList<T extends Record<string, any>>({data, onClose, show}: ICompanyUsers<T>) {
   return (
-    <UsersCompanyModal title="users" show={show} onHide={onClose}>
+    <UsersCompanyModal title="users" show={show.modalCase === 1 && show.open} onHide={onClose}>
       <ListGroup>
         {data?.map((row) => <ListGroup.Item key={row.id}>{row.name}</ListGroup.Item>)}
       </ListGroup>

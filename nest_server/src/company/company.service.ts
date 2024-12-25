@@ -16,8 +16,6 @@ import { UserStatus } from '../enums/user.enums';
 import { User } from '../entities/user/user.entity';
 import { UpdateCompany } from './dto/update-company';
 import { hashPwd } from '../helpers/authHelpers';
-import { plainToClass } from 'class-transformer';
-import { id } from 'date-fns/locale';
 import { PaginationDto } from '../dto/pagination/pagination.dto';
 
 @Injectable()
@@ -73,9 +71,8 @@ export class CompanyService {
           company,
         };
         const companyUser = this.companyUserRepository.create(data);
-        const savedCompanyUser =
-          await this.companyUserRepository.save(companyUser);
-        return plainToClass(CompanyUser, savedCompanyUser);
+        await this.companyUserRepository.save(companyUser);
+        return { status: user.status, company: { name: company_name } };
       }
     } catch (error) {
       throw new HttpException(error.message, error.status);
@@ -110,7 +107,7 @@ export class CompanyService {
     try {
       const company = await this.companyRepository
         .createQueryBuilder('company')
-        .leftJoinAndSelect('company.users', 'user')
+        .select(['company.name', 'company.description'])
         .where('company.id = :id', { id })
         .getOne();
       if (!company) {
@@ -138,7 +135,8 @@ export class CompanyService {
       }
       foundCompany.name = company_name;
       foundCompany.description = company_description;
-      return await this.companyRepository.save(foundCompany);
+      await this.companyRepository.save(foundCompany);
+      return { success: true, message: 'company updated' };
     } catch (err) {
       this.logger.error(err.message, {
         statusCode: err.status,
@@ -148,28 +146,29 @@ export class CompanyService {
     }
   }
 
-  async remove(id: number) {
+  async remove(ids: number[]) {
     try {
-      const userCompany = await this.companyUserRepository
+      const companiesUser: CompanyUser[] = await this.companyUserRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.company', 'company')
         .leftJoinAndSelect('user.roles', 'role')
-        .where('company.id = :id', { id })
-        .getOne();
-      if (!userCompany) {
-        throw new NotFoundException(`Company with id ${id} not found`);
+        .select(['user.id', 'company.id', 'role.id'])
+        .where('company.id IN (:...ids)', { ids })
+        .getMany();
+      if (companiesUser.length === 0) {
+        throw new NotFoundException(`Companies with ids ${ids} not found`);
       }
-      userCompany.roles.map(async (role) => {
-        await this.roleRepository.softDelete(role.id);
-      });
-      await this.companyRepository.softDelete(userCompany.company.id);
-      return this.companyUserRepository
-        .softDelete(userCompany.id)
-        .then((result) => {
-          if (result.affected === 1) {
-            return { success: true, message: 'Deleted!' };
-          }
+      for (const companyUser of companiesUser) {
+        companyUser.roles.forEach((role) => {
+          this.roleRepository.softDelete(role.id);
         });
+        await this.companyRepository.softDelete(companyUser.company.id);
+        await this.companyUserRepository.softDelete(companyUser.id);
+      }
+      return {
+        success: true,
+        message: 'Companies has been deleted successfully',
+      };
     } catch (err) {
       this.logger.error(err.message, {
         statusCode: err.status,

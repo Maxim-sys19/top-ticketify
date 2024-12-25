@@ -1,14 +1,15 @@
 import React, {memo, useCallback, useState} from 'react';
-import {useGetCompaniesQuery} from "../../../redux/api/company/company.api.service";
-import {Button, ListGroup} from "react-bootstrap";
+import {useDeleteAllCompaniesMutation, useGetCompaniesQuery} from "../../../redux/api/company/company.api.service";
+import {Button, InputGroup} from "react-bootstrap";
 import CompanyTable from '../../../Components/Table/BaseTable'
 import CreateCompany from "./CreateCompany";
-import UsersCompanyModal from '../../../Components/Modal/BaseModal'
 import CompanyPagination from "../../../Components/Pagination/BasePagination";
 import CompanyUsers from "./CompanyUsers";
+import EditCompany from "./EditCompany";
+import {useGsapRemove} from "../../../hooks/useGsapRemove";
 
 const headerRow = ['#', 'company', 'users of company', 'edit', 'delete']
-export type SelectedRowType = {
+export type SelectedUsersRowType = {
   id: string | number
   name: string
   email: string
@@ -17,24 +18,70 @@ export type SelectedRowType = {
 function Company() {
   // console.log('Company')
   const [currPage, setCurrPage] = useState(1)
+  const {addElement, removeElements} = useGsapRemove()
+  const [selectedCompanyRow, setSelectedCompanyRow] = useState({
+    id: null,
+    name: '',
+    description: ''
+  })
+  const [deleteAllCompanies] = useDeleteAllCompaniesMutation()
   const {data, isLoading} = useGetCompaniesQuery({limit: 5, page: currPage})
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
   const meta = data?.meta
   const companies = data?.data
-  const [selectedRow, setSelectedRow] = useState<SelectedRowType[] | null>(null)
-  const [show, setShow] = useState(false)
-  const handleEdit = (id: string) => {
-    console.log('Edit :', id)
+  const [selectedRow, setSelectedRow] = useState<SelectedUsersRowType[] | null>(null)
+  const [show, setShow] = useState({
+    modalCase: 0,
+    open: false
+  })
+  const handleCheck = (id: number) => {
+    setSelectedIds((prev) => prev.includes(id) ? prev.filter((selId) => selId !== id) : [...prev, id])
   }
-  const handleDelete = (id: string) => {
-    console.log('Delete :', id)
+  const handleEdit = (company: any) => {
+    const data = {
+      id: company.id,
+      name: company.name,
+      description: company.description
+    }
+    setSelectedCompanyRow(data)
+    setShow((prev) => ({
+      ...prev,
+      modalCase: 2,
+      open: true
+    }))
   }
-  const handleShowUsers = (users: SelectedRowType[]) => {
-    setShow(true)
+  const handleDelete = async () => {
+    let body = {
+      ids: selectedIds
+    }
+    removeElements(selectedIds)
+    await deleteAllCompanies(body).unwrap().then((res) => {
+      if (res) {
+        setSelectedIds([])
+      }
+    })
+  }
+  const handleShowUsers = (users: SelectedUsersRowType[]) => {
+    setShow((prev) => ({
+      ...prev,
+      modalCase: 1,
+      open: true
+    }))
     setSelectedRow(users)
   }
   const handleClose = useCallback(() => {
-    setShow(false)
+    setShow((prev) => ({
+      ...prev,
+      modalCase: 0,
+      open: false
+    }))
     setSelectedRow(null)
+    setSelectedCompanyRow((prev) => ({
+      ...prev,
+      id: null,
+      name: '',
+      description: ''
+    }))
   }, [])
   const handlePageChange = useCallback((page: number) => {
     if (page > 0 && page <= meta?.totalPages) {
@@ -42,33 +89,49 @@ function Company() {
     }
   }, [meta?.totalPages])
   const bodyRow = data && companies.map((el: any) =>
-    <tbody key={el.id}>
+    <tbody key={el.id} ref={(e) => addElement(el.id, e)}>
     <tr>
       <td>{el.id}</td>
       <td>{el.name}</td>
       <td>
         <Button onClick={() => handleShowUsers(el.users)}>users</Button>
       </td>
-      <td><Button variant="warning" onClick={() => handleEdit(el.id)}>edit</Button></td>
-      <td><Button variant="danger" onClick={() => handleDelete(el.id)}>delete</Button></td>
+      <td><Button variant="warning" onClick={() => handleEdit(el)}>edit</Button></td>
+      <td>
+        <InputGroup>
+          <InputGroup.Checkbox
+            onChange={() => handleCheck(el.id)}
+            type="checkbox"
+            id={`cmp_${el.id}`}
+            checked={selectedIds.includes(el.id)}
+          />
+        </InputGroup>
+      </td>
     </tr>
     </tbody>)
   return (
     <>
       {isLoading && <p>loading...</p>}
-      <CompanyUsers<SelectedRowType> data={selectedRow} show={show} onClose={handleClose}/>
+      <CompanyUsers<SelectedUsersRowType> data={selectedRow} show={show} onClose={handleClose} />
       <CreateCompany />
+      {
+        selectedIds.length !== 0 &&
+        <Button className="btn btn-danger float-lg-end" onClick={handleDelete}>
+          Delete
+        </Button>
+      }
+      <EditCompany show={show} onClose={handleClose} company={selectedCompanyRow} />
       <CompanyTable
         title="Companies"
         variant="secondary"
         headerRow={headerRow}
         bodyRow={bodyRow}
       />
-      <CompanyPagination
+      {meta?.totalItems >= 5 && <CompanyPagination
         onPageChange={handlePageChange}
         totalPages={meta?.totalPages}
         currentPage={currPage}
-      />
+      />}
     </>
   );
 }

@@ -5,41 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ec5ab35-9266-4799-9b2f-1541d24676f4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Pagination/BasePagination.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Select/Select.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/SideBar/Sidebar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/SideBar/sidebar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/AdminLayout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CreateCompany.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Dashboard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/admin.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/helpers/isAdmin.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/company/company.api.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/logout.api.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/routes/AdminRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/EditCompany.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useGsapRemove.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/RegisterPageContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/RegisterPageContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/auth/authToken.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/authToken.slice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/redux/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/company/company.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/company/company.api.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +117,7 @@
       <workItem from="1732716116135" duration="73874000" />
       <workItem from="1734426450676" duration="44000" />
       <workItem from="1734426501696" duration="271000" />
-      <workItem from="1734426788150" duration="8533000" />
+      <workItem from="1734426788150" duration="46629000" />
     </task>
     <servers />
   </component>

@@ -4,6 +4,7 @@ import {RootState} from "../../store";
 import {ErrorResponseTypes} from "../auth/types";
 import {toast} from "react-toastify";
 import {toastOptions} from "../../../toast/toastOptions";
+import {ValidationError} from "../../../helpers/parseErrors";
 
 export const companyApiService = createApi({
   reducerPath: 'api/company',
@@ -49,10 +50,51 @@ export const companyApiService = createApi({
         console.log('get companies error :', err)
       },
       providesTags: (result: any): any => {
-       return result ? result.data.map(({id}: any) => ({type: 'Company', id})): ['Company']
+        return result ? result.data.map(({id}: any) => ({type: 'Company', id})) : ['Company']
       }
     }),
+    updateCompany: builder.mutation({
+      query: ({id, body}: any) => ({
+        url: `/${id}`,
+        method: 'PUT',
+        body: JSON.stringify(body)
+      }),
+      invalidatesTags: (result, error, {id}) => [{type: 'Company', id}],
+      transformResponse: (res: any) => {
+        if (res.success && res.success === true) {
+          toast(res.message, toastOptions('success'))
+        }
+      },
+      transformErrorResponse: (err: any) => {
+        if (err && err.status === 400) {
+          return err.data.errors
+        }
+      }
+    }),
+    deleteAllCompanies: builder.mutation({
+      query: (body) => ({
+        url: `/bulk-delete`,
+        method: 'DELETE',
+        body
+      }),
+      invalidatesTags: (result, error, {id}) => [{type: 'Company', id}],
+      transformResponse: (res: any) => {
+        console.log('D success: ', res)
+        if (res.success && res.success === true) {
+          toast(res.message, toastOptions('success'))
+        }
+        return res.success
+      },
+      transformErrorResponse: (err: any) => {
+        console.log('D err :', err)
+      }
+    })
   })
 })
 
-export const {useCreateCompanyMutation, useGetCompaniesQuery} = companyApiService
+export const {
+  useCreateCompanyMutation,
+  useGetCompaniesQuery,
+  useUpdateCompanyMutation,
+  useDeleteAllCompaniesMutation
+} = companyApiService

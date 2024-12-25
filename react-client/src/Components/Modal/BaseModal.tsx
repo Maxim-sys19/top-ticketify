@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 interface IBaseModalProps<T> extends BaseModalProps {
   title: string,
   selectedRow?: T | null
+  show: boolean
 }
 
 function BaseModal<T>({show, onHide, backdrop, children, title}: IBaseModalProps<T>) {

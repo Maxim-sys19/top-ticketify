@@ -12,7 +12,7 @@ function BaseTable({headerRow, bodyRow, variant, title}: IBaseTableProps) {
   return (
     <>
       <h1>{title}</h1>
-      <Table variant={variant}>
+      <Table variant={variant} className="w-75">
         <thead>
         <tr>
           {headerRow.map((el, idx) =>
