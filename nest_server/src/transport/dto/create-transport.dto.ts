@@ -8,4 +8,6 @@ export class CreateTransportDto {
   @IsNotEmpty()
   @Min(2)
   capacity: number;
+  @IsNotEmpty()
+  company_name: string;
 }

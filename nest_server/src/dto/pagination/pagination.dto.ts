@@ -6,10 +6,10 @@ export class PaginationDto {
   @Type(() => Number)
   @IsInt({ message: 'Page must be an integer' })
   @Min(1, { message: 'Page must be at least 1' })
-  limit?: number = 5;
+  limit?: number;
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: 'Page must be an integer' })
   @Min(1, { message: 'Page must be at least 1' })
-  page?: number = 1;
+  page?: number;
 }

@@ -4,13 +4,18 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateTransportDto } from './dto/create-transport.dto';
-import { UpdateTransportDto } from './dto/update-transport.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Transport } from '../entities/transport/transport.entity';
-import { Repository } from 'typeorm';
-import { Seat } from '../entities/seat/seat.entity';
-import { TransportSeats } from '../entities/transport/transport.seats';
+import {CreateTransportDto} from './dto/create-transport.dto';
+import {UpdateTransportDto} from './dto/update-transport.dto';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Transport} from '../entities/transport/transport.entity';
+import {Repository} from 'typeorm';
+import {Seat} from '../entities/seat/seat.entity';
+import {TransportSeats} from '../entities/transport/transport.seats';
+import {Company} from '../entities/company/company.entity';
+import {TransportCompany} from '../entities/transport/transport.company';
+import {SeatTransport} from '../entities/seat/seat.transport';
+import {PaginationParams} from '../decorators/pagination';
+import {BulkDeleteDto} from 'src/dto/bulk-delete.dto';
 
 @Injectable()
 export class TransportService {
@@ -22,30 +27,44 @@ export class TransportService {
     @InjectRepository(TransportSeats)
     private readonly transportSeatsRepository: Repository<TransportSeats>,
     @InjectRepository(Seat) private readonly seatRepository: Repository<Seat>,
+    @InjectRepository(Company)
+    private readonly companyRepository: Repository<Company>,
+    @InjectRepository(TransportCompany)
+    private readonly transportCompanyRepository: Repository<TransportCompany>,
   ) {
   }
 
   async create(createTransportDto: CreateTransportDto) {
     try {
-      const transport = this.transportRepository.create({
+      const company = await this.companyRepository
+        .createQueryBuilder('company')
+        .where(`company.name = :name`, {
+          name: createTransportDto.company_name,
+        })
+        .getOne();
+      if (!company) throw new NotFoundException('company is not found');
+      const seats: SeatTransport[] = [];
+      for (let i = 1; i <= createTransportDto.capacity; i++) {
+        const seat = new SeatTransport();
+        seat.title = `Seat of ${createTransportDto.transport_name} - ${i}`;
+        seats.push(seat);
+      }
+      const data = {
         name: createTransportDto.transport_name,
         description: createTransportDto.transport_description,
         capacity: createTransportDto.capacity,
-      });
-      const seats: any[] = [];
-      for (let i = 1; i <= createTransportDto.capacity; i++) {
-        const seat = new Seat();
-        seat.title = `Seat - ${i}`;
-        seats.push(seat);
-      }
-      const transportSeats = this.transportSeatsRepository.create({
-        name: transport.name,
-        description: transport.description,
-        capacity: transport.capacity,
-        seats: seats,
-      });
-      await this.transportSeatsRepository.save(transportSeats);
-      return transport;
+        company,
+        seats,
+      };
+
+      return this.transportSeatsRepository
+        .save(data)
+        .then((transport: TransportSeats) => {
+          return {
+            success: true,
+            message: `${transport.name} created successfully`,
+          };
+        });
     } catch (err) {
       this.logger.error(err.message, {
         statusCode: err.status,
@@ -55,8 +74,21 @@ export class TransportService {
     }
   }
 
-  async findAll() {
-    return await this.transportRepository.find();
+  async findAll(params: PaginationParams) {
+    const {limit = 0, page = 1} = params;
+    const transports = this.transportCompanyRepository
+      .createQueryBuilder('transport')
+      .leftJoinAndSelect('transport.company', 'company')
+      .select(['transport', 'company.name']);
+    transports.skip((page - 1) * limit).take(+limit);
+    const [data, total] = await transports.getManyAndCount();
+    return {
+      data,
+      meta: {
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(id: number) {
@@ -70,7 +102,7 @@ export class TransportService {
   async update(id: number, updateTransportDto: UpdateTransportDto) {
     try {
       const foundTransport = await this.transportRepository.findOne({
-        where: { id },
+        where: {id},
       });
       if (!foundTransport) throw new NotFoundException('Transport not found');
       foundTransport.name = updateTransportDto.transport_name;
@@ -92,19 +124,15 @@ export class TransportService {
     }
   }
 
-  async remove(id: number) {
+  async remove(ids: number[]) {
     try {
-      const foundTransport = await this.transportRepository
+      const transports = await this.transportSeatsRepository
         .createQueryBuilder('transport')
-        .where('transport.id = :id', { id })
-        .getOne();
-      if (!foundTransport) throw new NotFoundException('Transport not found');
-      await this.transportRepository.softDelete(foundTransport.id);
-      await this.seatRepository
-        .createQueryBuilder('seats')
-        .softDelete()
-        .where('seats.transportId = :id', { id })
-        .execute();
+        .leftJoinAndSelect('transport.seats', 'seats')
+        .select(["transport.id", "transport.name", "seats.id", "seats.title"])
+        .where('transport.id IN (:...ids)', { ids })
+        .getMany()
+      await this.transportSeatsRepository.softRemove(transports);
       return {
         success: true,
         message: 'Removed',

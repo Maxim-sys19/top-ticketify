@@ -1,9 +1,9 @@
 import { ChildEntity, OneToMany } from 'typeorm';
-import { Transport } from './transport.entity';
 import { SeatTransport } from '../seat/seat.transport';
+import { TransportCompany } from './transport.company';
 
 @ChildEntity()
-export class TransportSeats extends Transport {
+export class TransportSeats extends TransportCompany {
   @OneToMany(() => SeatTransport, (seat) => seat.transport, {
     cascade: true,
   })

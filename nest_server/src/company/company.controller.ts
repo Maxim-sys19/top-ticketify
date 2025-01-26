@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
@@ -16,11 +15,11 @@ import { UpdateCompany } from './dto/update-company';
 import { RolesGuard } from '../guards/rolesGuard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../enums/role.enums';
-import { PaginationDto } from '../dto/pagination/pagination.dto';
 import { BulkDeleteDto } from '../dto/bulk-delete.dto';
+import { Pagination, PaginationParams } from '../decorators/pagination';
 
 @Controller('company')
-// @UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
@@ -30,11 +29,8 @@ export class CompanyController {
     return this.companyService.create(createCompanyUserDto);
   }
   @Get()
-  findAll(@Query() query: PaginationDto) {
-    const { limit, page } = query;
-    console.log('limit :', limit);
-    console.log('page :', page);
-    return this.companyService.findAll(query);
+  findAll(@Pagination() params: PaginationParams) {
+    return this.companyService.findAll(params);
   }
 
   @Get(':id')

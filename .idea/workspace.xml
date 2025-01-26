@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ec5ab35-9266-4799-9b2f-1541d24676f4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/EditCompany.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useGsapRemove.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/company/company.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/company/company.api.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +22,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -66,18 +58,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/react-client/src/redux/api/admin" />
       <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies" />
       <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin" />
       <recent name="$PROJECT_DIR$/react-client/src/Components/NavBar" />
       <recent name="$PROJECT_DIR$/nest_server/src/entities/route" />
-      <recent name="$PROJECT_DIR$/nest_server/src/entities/seat" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PS-243.22562.164" />
-        <option value="bundled-php-predefined-a98d8de5180a-7980c7aaca61-com.jetbrains.php.sharedIndexes-PS-243.22562.164" />
+        <option value="bundled-js-predefined-d6986cc7102b-b81319f9767f-JavaScript-PS-251.14649.45" />
+        <option value="bundled-php-predefined-a98d8de5180a-0f211e4baf26-com.jetbrains.php.sharedIndexes-PS-251.14649.45" />
       </set>
     </attachedChunks>
   </component>
@@ -117,12 +109,25 @@
       <workItem from="1732716116135" duration="73874000" />
       <workItem from="1734426450676" duration="44000" />
       <workItem from="1734426501696" duration="271000" />
-      <workItem from="1734426788150" duration="46629000" />
+      <workItem from="1734426788150" duration="107843000" />
+      <workItem from="1736854519474" duration="33202000" />
+      <workItem from="1737541816732" duration="18687000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

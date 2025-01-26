@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { TransportService } from './transport.service';
@@ -15,6 +16,9 @@ import { JwtAuthGuard } from '../guards/jwt.auth.guard';
 import { RolesGuard } from '../guards/rolesGuard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../enums/role.enums';
+import { PaginationDto } from '../dto/pagination/pagination.dto';
+import { Pagination, PaginationParams } from '../decorators/pagination';
+import { BulkDeleteDto } from 'src/dto/bulk-delete.dto';
 
 @Controller('transport')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -29,8 +33,8 @@ export class TransportController {
 
   @Get()
   @Roles(UserRole.ADMIN_USER, UserRole.COMPANY_USER)
-  findAll() {
-    return this.transportService.findAll();
+  findAll(@Pagination() params: PaginationParams) {
+    return this.transportService.findAll(params);
   }
 
   @Get(':id')
@@ -48,9 +52,10 @@ export class TransportController {
     return this.transportService.update(+id, updateTransportDto);
   }
 
-  @Delete(':id')
+  @Delete('/bulk-delete')
   @Roles(UserRole.ADMIN_USER, UserRole.COMPANY_USER)
-  remove(@Param('id') id: string) {
-    return this.transportService.remove(+id);
+  remove(@Body() body: BulkDeleteDto) {
+    const {ids} = body
+    return this.transportService.remove(ids);
   }
 }

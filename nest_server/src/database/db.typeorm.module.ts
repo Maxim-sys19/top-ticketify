@@ -23,6 +23,8 @@ import { RouteTransport } from '../entities/route/route.transport';
 import { RouteTickets } from '../entities/route/route.tickets';
 import { TicketSeat } from '../entities/ticket/ticket.seat';
 import { SeatTicket } from '../entities/seat/seat.ticket';
+import { TransportCompany } from '../entities/transport/transport.company';
+import { CompanyTransports } from '../entities/company/company.transports';
 
 @Module({
   imports: [
@@ -44,10 +46,12 @@ import { SeatTicket } from '../entities/seat/seat.ticket';
           Company,
           CompanyRoute,
           CompanyUser,
+          CompanyTransports,
           Transport,
           TransportTicket,
           TransportSeats,
           TransportRoutes,
+          TransportCompany,
           Ticket,
           TicketSeat,
           TicketRoute,

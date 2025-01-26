@@ -123,6 +123,11 @@ export class AuthService {
     }
   }
 
+  async logout(token: string) {
+    const jwtToken = token.split(' ')[1];
+    console.log(jwtToken);
+  }
+
   async emailConfirmation(token: string) {
     try {
       const { email } = await this.jwtService

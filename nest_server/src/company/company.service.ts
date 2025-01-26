@@ -16,7 +16,7 @@ import { UserStatus } from '../enums/user.enums';
 import { User } from '../entities/user/user.entity';
 import { UpdateCompany } from './dto/update-company';
 import { hashPwd } from '../helpers/authHelpers';
-import { PaginationDto } from '../dto/pagination/pagination.dto';
+import { PaginationParams } from '../decorators/pagination';
 
 @Injectable()
 export class CompanyService {
@@ -79,9 +79,9 @@ export class CompanyService {
     }
   }
 
-  async findAll({ limit, page }: PaginationDto) {
-    const offset = (page - 1) * limit;
-    const companies = await this.companyRepository
+  async findAll(params: PaginationParams) {
+    const { limit = 0, page = 1 }: PaginationParams = params;
+    const companies = this.companyRepository
       .createQueryBuilder('company')
       .leftJoin('company.users', 'user')
       .select([
@@ -91,14 +91,15 @@ export class CompanyService {
         'user.id',
         'user.name',
         'user.email',
-      ])
-      .getMany();
-    const paginated = companies.slice(offset, offset + limit);
+      ]);
+    companies.skip((page - 1) * limit).take(+limit);
+    const [data, total] = await companies.getManyAndCount();
+
     return {
-      data: paginated,
+      data,
       meta: {
-        totalItems: companies.length,
-        totalPages: Math.ceil(companies.length / limit),
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
       },
     };
   }
