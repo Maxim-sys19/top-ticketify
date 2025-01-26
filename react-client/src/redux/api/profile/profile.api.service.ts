@@ -13,11 +13,11 @@ export const profileAction = createAsyncThunk('/profile', async (_, {getState, d
     const decodeJwt = JSON.parse(atob(base64))
     const jwtExpTime = decodeJwt.exp
     const remainingTime = (jwtExpTime - currTime) * 1000;
-    setTimeout(() => {
+    console.log(remainingTime)
+    if (remainingTime <= 0) {
       dispatch(logoutAction())
-      toast('your session is expired', toastOptions('error'))
-      console.log('jwt expired')
-    }, remainingTime)
+      toast('session has been expired', toastOptions('error'))
+    }
     return {user: decodeJwt.user}
   } catch (err) {
     return rejectWithValue(err)

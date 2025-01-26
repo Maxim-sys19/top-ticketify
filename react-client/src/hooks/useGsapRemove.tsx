@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {gsap} from 'gsap'
 
 export const useGsapRemove = () => {
@@ -20,5 +20,10 @@ export const useGsapRemove = () => {
       }
     });
   }
+  useEffect(() => {
+    return () => {
+      itemRefs.current.clear()
+    }
+  }, []);
   return {addElement, removeElements}
 }

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import EditCompanyForm from '../../../Components/Form/BaseForm'
 import EditCompanyModal from '../../../Components/Modal/BaseModal'
 import {Field} from "../../../Components/Form/FormFieldTypes";
-import {useUpdateCompanyMutation} from "../../../redux/api/company/company.api.service";
+import {useUpdateCompanyMutation} from "../../../redux/api/admin/company/company.api.service";
 import {parseErrors} from "../../../helpers/parseErrors";
 
 interface EditCompanyFormValues {
@@ -11,8 +11,8 @@ interface EditCompanyFormValues {
 }
 
 const editCompanyFormFields: Field[] = [
-  {name: 'company_name', type: 'text', label: 'edit name', placeholder: 'edit company name'},
-  {name: 'company_description', type: 'textarea', label: 'edit description', placeholder: 'edit company description'},
+  {name: 'company_name', type: 'text', inputType: 'input', label: 'edit name', placeholder: 'edit company name'},
+  {name: 'company_description', type: 'textarea', inputType: 'textarea', label: 'edit description', placeholder: 'edit company description'},
 ]
 
 function EditCompany({show, onClose, company}: any) {
@@ -33,7 +33,7 @@ function EditCompany({show, onClose, company}: any) {
     await updateCompany(companyData)
   }
   return (
-    <EditCompanyModal title="Edit company" show={show.modalCase === 2 && show.open} backdrop="static" onHide={onClose}>
+    <EditCompanyModal title="Edit company" show={show} backdrop="static" onHide={onClose}>
       <>
         <EditCompanyForm
           buttonSubmitTitle="Update"

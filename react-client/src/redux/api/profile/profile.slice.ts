@@ -39,6 +39,9 @@ const profileSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(profileAction.fulfilled, (state: ProfileState, action: PayloadAction<ProfileState>) => {
       const {payload} = action
+      if(JSON.stringify(state.user.email) === JSON.stringify(payload.user.email)) {
+        return state
+      }
       state.user.id = payload.user.id
       state.user.email = payload.user.email
       state.user.name = payload.user.name

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import './navbar.scss'
 import {Button, Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
@@ -6,17 +6,26 @@ import {useAppDispatch, useAppSelector} from "../../hooks/useApiHooks";
 import {profileAction} from "../../redux/api/profile/profile.api.service";
 import {logoutAction} from "../../redux/api/profile/logout.api.service";
 
-const BaseNavBar = ({isAdmin}: {isAdmin: boolean}) => {
+const BaseNavBar = ({isAdmin, isCompanyUser}: { isAdmin: boolean, isCompanyUser: boolean }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
   const token = useAppSelector(state => state.jwtToken.token);
   const {name} = useAppSelector(state => state.profile.user)
-
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const fetchProfile = useCallback( async () => {
+    await dispatch(profileAction());
+  }, [dispatch]);
   useEffect(() => {
     if (token) {
-      dispatch(profileAction())
+      fetchProfile()
+      timerRef.current = setInterval(() => {
+        dispatch(profileAction())
+      }, 600000)
     }
-  }, [token, dispatch])
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [token, fetchProfile])
 
   const onLogout = () => {
     dispatch(logoutAction())
@@ -40,7 +49,7 @@ const BaseNavBar = ({isAdmin}: {isAdmin: boolean}) => {
                 ? <Nav className="nav_container">
                   <h4 className="m-4">{name}</h4>
                   {
-                    isAdmin &&
+                    (isAdmin || isCompanyUser) &&
                     <Link to="/dashboard" className="btn btn-sm btn-outline-success m-2" aria-controls="admin-nav">
                       admin
                     </Link>

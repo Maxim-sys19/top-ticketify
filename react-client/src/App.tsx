@@ -6,15 +6,16 @@ import './App.css';
 import BaseNavBar from "./Components/NavBar/BaseNavBar";
 import {routes} from "./routes/routes";
 import {useAppSelector} from "./hooks/useApiHooks";
-import {isAdmin} from "./helpers/isAdmin";
+import {isAdmin, isCompany} from "./helpers/isAdmin";
 
 function App() {
   const {roles} = useAppSelector(state => state.profile.user)
-  const adminPanel = roles && isAdmin(roles)
+  const adminUser = roles && isAdmin(roles)
+  const companyUser = roles && isCompany(roles)
   return (
     <Router>
       <ToastContainer />
-      <BaseNavBar isAdmin={adminPanel} />
+      <BaseNavBar isAdmin={adminUser} isCompanyUser={companyUser} />
       <Routes>
         {
           routes!.map((route, idx) => (

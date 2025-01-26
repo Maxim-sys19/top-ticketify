@@ -1,28 +1,38 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {BASE_URL} from "../../utils";
-import {RootState} from "../../store";
-import {ErrorResponseTypes} from "../auth/types";
+import {BASE_URL} from "../../../utils";
+import {RootState} from "../../../store";
+import {ErrorResponseTypes} from "../../auth/types";
 import {toast} from "react-toastify";
-import {toastOptions} from "../../../toast/toastOptions";
-import {ValidationError} from "../../../helpers/parseErrors";
+import {toastOptions} from "../../../../toast/toastOptions";
+
+export const baseQuery = fetchBaseQuery({
+  prepareHeaders: (headers, {getState}) => {
+    const {token} = (getState() as RootState).jwtToken
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+      headers.set('Content-Type', 'application/json')
+    }
+  }
+})
+
+export const queryWithParams = (base: string, params: any) => {
+  const queryParams = new URLSearchParams()
+  if (params?.limit) queryParams.append('limit', params.limit)
+  if (params?.page) queryParams.append('page', params.page)
+  return {
+    url: `${BASE_URL}${base}${queryParams.toString()}`,
+    method: 'GET'
+  }
+}
 
 export const companyApiService = createApi({
   reducerPath: 'api/company',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/company`,
-    prepareHeaders: (headers, {getState}) => {
-      const {token} = (getState() as RootState).jwtToken
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
-        headers.set('Content-Type', 'application/json')
-      }
-    }
-  }),
+  baseQuery,
   tagTypes: ['Company'],
   endpoints: (builder) => ({
     createCompany: builder.mutation({
       query: (body) => ({
-        url: '',
+        url: `${BASE_URL}/company`,
         method: 'POST',
         body
       }),
@@ -34,16 +44,13 @@ export const companyApiService = createApi({
         if (err && err.status === 400) {
           return err.data.errors
         }
-
       },
       invalidatesTags: [{type: 'Company'}]
     }),
     getCompanies: builder.query({
-      query: ({limit, page}) => ({
-        url: `?limit=${limit}&page=${page}`,
-        method: 'GET'
-      }),
+      query: (params) => queryWithParams('/company?', params),
       transformResponse: (res: any) => {
+        // console.log('companies ', res.data)
         return res
       },
       transformErrorResponse: (err: any) => {
@@ -55,7 +62,7 @@ export const companyApiService = createApi({
     }),
     updateCompany: builder.mutation({
       query: ({id, body}: any) => ({
-        url: `/${id}`,
+        url: `${BASE_URL}/company/${id}`,
         method: 'PUT',
         body: JSON.stringify(body)
       }),
@@ -73,13 +80,12 @@ export const companyApiService = createApi({
     }),
     deleteAllCompanies: builder.mutation({
       query: (body) => ({
-        url: `/bulk-delete`,
+        url: `${BASE_URL}/company/bulk-delete`,
         method: 'DELETE',
         body
       }),
       invalidatesTags: (result, error, {id}) => [{type: 'Company', id}],
       transformResponse: (res: any) => {
-        console.log('D success: ', res)
         if (res.success && res.success === true) {
           toast(res.message, toastOptions('success'))
         }

@@ -11,6 +11,7 @@ import Dashboard from "../Pages/Admin/Dashboard";
 import Company from "../Pages/Admin/Companies/Company";
 import AdminRoutes from "./AdminRoutes";
 import AdminLayout from "../Pages/Admin/AdminLayout";
+import TransportPage from "../Pages/Admin/Transport/TransportPage";
 
 export type IRoute = {
   path: string;
@@ -47,6 +48,7 @@ export const routes: RoutesTypes[] = [
     children: [
       {path: '/dashboard', element: <Dashboard />, isPrivate: true},
       {path: '/company', element: <Company />, isPrivate: true},
+      {path: '/transport', element: <TransportPage />, isPrivate: true},
     ]
   }
 ]

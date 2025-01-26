@@ -13,9 +13,9 @@ interface ResetPasswordFormValues {
 }
 
 const resetPasswordFormFields: Field[] = [
-  {name: 'reset_token', type: 'text', label: 'reset token', placeholder: 'Reset token'},
-  {name: 'old_password', type: 'password', label: 'old password', placeholder: 'Old password'},
-  {name: 'new_password', type: 'password', label: 'new password', placeholder: 'new password'},
+  {name: 'reset_token', type: 'text', inputType: 'input', label: 'reset token', placeholder: 'Reset token'},
+  {name: 'old_password', type: 'password', inputType: 'input', label: 'old password', placeholder: 'Old password'},
+  {name: 'new_password', type: 'password', inputType: 'input', label: 'new password', placeholder: 'new password'},
 ]
 const ResetPasswordContainer = () => {
   const [searchParams] = useSearchParams();

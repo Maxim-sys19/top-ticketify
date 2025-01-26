@@ -15,13 +15,23 @@ const BaseForm = <T extends Record<string, any>>(props: FormComponentPropTypes<T
     done,
     errors,
   } = props;
+  console.log('BaseForm');
   const [values, setValues] = React.useState<T>(initialValue);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setValues({
-      ...values,
-      [name]: value
-    });
+    const {name, value, type} = e.target;
+    if (type === "number") {
+      if (/^[1-9]\d*$/.test(value) || value === '') {
+        setValues({
+          ...values,
+          [name]: value
+        });
+      }
+    } else {
+      setValues({
+        ...values,
+        [name]: value
+      });
+    }
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +57,7 @@ const BaseForm = <T extends Record<string, any>>(props: FormComponentPropTypes<T
         <div key={index}>
           {
             field.type === 'select' &&
-            <Select selectValues={selectValues} field={field} onChange={handleChange} values={values}/>
+            <Select selectValues={selectValues} field={field} onChange={handleChange} values={values} />
           }
           <Input field={field} onChange={handleChange} values={values} />
         </div>

@@ -1,22 +1,32 @@
 import React, {memo, useCallback, useState} from 'react';
-import {useDeleteAllCompaniesMutation, useGetCompaniesQuery} from "../../../redux/api/company/company.api.service";
-import {Button, InputGroup} from "react-bootstrap";
-import CompanyTable from '../../../Components/Table/BaseTable'
+import {
+  useDeleteAllCompaniesMutation,
+  useGetCompaniesQuery
+} from "../../../redux/api/admin/company/company.api.service";
+import {Button} from "react-bootstrap";
 import CreateCompany from "./CreateCompany";
 import CompanyPagination from "../../../Components/Pagination/BasePagination";
 import CompanyUsers from "./CompanyUsers";
 import EditCompany from "./EditCompany";
 import {useGsapRemove} from "../../../hooks/useGsapRemove";
+import {useAppSelector} from "../../../hooks/useApiHooks";
+import {isAdmin} from "../../../helpers/isAdmin";
+import useOpenModal from "../../../hooks/useOpenModal";
+import CompanyTable from "./CompanyTable";
 
-const headerRow = ['#', 'company', 'users of company', 'edit', 'delete']
+interface Company {
+  id: number
+  name: string,
+  users: any[]
+}
+
 export type SelectedUsersRowType = {
   id: string | number
   name: string
   email: string
 }
 
-function Company() {
-  // console.log('Company')
+function CompanyPage() {
   const [currPage, setCurrPage] = useState(1)
   const {addElement, removeElements} = useGsapRemove()
   const [selectedCompanyRow, setSelectedCompanyRow] = useState({
@@ -24,17 +34,16 @@ function Company() {
     name: '',
     description: ''
   })
+  const {roles} = useAppSelector(state => state.profile.user)
+  const isAdminUser = roles && isAdmin(roles)
   const [deleteAllCompanies] = useDeleteAllCompaniesMutation()
   const {data, isLoading} = useGetCompaniesQuery({limit: 5, page: currPage})
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const meta = data?.meta
   const companies = data?.data
   const [selectedRow, setSelectedRow] = useState<SelectedUsersRowType[] | null>(null)
-  const [show, setShow] = useState({
-    modalCase: 0,
-    open: false
-  })
-  const handleCheck = (id: number) => {
+  const {open, close, show} = useOpenModal()
+  const handleCheckCompany = (id: number) => {
     setSelectedIds((prev) => prev.includes(id) ? prev.filter((selId) => selId !== id) : [...prev, id])
   }
   const handleEdit = (company: any) => {
@@ -44,11 +53,7 @@ function Company() {
       description: company.description
     }
     setSelectedCompanyRow(data)
-    setShow((prev) => ({
-      ...prev,
-      modalCase: 2,
-      open: true
-    }))
+    open('edit')
   }
   const handleDelete = async () => {
     let body = {
@@ -62,19 +67,11 @@ function Company() {
     })
   }
   const handleShowUsers = (users: SelectedUsersRowType[]) => {
-    setShow((prev) => ({
-      ...prev,
-      modalCase: 1,
-      open: true
-    }))
+    open('read')
     setSelectedRow(users)
   }
   const handleClose = useCallback(() => {
-    setShow((prev) => ({
-      ...prev,
-      modalCase: 0,
-      open: false
-    }))
+    close()
     setSelectedRow(null)
     setSelectedCompanyRow((prev) => ({
       ...prev,
@@ -82,37 +79,13 @@ function Company() {
       name: '',
       description: ''
     }))
-  }, [])
-  const handlePageChange = useCallback((page: number) => {
-    if (page > 0 && page <= meta?.totalPages) {
-      setCurrPage(page)
-    }
-  }, [meta?.totalPages])
-  const bodyRow = data && companies.map((el: any) =>
-    <tbody key={el.id} ref={(e) => addElement(el.id, e)}>
-    <tr>
-      <td>{el.id}</td>
-      <td>{el.name}</td>
-      <td>
-        <Button onClick={() => handleShowUsers(el.users)}>users</Button>
-      </td>
-      <td><Button variant="warning" onClick={() => handleEdit(el)}>edit</Button></td>
-      <td>
-        <InputGroup>
-          <InputGroup.Checkbox
-            onChange={() => handleCheck(el.id)}
-            type="checkbox"
-            id={`cmp_${el.id}`}
-            checked={selectedIds.includes(el.id)}
-          />
-        </InputGroup>
-      </td>
-    </tr>
-    </tbody>)
+  }, [close])
+
+
   return (
     <>
       {isLoading && <p>loading...</p>}
-      <CompanyUsers<SelectedUsersRowType> data={selectedRow} show={show} onClose={handleClose} />
+      <CompanyUsers<SelectedUsersRowType> data={selectedRow} show={show === 'read'} onClose={handleClose} />
       <CreateCompany />
       {
         selectedIds.length !== 0 &&
@@ -120,20 +93,27 @@ function Company() {
           Delete
         </Button>
       }
-      <EditCompany show={show} onClose={handleClose} company={selectedCompanyRow} />
-      <CompanyTable
+      {selectedCompanyRow && <EditCompany show={show === 'edit'} onClose={close} company={selectedCompanyRow} />}
+      <CompanyTable<Company>
+        checked={selectedIds}
+        handleCheck={handleCheckCompany}
+        handleEdit={handleEdit}
         title="Companies"
+        role={isAdminUser}
+        addElement={addElement}
+        handleShowUsers={handleShowUsers}
         variant="secondary"
-        headerRow={headerRow}
-        bodyRow={bodyRow}
+        data={companies}
       />
-      {meta?.totalItems >= 5 && <CompanyPagination
-        onPageChange={handlePageChange}
-        totalPages={meta?.totalPages}
-        currentPage={currPage}
-      />}
+      {meta?.totalItems >= 5 &&
+        <CompanyPagination
+          meta={meta}
+          setCurrPage={setCurrPage}
+          totalPages={meta?.totalPages}
+          currentPage={currPage}
+        />}
     </>
   );
 }
 
-export default memo(Company);
+export default memo(CompanyPage);

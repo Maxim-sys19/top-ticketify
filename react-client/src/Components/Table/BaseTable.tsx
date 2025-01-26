@@ -1,28 +1,43 @@
-import React, {JSX} from 'react';
+import React, {JSX, memo} from 'react';
 import {Table} from "react-bootstrap";
+import {Column, TableConfig} from "./types";
 
-interface IBaseTableProps {
+export interface IBaseTableProps<T> extends TableConfig<T> {
   title?: string,
   variant?: string,
-  headerRow: string[],
-  bodyRow: JSX.Element
+  addElement?: (id: number, el: HTMLDivElement | null) => void
 }
 
-function BaseTable({headerRow, bodyRow, variant, title}: IBaseTableProps) {
+function BaseTable<T>({variant, title, data, columns, addElement}: IBaseTableProps<T>) {
   return (
     <>
       <h1>{title}</h1>
-      <Table variant={variant} className="w-75">
+      <Table variant={variant}>
         <thead>
         <tr>
-          {headerRow.map((el, idx) =>
-            <th key={idx}>{el}</th>)}
+          {columns?.map((col: Column<T>, index: number) =>
+            <th key={index}>{col.header}</th>)}
         </tr>
         </thead>
-        {bodyRow}
+        <tbody >
+        {
+          data?.map((row: T, rowIndex) => (
+            <tr key={(row as any).id || rowIndex} ref={(e) => addElement ? addElement((row as any).id || rowIndex, e) : null}>
+              {columns?.map((col, colIndex) => (
+                <td key={colIndex}>
+                  {typeof col.accessor === 'function'
+                    ? col.accessor(row)
+                    : String(row[col.accessor as keyof T])}
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+        </tbody>
       </Table>
     </>
   );
 }
 
-export default BaseTable;
+const MemoTable =  memo(BaseTable) as <T>(props: IBaseTableProps<T>) => JSX.Element;
+export default MemoTable

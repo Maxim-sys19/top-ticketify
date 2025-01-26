@@ -13,7 +13,7 @@ const initialValues: ForgotPasswordFormValues = {
   email: "",
 }
 const forgotPasswordFormFields: Field[] = [
-  {name: 'email', label: 'email', type: 'email', placeholder: 'Email'},
+  {name: 'email', label: 'email', inputType: 'input', type: 'email', placeholder: 'Email'},
 ]
 const ForgotPasswordContainer = () => {
   const [forgotPassword, {error, isLoading, data}] = useForgotPasswordMutation()

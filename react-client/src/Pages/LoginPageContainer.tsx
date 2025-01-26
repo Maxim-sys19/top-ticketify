@@ -16,8 +16,8 @@ const initialValues: LoginFormValues = {
   password: '',
 }
 const loginFormFields: Field[] = [
-  {name: 'email', label: 'email', type: 'email', placeholder: 'Email'},
-  {name: 'password', label: 'password', type: 'password', placeholder: 'Password'},
+  {name: 'email', label: 'email', inputType: 'input', type: 'email', placeholder: 'Email'},
+  {name: 'password', label: 'password', inputType: 'input', type: 'password', placeholder: 'Password'},
 ]
 
 const LoginPageContainer = () => {

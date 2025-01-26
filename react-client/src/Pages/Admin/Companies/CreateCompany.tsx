@@ -1,10 +1,11 @@
 import React, {memo, useCallback, useState} from 'react';
 import {Field} from "../../../Components/Form/FormFieldTypes";
-import {useCreateCompanyMutation} from "../../../redux/api/company/company.api.service";
+import {useCreateCompanyMutation} from "../../../redux/api/admin/company/company.api.service";
 import {parseErrors} from "../../../helpers/parseErrors";
 import CompanyForm from "../../../Components/Form/BaseForm";
 import CompanyModal from '../../../Components/Modal/BaseModal'
 import {Button} from "react-bootstrap";
+import useOpenModal from "../../../hooks/useOpenModal";
 
 interface CompanyFormValues {
   name: string
@@ -16,12 +17,12 @@ interface CompanyFormValues {
 }
 
 const companyFormFields: Field[] = [
-  {name: 'name', type: 'text', label: 'name', placeholder: 'name'},
-  {name: 'email', type: 'email', label: 'email', placeholder: 'email'},
-  {name: 'password', type: 'password', label: 'password', placeholder: 'password'},
-  {name: 'role_name', type: 'select', label: 'user role', placeholder: 'role'},
-  {name: 'company_name', type: 'text', label: 'name of company', placeholder: 'company name'},
-  {name: 'company_description', type: 'text', label: 'description of company', placeholder: 'company description'},
+  {name: 'name', type: 'text', inputType: 'input', label: 'name', placeholder: 'name'},
+  {name: 'email', type: 'email', inputType: 'input', label: 'email', placeholder: 'email'},
+  {name: 'password', type: 'password', inputType: 'input', label: 'password', placeholder: 'password'},
+  {name: 'role_name', type: 'select', label: 'select user role', placeholder: 'role'},
+  {name: 'company_name', type: 'text', inputType: 'input', label: 'name of company', placeholder: 'company name'},
+  {name: 'company_description', type: 'text', inputType: 'textarea', label: 'description of company', placeholder: 'company description'},
 ]
 
 const initialValues: CompanyFormValues = {
@@ -37,7 +38,7 @@ const selectValues = ['user', 'company_user', 'admin_user']
 
 function CreateCompany() {
   const [createCompany, {isLoading, error, data}] = useCreateCompanyMutation()
-  const [show, setShow] = useState(false)
+  const {show, close, open} = useOpenModal()
   const errors = parseErrors(error)
   const isSuccess = data && data === 'active'
   const handleSubmit = async (data: CompanyFormValues) => {
@@ -54,25 +55,22 @@ function CreateCompany() {
       }
     }
     await createCompany(companyBody).unwrap().then((res) => {
-      setShow(false)
+      close()
     }).catch(err => {
       if(err) {
-        setShow(true)
+        open('create')
       }
     })
   }
-  const handleClose = useCallback(() => {
-    setShow(false)
-  }, [])
 
   return (
     <>
-      <Button onClick={() => setShow(true)}>+</Button>
+      <Button onClick={() => open('create')}>+</Button>
       <CompanyModal
         title="Create Company"
-        show={show}
+        show={show === 'create'}
         backdrop="static"
-        onHide={handleClose}
+        onHide={close}
       >
         <CompanyForm<CompanyFormValues>
           selectValues={selectValues}

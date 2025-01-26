@@ -2,8 +2,8 @@ import {configureStore} from '@reduxjs/toolkit';
 import {authService} from "./api/auth/auth.service";
 import authJwtTokenReducer from './api/auth/authToken.slice'
 import profileReducer from './api/profile/profile.slice'
-import {companyApiService} from "./api/company/company.api.service";
-
+import {companyApiService} from "./api/admin/company/company.api.service";
+import {transportApiService} from "./api/admin/transport/transport.api.service";
 
 
 export const store = configureStore({
@@ -11,10 +11,15 @@ export const store = configureStore({
     jwtToken: authJwtTokenReducer,
     profile: profileReducer,
     [authService.reducerPath]: authService.reducer,
-    [companyApiService.reducerPath]: companyApiService.reducer
+    [companyApiService.reducerPath]: companyApiService.reducer,
+    [transportApiService.reducerPath]: transportApiService.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([authService.middleware, companyApiService.middleware])
+    getDefaultMiddleware().concat([
+      authService.middleware,
+      companyApiService.middleware,
+      transportApiService.middleware
+    ])
 });
 
 export type RootState = ReturnType<typeof store.getState>;

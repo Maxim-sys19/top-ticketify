@@ -20,10 +20,10 @@ const initialValues: RegisterFormValues = {
 }
 
 const registerFormFields: Field[] = [
-  {name: 'name', label: 'user_name', type: 'text', placeholder: 'Username'},
-  {name: 'email', label: 'user_email', type: 'email', placeholder: 'User email'},
-  {name: 'password', label: 'user_password', type: 'password', placeholder: 'password'},
-  {name: 'confirm_password', label: 'confirm_password', type: 'password', placeholder: 'confirm password'},
+  {name: 'name', label: 'user_name', inputType: 'input', type: 'text', placeholder: 'Username'},
+  {name: 'email', label: 'user_email', inputType: 'input', type: 'email', placeholder: 'User email'},
+  {name: 'password', label: 'user_password', inputType: 'input', type: 'password', placeholder: 'password'},
+  {name: 'confirm_password', label: 'confirm_password', inputType: 'input', type: 'password', placeholder: 'confirm password'},
 ]
 const RegisterPageContainer = () => {
   const [registration, {isLoading, error, data}] = useRegistrationMutation()

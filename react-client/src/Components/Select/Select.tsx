@@ -4,7 +4,7 @@ import {Form} from "react-bootstrap";
 const Select = ({onChange, values, field, selectValues}: any) => {
   return (
     <Form.Select name={field.name} onChange={onChange} value={values[field.name]} aria-label="Default select example">
-      <option value="">select role</option>
+      <option value="">{field.label}</option>
       {
         selectValues &&
         selectValues.map((value: string, idx: any) => <option key={idx} value={value}>{value}</option>)
