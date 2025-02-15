@@ -22,7 +22,13 @@ const companyFormFields: Field[] = [
   {name: 'password', type: 'password', inputType: 'input', label: 'password', placeholder: 'password'},
   {name: 'role_name', type: 'select', label: 'select user role', placeholder: 'role'},
   {name: 'company_name', type: 'text', inputType: 'input', label: 'name of company', placeholder: 'company name'},
-  {name: 'company_description', type: 'text', inputType: 'textarea', label: 'description of company', placeholder: 'company description'},
+  {
+    name: 'company_description',
+    type: 'text',
+    inputType: 'textarea',
+    label: 'description of company',
+    placeholder: 'company description'
+  },
 ]
 
 const initialValues: CompanyFormValues = {
@@ -57,12 +63,11 @@ function CreateCompany() {
     await createCompany(companyBody).unwrap().then((res) => {
       close()
     }).catch(err => {
-      if(err) {
+      if (err) {
         open('create')
       }
     })
   }
-
   return (
     <>
       <Button onClick={() => open('create')}>+</Button>

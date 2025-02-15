@@ -3,6 +3,7 @@ import {FormComponentPropTypes} from "./FormComponentPropTypes";
 import {Button, Form} from "react-bootstrap";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
+import DateTimePicker from '../DateTimePicker/DateTimePicker';
 
 const BaseForm = <T extends Record<string, any>>(props: FormComponentPropTypes<T>) => {
   const {
@@ -33,6 +34,12 @@ const BaseForm = <T extends Record<string, any>>(props: FormComponentPropTypes<T
       });
     }
   }
+  const handleDateChange = (field: keyof typeof values, date: Date | null) => {
+    setValues((prev) => ({
+      ...prev,
+      [field]: date
+    }))
+  }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(values);
@@ -58,6 +65,14 @@ const BaseForm = <T extends Record<string, any>>(props: FormComponentPropTypes<T
           {
             field.type === 'select' &&
             <Select selectValues={selectValues} field={field} onChange={handleChange} values={values} />
+          }
+          {
+            field.type === 'datetime-local' &&
+            <DateTimePicker
+              selectedDate={values[field.name as keyof typeof values] as Date}
+              label={field.label}
+              onChange={(date: Date | null) => {handleDateChange(field.name as keyof typeof values, date)}}
+            />
           }
           <Input field={field} onChange={handleChange} values={values} />
         </div>

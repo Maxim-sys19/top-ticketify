@@ -42,6 +42,7 @@ export const companyApiService = createApi({
       },
       transformErrorResponse: (err: ErrorResponseTypes) => {
         if (err && err.status === 400) {
+          toast(err.data.message, toastOptions('error'))
           return err.data.errors
         }
       },

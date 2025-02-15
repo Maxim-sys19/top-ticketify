@@ -12,6 +12,7 @@ import Company from "../Pages/Admin/Companies/Company";
 import AdminRoutes from "./AdminRoutes";
 import AdminLayout from "../Pages/Admin/AdminLayout";
 import TransportPage from "../Pages/Admin/Transport/TransportPage";
+import RoutesPage from '../Pages/Admin/Routes/RoutesPage';
 
 export type IRoute = {
   path: string;
@@ -49,6 +50,7 @@ export const routes: RoutesTypes[] = [
       {path: '/dashboard', element: <Dashboard />, isPrivate: true},
       {path: '/company', element: <Company />, isPrivate: true},
       {path: '/transport', element: <TransportPage />, isPrivate: true},
+      {path: '/routes', element: <RoutesPage />, isPrivate: true},
     ]
   }
 ]

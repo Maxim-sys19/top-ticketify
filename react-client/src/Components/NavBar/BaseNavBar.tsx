@@ -13,14 +13,14 @@ const BaseNavBar = ({isAdmin, isCompanyUser}: { isAdmin: boolean, isCompanyUser:
   const {name} = useAppSelector(state => state.profile.user)
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const fetchProfile = useCallback( async () => {
-    await dispatch(profileAction());
+    await dispatch(profileAction(navigate));
   }, [dispatch]);
   useEffect(() => {
     if (token) {
       fetchProfile()
       timerRef.current = setInterval(() => {
-        dispatch(profileAction())
-      }, 600000)
+        dispatch(profileAction(navigate))
+      }, 6000)
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
@@ -28,8 +28,7 @@ const BaseNavBar = ({isAdmin, isCompanyUser}: { isAdmin: boolean, isCompanyUser:
   }, [token, fetchProfile])
 
   const onLogout = () => {
-    dispatch(logoutAction())
-    navigate('/login')
+    dispatch(logoutAction(navigate))
   }
 
   return (

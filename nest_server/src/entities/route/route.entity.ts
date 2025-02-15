@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -17,13 +19,9 @@ export class Route {
   start: string;
   @Column()
   end: string;
-  @Column({ type: 'varchar', length: 100 })
+  @Column({unique: true, type: 'varchar', length: 100 })
   routeCode: string;
-  @Column({ type: 'varchar', length: 100 })
-  origin: string;
-  @Column({ type: 'varchar', length: 100 })
-  destination: string;
-  @Column({ type: 'timestamp' })
+  @Column({type: 'timestamp'})
   departureTime: Date;
   @Column({ type: 'timestamp' })
   arrivalTime: Date;
@@ -33,4 +31,11 @@ export class Route {
   updatedAt: Date;
   @DeleteDateColumn()
   deletedAt: Date;
+  @BeforeInsert()
+  @BeforeUpdate()
+  generateRouteCode() {
+    if(this.start && this.end) {
+      this.routeCode = `${this.start}-${this.end}-${this.id}`.toUpperCase().replace(/\s+/g, '').slice(0, 100);
+    }
+  }
 }

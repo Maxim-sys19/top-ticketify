@@ -3,8 +3,9 @@ import {RootState} from "../../store";
 import {toast} from "react-toastify";
 import {toastOptions} from "../../../toast/toastOptions";
 import {logoutAction} from "./logout.api.service";
+import { NavigateFunction } from "react-router-dom";
 
-export const profileAction = createAsyncThunk('/profile', async (_, {getState, dispatch, rejectWithValue}) => {
+export const profileAction = createAsyncThunk('/profile', async (navigate: NavigateFunction, {getState, dispatch, rejectWithValue}) => {
   try {
     const token = (getState() as RootState).jwtToken.token
     const base64Url = token?.split('.')[1]
@@ -15,7 +16,7 @@ export const profileAction = createAsyncThunk('/profile', async (_, {getState, d
     const remainingTime = (jwtExpTime - currTime) * 1000;
     console.log(remainingTime)
     if (remainingTime <= 0) {
-      dispatch(logoutAction())
+      dispatch(logoutAction(navigate))
       toast('session has been expired', toastOptions('error'))
     }
     return {user: decodeJwt.user}

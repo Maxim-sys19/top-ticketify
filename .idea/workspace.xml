@@ -5,9 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ec5ab35-9266-4799-9b2f-1541d24676f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/DateTimePicker/DateTimePicker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RoutesPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/myCompany.api.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormFieldTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Modal/BaseModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/SideBar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/SideBar/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CreateCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CreateCompany.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/EditTransport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/EditTransport.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/TransportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/TransportPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/company.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/company.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/profile/logout.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/logout.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +57,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/user/sites/top-ticketify/react-client&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/user/sites/top-ticketify/nest_server/src/common&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -57,6 +77,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/nest_server/src/common" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/react-client/src/redux/api/admin" />
       <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies" />
@@ -111,7 +134,7 @@
       <workItem from="1734426501696" duration="271000" />
       <workItem from="1734426788150" duration="107843000" />
       <workItem from="1736854519474" duration="33202000" />
-      <workItem from="1737541816732" duration="18687000" />
+      <workItem from="1737541816732" duration="80592000" />
     </task>
     <servers />
   </component>

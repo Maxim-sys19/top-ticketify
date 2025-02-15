@@ -5,18 +5,20 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateCompanyUserDto } from './dto/create-company-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Company } from '../entities/company/company.entity';
-import { Repository } from 'typeorm';
-import { CompanyUser } from '../entities/user/company.user';
-import { Role } from '../entities/role/role.entity';
-import { UserRoles } from '../entities/user/user.roles.entity';
-import { UserStatus } from '../enums/user.enums';
-import { User } from '../entities/user/user.entity';
-import { UpdateCompany } from './dto/update-company';
-import { hashPwd } from '../helpers/authHelpers';
-import { PaginationParams } from '../decorators/pagination';
+import {CreateCompanyUserDto} from './dto/create-company-user.dto';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Company} from '../entities/company/company.entity';
+import {Repository} from 'typeorm';
+import {CompanyUser} from '../entities/user/company.user';
+import {Role} from '../entities/role/role.entity';
+import {UserRoles} from '../entities/user/user.roles.entity';
+import {UserStatus} from '../enums/user.enums';
+import {User} from '../entities/user/user.entity';
+import {UpdateCompany} from './dto/update-company';
+import {hashPwd} from '../helpers/authHelpers';
+import {PaginationParams} from '../decorators/pagination';
+import {CompanyTransports} from 'src/entities/company/company.transports';
+import {TransportSeats} from 'src/entities/transport/transport.seats';
 
 @Injectable()
 export class CompanyService {
@@ -27,52 +29,61 @@ export class CompanyService {
     private readonly companyUserRepository: Repository<CompanyUser>,
     @InjectRepository(Company)
     private readonly companyRepository: Repository<Company>,
+    @InjectRepository(CompanyTransports)
+    private readonly companyTransportsRepository: Repository<CompanyTransports>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(UserRoles)
     private readonly userRolesRepository: Repository<UserRoles>,
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-  ) {}
+    @InjectRepository(TransportSeats)
+    private readonly transportSeatsRepository: Repository<TransportSeats>,
+  ) {
+  }
 
   async create(createCompanyUserDto: CreateCompanyUserDto) {
     try {
-      const { name, email, password, company, roles } = createCompanyUserDto;
-      const { company_name, company_description } = company;
-      const existedUserCompany = await this.companyRepository
-        .createQueryBuilder('company')
-        .where('company.name = :companyName', {
+      const {name, email, password, company, roles} = createCompanyUserDto;
+      const {company_name, company_description} = company;
+      const existedCompany = await this.companyRepository
+        .createQueryBuilder()
+        .where('name = :companyName', {
           companyName: company_name,
         })
         .getOne();
-      if (existedUserCompany?.name === company_name) {
+      if (existedCompany?.name === company_name) {
         throw new BadRequestException(
-          `company : ${existedUserCompany.name} already exists`,
+          `company : ${existedCompany.name} already exists`,
         );
       } else {
         const hashedPwd = await hashPwd(password, 10);
         const role = new Role();
         role.role_name = roles.role_name;
-        const user = new User();
-        user.name = name;
-        user.email = email;
-        user.password = hashedPwd;
-        user.status = UserStatus.Active;
         const company = new Company();
         company.name = company_name;
         company.description = company_description;
         await this.companyRepository.save(company);
-        const data = {
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          status: user.status,
-          roles: [role],
-          company,
-        };
-        const companyUser = this.companyUserRepository.create(data);
-        await this.companyUserRepository.save(companyUser);
-        return { status: user.status, company: { name: company_name } };
+        const user = this.companyUserRepository.create({
+          name,
+          email,
+          password: hashedPwd,
+          status: UserStatus.Active,
+          company: company,
+          roles: [role]
+        })
+        // const data = {
+        //   name: name,
+        //   email: email,
+        //   password: hashedPwd,
+        //   status: UserStatus.Active,
+        //   company,
+        //   role: [role],
+        // };
+        // const companyUser = this.companyUserRepository.create(data);
+        // console.log(companyUser)
+        await this.companyUserRepository.save(user);
+        return {status: user.status, company: {name: company_name}};
       }
     } catch (error) {
       throw new HttpException(error.message, error.status);
@@ -80,7 +91,7 @@ export class CompanyService {
   }
 
   async findAll(params: PaginationParams) {
-    const { limit = 0, page = 1 }: PaginationParams = params;
+    const {limit = 0, page = 1}: PaginationParams = params;
     const companies = this.companyRepository
       .createQueryBuilder('company')
       .leftJoin('company.users', 'user')
@@ -109,7 +120,7 @@ export class CompanyService {
       const company = await this.companyRepository
         .createQueryBuilder('company')
         .select(['company.name', 'company.description'])
-        .where('company.id = :id', { id })
+        .where('company.id = :id', {id})
         .getOne();
       if (!company) {
         throw new NotFoundException(`Company with id ${id} not found`);
@@ -126,10 +137,10 @@ export class CompanyService {
 
   async update(id: number, updateCompanyDto: UpdateCompany) {
     try {
-      const { company_name, company_description } = updateCompanyDto;
+      const {company_name, company_description} = updateCompanyDto;
       const foundCompany = await this.companyRepository
         .createQueryBuilder('company')
-        .where('company.id = :id', { id })
+        .where('company.id = :id', {id})
         .getOne();
       if (!foundCompany) {
         throw new NotFoundException(`Company with id ${id} not found`);
@@ -137,7 +148,7 @@ export class CompanyService {
       foundCompany.name = company_name;
       foundCompany.description = company_description;
       await this.companyRepository.save(foundCompany);
-      return { success: true, message: 'company updated' };
+      return {success: true, message: 'company updated'};
     } catch (err) {
       this.logger.error(err.message, {
         statusCode: err.status,
@@ -154,7 +165,7 @@ export class CompanyService {
         .leftJoinAndSelect('user.company', 'company')
         .leftJoinAndSelect('user.roles', 'role')
         .select(['user.id', 'company.id', 'role.id'])
-        .where('company.id IN (:...ids)', { ids })
+        .where('company.id IN (:...ids)', {ids})
         .getMany();
       if (companiesUser.length === 0) {
         throw new NotFoundException(`Companies with ids ${ids} not found`);
@@ -183,18 +194,25 @@ export class CompanyService {
     try {
       const myCompany = await this.companyUserRepository
         .createQueryBuilder('user')
-        .innerJoinAndSelect('user.company', 'company')
-        .where('user.id = :userId', { userId })
-        .select([
-          'company.id AS id',
-          'company.name AS name',
-          'company.description AS description',
-        ])
+        .leftJoinAndSelect('user.company', 'company')
+        .where('user.id = :userId', {userId})
+        .select(["company.id as id", "company.name as name", "company.description as descrition"])
         .getRawOne();
+      const transports = await this.transportSeatsRepository
+        .createQueryBuilder('transports')
+        .where(`transports.companyId = ${myCompany.id}`)
+        .select([
+          'transports.id as id',
+          'transports.name as name',
+          'transports.description as descrition',
+          'transports.isActive as isActive',
+          'transports.capacity as capacity',
+        ])
+        .execute();
       if (!myCompany) {
         throw new NotFoundException(`Company not found`);
       }
-      return myCompany;
+      return {myCompany, transports};
     } catch (err) {
       throw new HttpException(err.message, err.status);
     }

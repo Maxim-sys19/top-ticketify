@@ -10,6 +10,7 @@ const Sidebar = () => {
         <NavLink to="/dashboard" className="list-group-item list-group-item-secondary" >dashboard</NavLink>
         <NavLink to="/company" className="list-group-item list-group-item-secondary">company</NavLink>
         <NavLink to="/transport" className="list-group-item list-group-item-secondary">transport</NavLink>
+        <NavLink to="/routes" className="list-group-item list-group-item-secondary">routes</NavLink>
       </ListGroup>
     </div>
   )

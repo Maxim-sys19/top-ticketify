@@ -24,4 +24,5 @@ function BaseModal<T>({show, onHide, backdrop, children, title}: IBaseModalProps
   )
 }
 
-export default memo(BaseModal);
+const MemoBaseModal  = memo(BaseModal) as <T>(props: IBaseModalProps<T>) => JSX.Element;
+export default MemoBaseModal;

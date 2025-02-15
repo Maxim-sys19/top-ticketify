@@ -26,7 +26,7 @@ function EditTransport({transport, show, onClose}: any) {
     transport_name: transport.name,
     transport_description: transport.description,
     capacity: transport.capacity,
-    company_name: transport.company.name
+    company_name: transport?.company?.name
   }
   const handleSubmit = async (body: EditTransportFormValues) => {
     await updateTransport({id: transport.id, body})

@@ -86,7 +86,7 @@ function CompanyPage() {
     <>
       {isLoading && <p>loading...</p>}
       <CompanyUsers<SelectedUsersRowType> data={selectedRow} show={show === 'read'} onClose={handleClose} />
-      <CreateCompany />
+      {isAdminUser &&  <CreateCompany />}
       {
         selectedIds.length !== 0 &&
         <Button className="btn btn-danger float-lg-end" onClick={handleDelete}>

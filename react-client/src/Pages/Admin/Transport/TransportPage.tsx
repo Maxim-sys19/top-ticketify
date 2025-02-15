@@ -60,7 +60,7 @@ function TransportPage() {
   }
   return (
     <>
-      <CreateTransport />
+      {isAdminUser && <CreateTransport />}
       {selectedTransport && <EditTransport transport={selectedTransport} show={show} onClose={handleClose} />}
       <TransportTable<Transport>
         role={isAdminUser}

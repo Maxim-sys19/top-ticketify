@@ -12,7 +12,7 @@ export class ResetExpiredPwdService {
 
   async deleteExpiredResetPwdToken() {
     const now = new Date();
-    await this.resetPasswordTokenRepository
+     await this.resetPasswordTokenRepository
       .createQueryBuilder()
       .delete()
       .from(ResetPasswordToken)

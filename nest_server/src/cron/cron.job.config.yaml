@@ -2,8 +2,8 @@ cronJobs:
   - name: resetPwdExpiredToken
     id: 1
     cronTime: "*/15 * * * *"
-    callback: Job 1 executed
-  - name: job2
+    callback: Job resetPwdExpiredToken  executed
+  - name: deleteAllCompanies
     id: 2
-    cronTime: "*/2 * * * *"
-    callback: Job 2 executed
+    cronTime: "*/15 * * * *"
+    callback: Job deleteAllCompanies executed
