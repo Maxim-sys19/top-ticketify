@@ -10,10 +10,16 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { flattenValidationError } from './validationPipe/flattenValidationError';
+import { rabbitMicroservices } from './ampq/rabbit.config';
+import { RmqOptions } from '@nestjs/microservices/interfaces/microservice-configuration.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const config = app.get(ConfigService);
+  const microservices = await rabbitMicroservices(config);
+  microservices.forEach((microservice) => {
+    app.connectMicroservice<RmqOptions>(microservice);
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors: ValidationError[]) => {
@@ -35,7 +41,8 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: '*',
   });
-  await app.listen(config.get('port'));
+  await app.startAllMicroservices();
+  await app.listen(config.get('port')); // 8000
 }
 
 bootstrap();

@@ -1,4 +1,6 @@
 import {
+  AfterInsert,
+  AfterUpdate,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -9,6 +11,7 @@ import {
   TableInheritance,
   UpdateDateColumn,
 } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('routes')
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
@@ -19,9 +22,11 @@ export class Route {
   start: string;
   @Column()
   end: string;
-  @Column({unique: true, type: 'varchar', length: 100 })
-  routeCode: string;
-  @Column({type: 'timestamp'})
+  @Column({ unique: true, type: 'varchar', length: 100, nullable: true })
+  routeCode?: string;
+  @Column({ unique: true })
+  uid: string;
+  @Column({ type: 'timestamp' })
   departureTime: Date;
   @Column({ type: 'timestamp' })
   arrivalTime: Date;
@@ -31,11 +36,20 @@ export class Route {
   updatedAt: Date;
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @BeforeInsert()
+  async generateUID() {
+    this.uid = this.uid ?? uuidv4();
+  }
+
   @BeforeInsert()
   @BeforeUpdate()
-  generateRouteCode() {
-    if(this.start && this.end) {
-      this.routeCode = `${this.start}-${this.end}-${this.id}`.toUpperCase().replace(/\s+/g, '').slice(0, 100);
+  async generateRouteCode() {
+    if (this.start && this.end) {
+      this.routeCode = `${this.start}-${this.end}-${JSON.stringify(this.uid)}`
+        .toUpperCase()
+        .replace(/"/g, '')
+        .slice(0, 100);
     }
   }
 }

@@ -69,7 +69,7 @@ const BaseForm = <T extends Record<string, any>>(props: FormComponentPropTypes<T
           {
             field.type === 'datetime-local' &&
             <DateTimePicker
-              selectedDate={values[field.name as keyof typeof values] as Date}
+              selectedDate={values[field.name as keyof typeof values] ? new Date(values[field.name as keyof typeof values]) : null}
               label={field.label}
               onChange={(date: Date | null) => {handleDateChange(field.name as keyof typeof values, date)}}
             />

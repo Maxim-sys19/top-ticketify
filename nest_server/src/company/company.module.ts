@@ -11,10 +11,22 @@ import { MyCompanyController } from './my.company.controller';
 import { JwtStrategy } from '../auth/jwt.strategy';
 import { CompanyTransports } from 'src/entities/company/company.transports';
 import { TransportSeats } from 'src/entities/transport/transport.seats';
+import { TransportCompany } from 'src/entities/transport/transport.company';
+import { Seat } from 'src/entities/seat/seat.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CompanyUser, CompanyTransports, TransportSeats, Company, Role, User, UserRoles]),
+    TypeOrmModule.forFeature([
+      CompanyUser,
+      CompanyTransports,
+      TransportSeats,
+      TransportCompany,
+      Company,
+      Role,
+      User,
+      Seat,
+      UserRoles,
+    ]),
   ],
   controllers: [CompanyController, MyCompanyController],
   providers: [CompanyService, JwtStrategy],

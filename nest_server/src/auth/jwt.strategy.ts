@@ -1,5 +1,6 @@
 import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import Redis from 'ioredis';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { RedisService } from '@liaoliaots/nestjs-redis';
@@ -20,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any): Promise<any> {
     try {
       // console.log('from payload', payload);
-      const isValidJti = await this.redisService.getClient().get(payload.jti);
+      const isValidJti = await this.redisService.getOrThrow().get(payload.jti);
       // console.log(!isValidJti);
       if (!isValidJti) {
         throw new BadRequestException('Token has been revoked or is invalid');

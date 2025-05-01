@@ -1,35 +1,20 @@
-import React, {useCallback, useEffect, useRef} from 'react';
-import {Link, NavLink, useNavigate} from "react-router-dom";
+import React, {memo, useCallback } from 'react';
+import {Link, NavLink} from "react-router-dom";
 import './navbar.scss'
 import {Button, Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
 import {useAppDispatch, useAppSelector} from "../../hooks/useApiHooks";
-import {profileAction} from "../../redux/api/profile/profile.api.service";
 import {logoutAction} from "../../redux/api/profile/logout.api.service";
+import {useRoles} from '../../hooks/useRoles';
 
-const BaseNavBar = ({isAdmin, isCompanyUser}: { isAdmin: boolean, isCompanyUser: boolean }) => {
+const BaseNavBar = () => {
+  console.log('BaseNavBar');
+  const {isAdmin, isCompany, isAuth} = useRoles()
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
-  const token = useAppSelector(state => state.jwtToken.token);
-  const {name} = useAppSelector(state => state.profile.user)
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const fetchProfile = useCallback( async () => {
-    await dispatch(profileAction(navigate));
-  }, [dispatch]);
-  useEffect(() => {
-    if (token) {
-      fetchProfile()
-      timerRef.current = setInterval(() => {
-        dispatch(profileAction(navigate))
-      }, 6000)
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-    }
-  }, [token, fetchProfile])
-
-  const onLogout = () => {
-    dispatch(logoutAction(navigate))
-  }
+  const auth = isAuth
+  const name = useAppSelector(state => state.profile.user.name)
+  const onLogout = useCallback(() => {
+    dispatch(logoutAction())
+  }, [dispatch])
 
   return (
     <Navbar expand="lg" className="p-4 bg-body-secondary">
@@ -44,11 +29,11 @@ const BaseNavBar = ({isAdmin, isCompanyUser}: { isAdmin: boolean, isCompanyUser:
           </Offcanvas.Header>
           <Offcanvas.Body className="navbar-expand-lg">
             {
-              token
+              !auth
                 ? <Nav className="nav_container">
                   <h4 className="m-4">{name}</h4>
                   {
-                    (isAdmin || isCompanyUser) &&
+                    (isAdmin() || isCompany()) &&
                     <Link to="/dashboard" className="btn btn-sm btn-outline-success m-2" aria-controls="admin-nav">
                       admin
                     </Link>
@@ -69,4 +54,4 @@ const BaseNavBar = ({isAdmin, isCompanyUser}: { isAdmin: boolean, isCompanyUser:
   )
 }
 
-export default BaseNavBar;
+export default memo(BaseNavBar);

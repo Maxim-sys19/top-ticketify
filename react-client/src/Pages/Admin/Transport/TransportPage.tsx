@@ -1,13 +1,18 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import CreateTransport from "./CreateTransport";
 import TransportPagination from '../../../Components/Pagination/BasePagination'
-import {useDeleteAllTransportsMutation, useGetTransportsQuery} from "../../../redux/api/admin/transport/transport.api.service";
+import {
+  useDeleteAllTransportsMutation,
+  useGetTransportsQuery
+} from "../../../redux/api/admin/transport/transport.api.service";
 import {TransportTable} from "./TransportTable";
 import {useAppSelector} from "../../../hooks/useApiHooks";
-import {isAdmin} from "../../../helpers/isAdmin";
 import EditTransport from "./EditTransport";
 import useOpenModal from "../../../hooks/useOpenModal";
-import { useGsapRemove } from '../../../hooks/useGsapRemove';
+import {useGsapRemove} from '../../../hooks/useGsapRemove';
+import useSelectedIds, {useSelectRow} from '../../../hooks/useSelectedIds';
+import {useSafePagination} from '../../../hooks/useSafePagination';
+import { useRoles } from '../../../hooks/useRoles';
 
 
 export interface Transport {
@@ -21,19 +26,26 @@ export interface Transport {
 
 function TransportPage() {
   // console.log('Transport Page')
+  const {isAdmin} = useRoles()
   const [deleteAllTransports] = useDeleteAllTransportsMutation()
   const {addElement, removeElements} = useGsapRemove()
-  const {user} = useAppSelector(state => state.profile)
-  const [selectedTransport, setSelectedTransport] = useState<Transport | null>(null)
+  const {selectRow, setSelectedRow, clearSelectedRow} = useSelectRow<Transport | null>(null)
   const {open, close, show} = useOpenModal()
-  const isAdminUser = user && isAdmin(user.roles)
+  const isAdminUser = isAdmin()
   const [currPage, setCurrPage] = useState(1)
-  const {data} = useGetTransportsQuery({limit: 5, page: currPage})
+  const {data, isLoading} = useGetTransportsQuery({limit: 5, page: currPage})
   const {meta} = data !== undefined && data
-  const [selectIds, setSelectIds] = useState<number[]>([])
+  const {selectIds, clearSelection, toggleIdSelection} = useSelectedIds<number>([])
   const transports = data?.data
+  const {notifyDeleted} = useSafePagination({
+    data: transports,
+    total: meta?.totalPages,
+    currPage: currPage,
+    setCurrPage,
+    isLoading
+  })
   const handleTransportCheck = (id: number) => {
-    setSelectIds((prev) => prev.includes(id) ? prev.filter((selId) => selId !== id) : [...prev, id])
+    toggleIdSelection(id)
   }
   const handleEdit = (transport: Transport) => {
     const data = {
@@ -44,24 +56,27 @@ function TransportPage() {
       isActive: transport.isActive,
       company: transport.company
     }
-    setSelectedTransport(data)
+    setSelectedRow(data)
     open('edit')
   }
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     close()
-    setSelectedTransport(null)
-  }
+    clearSelectedRow()
+  }, [])
   const handleDelete = async () => {
-    const data = {ids: selectIds}
+    const data = {ids: Array.from(selectIds)}
     await deleteAllTransports(data).unwrap().then((success) => {
-      success && setSelectIds([])
+      if (success) {
+        clearSelection()
+        notifyDeleted()
+      }
     })
     removeElements(data.ids)
   }
   return (
     <>
       {isAdminUser && <CreateTransport />}
-      {selectedTransport && <EditTransport transport={selectedTransport} show={show} onClose={handleClose} />}
+      {selectRow && <EditTransport<Transport> entity={selectRow} show={show === 'edit'} onClose={handleClose} />}
       <TransportTable<Transport>
         role={isAdminUser}
         addElement={addElement}

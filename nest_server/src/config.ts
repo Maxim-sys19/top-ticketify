@@ -14,4 +14,5 @@ export default () => ({
   jwt_secret: process.env.JWT_SECRET_KEY,
   smtp_mailer_host: process.env.SMTP_MAILER_HOST,
   smtp_mailer_port: process.env.SMTP_MAILER_PORT,
+  amq_connection: process.env.AMQ_URL,
 });

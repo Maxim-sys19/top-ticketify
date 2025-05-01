@@ -1,11 +1,11 @@
-import { ChildEntity, ManyToOne } from 'typeorm';
-import { Route } from './route.entity';
+import { ChildEntity, ManyToMany } from 'typeorm';
 import { TransportRoutes } from '../transport/transport.routes';
+import { RouteCompany } from './route.company';
 
 @ChildEntity()
-export class RouteTransport extends Route {
-  @ManyToOne(() => TransportRoutes, (transport) => transport.routes, {
-    cascade: true,
+export class RouteTransport extends RouteCompany {
+  @ManyToMany(() => TransportRoutes, (transport) => transport.routes, {
+    cascade: ['insert', 'update'],
   })
-  transport: TransportRoutes;
+  transports?: TransportRoutes[];
 }

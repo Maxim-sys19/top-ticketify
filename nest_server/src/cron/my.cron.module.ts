@@ -1,20 +1,26 @@
-import {Module} from '@nestjs/common';
-import {MyCronServiceTsService} from './my.cron.service.ts.service';
-import {ConfigModule} from '@nestjs/config';
-import {loadYamlConfig} from './load.yaml.config';
-import {SchedulerRegistry} from '@nestjs/schedule';
-import {ResetExpiredPwdService} from './reset.expired.pwd.service';
-import {TypeOrmModule} from '@nestjs/typeorm';
-import {ResetPasswordToken} from '../entities/reset.password.token.entity';
-import {CronJobProvider} from './cron.job.provider';
-import {CompanyCronService} from './company.cron.service';
+import { Module } from '@nestjs/common';
+import { MyCronServiceTsService } from './my.cron.service.ts.service';
+import { ConfigModule } from '@nestjs/config';
+import { loadYamlConfig } from './load.yaml.config';
+import { SchedulerRegistry } from '@nestjs/schedule';
+import { ResetExpiredPwdService } from './reset.expired.pwd.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ResetPasswordToken } from '../entities/reset.password.token.entity';
+import { CronJobProvider } from './cron.job.provider';
+import { CompanyCronService } from './company.cron.service';
 import { CompanyUser } from 'src/entities/user/company.user';
 import { Company } from 'src/entities/company/company.entity';
+import { CompanyTransports } from '../entities/company/company.transports';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [loadYamlConfig] }),
-    TypeOrmModule.forFeature([ResetPasswordToken, CompanyUser, Company]),
+    TypeOrmModule.forFeature([
+      ResetPasswordToken,
+      CompanyUser,
+      Company,
+      CompanyTransports,
+    ]),
   ],
   providers: [
     SchedulerRegistry,

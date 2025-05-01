@@ -1,0 +1,28 @@
+import { Transport } from '@nestjs/microservices';
+import { ConfigService } from '@nestjs/config';
+import { RmqOptions } from '@nestjs/microservices/interfaces/microservice-configuration.interface';
+
+export const rabbitMicroservices = async (
+  config: ConfigService,
+): Promise<RmqOptions[]> => {
+  return [
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: [config.get<string>('amq_connection')], //amqp://guest:guest@172.18.0.3:5672
+        queue: 'user_queue',
+        queueOptions: { durable: false },
+      },
+    },
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: [config.get<string>('amq_connection')], // amqp://guest:guest@172.18.0.3:5672
+        queue: 'email_queue',
+        queueOptions: { durable: false },
+        prefetchCount: 100,
+        noAck: false,
+      },
+    },
+  ];
+};

@@ -1,12 +1,12 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
 import {useAppSelector} from "../hooks/useApiHooks";
-import {isAuth} from "../helpers/isAuth";
+import { useRoles } from '../hooks/useRoles';
 import GuardRoutes from "./GuardRoutes";
 
 const PublicRoutes = () => {
-  const {token} = useAppSelector(state => state.jwtToken)
-  const auth = isAuth(token)
+  const {isAuth} = useRoles()
+  const auth = isAuth
   return auth ? <Outlet /> : <GuardRoutes />
 }
 

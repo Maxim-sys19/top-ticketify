@@ -4,6 +4,8 @@ import { CompanyRoute } from '../company/company.routes';
 
 @ChildEntity()
 export class RouteCompany extends Route {
-  @ManyToOne(() => CompanyRoute, (companyRoute) => companyRoute.routes)
-  company: CompanyRoute;
+  @ManyToOne(() => CompanyRoute, (companyRoute) => companyRoute.routes, {
+    onDelete: 'CASCADE',
+  })
+  company?: CompanyRoute;
 }

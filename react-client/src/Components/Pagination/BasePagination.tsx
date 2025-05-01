@@ -1,4 +1,4 @@
-import React, {Dispatch, memo, SetStateAction, useCallback} from 'react';
+import React, {Dispatch, memo, SetStateAction, useCallback, useEffect} from 'react';
 import {Pagination} from "react-bootstrap";
 
 interface IBasePaginationProps {
@@ -22,7 +22,8 @@ function BasePagination({currentPage, meta, totalPages, setCurrPage}: IBasePagin
         <Pagination.Item
           active={page === currentPage}
           onClick={() => handlePageChange(page)}
-          key={page}>{page}
+          key={page}>
+          {page}
         </Pagination.Item>)}
       <Pagination.Next disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)} />
     </Pagination>

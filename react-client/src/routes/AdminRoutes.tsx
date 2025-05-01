@@ -1,13 +1,13 @@
 import React from 'react';
-import {useAppSelector} from "../hooks/useApiHooks";
-import {isAdmin, isCompany} from "../helpers/isAdmin";
 import {Navigate, useLocation} from "react-router-dom";
+import { useRoles } from '../hooks/useRoles';
 
 function AdminRoutes({children}: any) {
-  const {roles} = useAppSelector(state => state.profile.user)
+  const {isAdmin, isCompany, isAuth} = useRoles()
   const location = useLocation()
-  const isAdminUser = roles && isAdmin(roles)
-  const isCompanyUser = roles && isCompany(roles)
+  const auth = isAuth
+  const isAdminUser = isAdmin()
+  const isCompanyUser = isCompany()
   if (!isAdminUser && !isCompanyUser) {
     return (
       <>
@@ -24,6 +24,7 @@ function AdminRoutes({children}: any) {
       </>
   )
   }
+  if(!auth) <Navigate to="/login"/>
   return <>{children}</>
 }
 

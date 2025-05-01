@@ -8,7 +8,7 @@ interface TransportTableProps<T> extends IBaseTableProps<T> {
   handleEdit: (transport: T) => void
   handleDelete: () => void
   handleCheck: (id: number) => void,
-  checked?: number[],
+  checked?: Set<number>,
 }
 
 export function TransportTable<T extends Transport>({data, checked, addElement, handleDelete, handleEdit, handleCheck, variant, title, role}: TransportTableProps<T>) {
@@ -29,7 +29,7 @@ export function TransportTable<T extends Transport>({data, checked, addElement, 
               onChange={() => handleCheck(row.id)}
               type="checkbox"
               id={`transport_${row.id}`}
-              checked={checked?.includes(row.id)}
+              checked={checked?.has(row.id)}
             />
           </InputGroup>}
       )
@@ -38,7 +38,7 @@ export function TransportTable<T extends Transport>({data, checked, addElement, 
   }, [role, checked, handleEdit, handleCheck])
   return (
     <>
-      {checked!.length > 0 && <Button className="btn-danger float-end" onClick={handleDelete}>Delete</Button>}
+      {checked!.size > 0 && <Button className="btn-danger float-end" onClick={handleDelete}>Delete</Button>}
       <BaseTable<T> data={data} title={title} addElement={addElement} variant={variant} columns={memoTransportColumns} />
     </>
 );

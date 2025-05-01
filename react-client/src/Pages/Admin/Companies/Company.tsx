@@ -10,14 +10,17 @@ import CompanyUsers from "./CompanyUsers";
 import EditCompany from "./EditCompany";
 import {useGsapRemove} from "../../../hooks/useGsapRemove";
 import {useAppSelector} from "../../../hooks/useApiHooks";
-import {isAdmin} from "../../../helpers/isAdmin";
 import useOpenModal from "../../../hooks/useOpenModal";
 import CompanyTable from "./CompanyTable";
+import useSelectedIds, {useSelectRow} from '../../../hooks/useSelectedIds';
+import { useSafePagination } from '../../../hooks/useSafePagination';
+import { useRoles } from '../../../hooks/useRoles';
 
-interface Company {
-  id: number
-  name: string,
-  users: any[]
+export interface Company {
+  id: number;
+  name: string;
+  description: string;
+  users: SelectedUsersRowType[];
 }
 
 export type SelectedUsersRowType = {
@@ -27,24 +30,28 @@ export type SelectedUsersRowType = {
 }
 
 function CompanyPage() {
+  const {isAdmin} = useRoles()
   const [currPage, setCurrPage] = useState(1)
   const {addElement, removeElements} = useGsapRemove()
-  const [selectedCompanyRow, setSelectedCompanyRow] = useState({
-    id: null,
+  const {selectRow, setSelectedRow, clearSelectedRow} = useSelectRow<Pick<Company, "name" | "description">>({
     name: '',
-    description: ''
+    description: '',
   })
-  const {roles} = useAppSelector(state => state.profile.user)
-  const isAdminUser = roles && isAdmin(roles)
+  const {
+    selectRow: selectUsersRow,
+    setSelectedRow: selectCompanyUsersRow,
+    clearSelectedRow: clearCompanyUsersRow
+  } = useSelectRow<SelectedUsersRowType[]>([])
+  const isAdminUser = isAdmin()
   const [deleteAllCompanies] = useDeleteAllCompaniesMutation()
   const {data, isLoading} = useGetCompaniesQuery({limit: 5, page: currPage})
-  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const {selectIds, toggleIdSelection, clearSelection} = useSelectedIds<number>([])
   const meta = data?.meta
   const companies = data?.data
-  const [selectedRow, setSelectedRow] = useState<SelectedUsersRowType[] | null>(null)
   const {open, close, show} = useOpenModal()
+  const {notifyDeleted} = useSafePagination({data: companies, total: meta?.totalPages, currPage, setCurrPage, isLoading})
   const handleCheckCompany = (id: number) => {
-    setSelectedIds((prev) => prev.includes(id) ? prev.filter((selId) => selId !== id) : [...prev, id])
+    toggleIdSelection(id)
   }
   const handleEdit = (company: any) => {
     const data = {
@@ -52,50 +59,48 @@ function CompanyPage() {
       name: company.name,
       description: company.description
     }
-    setSelectedCompanyRow(data)
+    setSelectedRow(data)
     open('edit')
   }
   const handleDelete = async () => {
     let body = {
-      ids: selectedIds
+      ids: Array.from(selectIds)
     }
-    removeElements(selectedIds)
+    removeElements(selectIds)
     await deleteAllCompanies(body).unwrap().then((res) => {
       if (res) {
-        setSelectedIds([])
+        clearSelection()
+        notifyDeleted()
       }
+    }).catch((err) => {
+      console.log('error', err)
     })
   }
   const handleShowUsers = (users: SelectedUsersRowType[]) => {
     open('read')
-    setSelectedRow(users)
+    selectCompanyUsersRow(users)
   }
   const handleClose = useCallback(() => {
     close()
-    setSelectedRow(null)
-    setSelectedCompanyRow((prev) => ({
-      ...prev,
-      id: null,
-      name: '',
-      description: ''
-    }))
+    clearSelectedRow()
+    clearCompanyUsersRow()
   }, [close])
 
 
   return (
     <>
       {isLoading && <p>loading...</p>}
-      <CompanyUsers<SelectedUsersRowType> data={selectedRow} show={show === 'read'} onClose={handleClose} />
-      {isAdminUser &&  <CreateCompany />}
+      <CompanyUsers<SelectedUsersRowType> data={selectUsersRow} show={show === 'read'} onClose={handleClose} />
+      {isAdminUser && <CreateCompany />}
       {
-        selectedIds.length !== 0 &&
+        selectIds.size !== 0 &&
         <Button className="btn btn-danger float-lg-end" onClick={handleDelete}>
           Delete
         </Button>
       }
-      {selectedCompanyRow && <EditCompany show={show === 'edit'} onClose={close} company={selectedCompanyRow} />}
+      {selectRow && <EditCompany<Omit<Company, 'id' | 'users'>> show={show === 'edit'} onClose={handleClose} entity={selectRow} />}
       <CompanyTable<Company>
-        checked={selectedIds}
+        checked={selectIds}
         handleCheck={handleCheckCompany}
         handleEdit={handleEdit}
         title="Companies"

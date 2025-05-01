@@ -4,6 +4,8 @@ import EditCompanyModal from '../../../Components/Modal/BaseModal'
 import {Field} from "../../../Components/Form/FormFieldTypes";
 import {useUpdateCompanyMutation} from "../../../redux/api/admin/company/company.api.service";
 import {parseErrors} from "../../../helpers/parseErrors";
+import { IEditEntityProps } from '../../../interfaces/create-entitie-interfaces';
+
 
 interface EditCompanyFormValues {
   company_name: string
@@ -15,16 +17,16 @@ const editCompanyFormFields: Field[] = [
   {name: 'company_description', type: 'textarea', inputType: 'textarea', label: 'edit description', placeholder: 'edit company description'},
 ]
 
-function EditCompany({show, onClose, company}: any) {
+function EditCompany<T extends Record<string, any>>({show, onClose, entity}: IEditEntityProps<T>) {
   const [updateCompany, {isLoading, error}] = useUpdateCompanyMutation()
   const errors = parseErrors(error)
   const initialValues: EditCompanyFormValues = {
-    company_name: company.name,
-    company_description: company.description
+    company_name: entity?.name,
+    company_description: entity?.description
   }
   const handleSubmit = async (data: EditCompanyFormValues) => {
     const companyData = {
-      id: company.id,
+      id: entity?.id,
       body: {
         company_name: data.company_name,
         company_description: data.company_description
@@ -48,4 +50,4 @@ function EditCompany({show, onClose, company}: any) {
   );
 }
 
-export default memo(EditCompany);
+export default memo(EditCompany) as <T extends Record<string, any>>(props: IEditEntityProps<T>) => JSX.Element | null;

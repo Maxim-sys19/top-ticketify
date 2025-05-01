@@ -12,7 +12,7 @@ function BaseTable<T>({variant, title, data, columns, addElement}: IBaseTablePro
   return (
     <>
       <h1>{title}</h1>
-      <Table variant={variant}>
+      <Table variant={variant} size="small">
         <thead>
         <tr>
           {columns?.map((col: Column<T>, index: number) =>

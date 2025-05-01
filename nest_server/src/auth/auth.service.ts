@@ -1,12 +1,12 @@
 import {
   BadRequestException,
   HttpException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { RedisService } from '@liaoliaots/nestjs-redis';
 import { User } from '../entities/user/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -28,6 +28,8 @@ import { ResetPasswordDto } from '../dto/auth/reset.pwd.dto';
 import { Redis } from 'ioredis';
 import { UserRoles } from '../entities/user/user.roles.entity';
 import { UserRole } from '../enums/role.enums';
+import { RedisService } from '@liaoliaots/nestjs-redis';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthService {
@@ -45,8 +47,9 @@ export class AuthService {
     private readonly mailService: MailService,
     private readonly jwtService: JwtService,
     private readonly redisService: RedisService,
+    @Inject('EMAIL_QUEUE_CLIENT') private client: ClientProxy,
   ) {
-    this.redisClient = this.redisService.getClient();
+    this.redisClient = this.redisService.getOrThrow();
   }
 
   async register(dto: UserDto) {
@@ -73,8 +76,13 @@ export class AuthService {
       const token = await this.jwtService.signAsync({
         email: dto.email,
       });
-      await this.mailService.emailVerification(data, token);
-      return await this.userRoleRepository.save(data);
+      const savedUser = await this.userRepository.save(data);
+      setImmediate(() => {
+        console.log('set immediate:');
+        this.client.emit('email.verification', { user: data, token });
+      });
+      // await this.mailService.emailVerification(data, token);
+      return savedUser;
     } catch (err) {
       this.logger.error(err.message, {
         statusCode: err.status,
@@ -109,10 +117,14 @@ export class AuthService {
         jti: generateJti(),
       };
       const token = await this.jwtService.signAsync(payload);
-      console.log('Set in redis jti: ', payload.jti);
-      await this.redisService
-        .getClient()
-        .set(payload.jti, payload.jti, 'EX', 3600);
+      await this.redisClient
+        .set(payload.jti, payload.jti, 'EX', 3600)
+        .then((result) =>
+          console.log(`JTI-${payload.jti} has been set success : `, result),
+        )
+        .catch((err) => {
+          console.log('Failing set JTI :', err);
+        });
       return { email: user.email, token };
     } catch (err) {
       this.logger.error(err.message, {

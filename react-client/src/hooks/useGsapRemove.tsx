@@ -6,7 +6,7 @@ export const useGsapRemove = () => {
   const addElement = (id: number, el: HTMLDivElement | null) => {
     if (el) itemRefs.current.set(id, el);
   };
-  const removeElements = (ids: number[], onComplete?: (id: number) => void) => {
+  const removeElements = (ids: number[] | Set<number>, onComplete?: (id: number) => void) => {
     ids.forEach((id) => {
       const element = itemRefs.current.get(id);
       if (element) {

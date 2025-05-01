@@ -4,18 +4,17 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import {CreateTransportDto} from './dto/create-transport.dto';
-import {UpdateTransportDto} from './dto/update-transport.dto';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Transport} from '../entities/transport/transport.entity';
-import {Repository} from 'typeorm';
-import {Seat} from '../entities/seat/seat.entity';
-import {TransportSeats} from '../entities/transport/transport.seats';
-import {Company} from '../entities/company/company.entity';
-import {TransportCompany} from '../entities/transport/transport.company';
-import {SeatTransport} from '../entities/seat/seat.transport';
-import {PaginationParams} from '../decorators/pagination';
-import {BulkDeleteDto} from 'src/dto/bulk-delete.dto';
+import { CreateTransportDto } from './dto/create-transport.dto';
+import { UpdateTransportDto } from './dto/update-transport.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Transport } from '../entities/transport/transport.entity';
+import { Repository } from 'typeorm';
+import { Seat } from '../entities/seat/seat.entity';
+import { TransportSeats } from '../entities/transport/transport.seats';
+import { Company } from '../entities/company/company.entity';
+import { TransportCompany } from '../entities/transport/transport.company';
+import { SeatTransport } from '../entities/seat/seat.transport';
+import { PaginationParams } from '../decorators/pagination';
 
 @Injectable()
 export class TransportService {
@@ -31,8 +30,7 @@ export class TransportService {
     private readonly companyRepository: Repository<Company>,
     @InjectRepository(TransportCompany)
     private readonly transportCompanyRepository: Repository<TransportCompany>,
-  ) {
-  }
+  ) {}
 
   async create(createTransportDto: CreateTransportDto) {
     try {
@@ -49,16 +47,15 @@ export class TransportService {
         seat.title = `Seat of ${createTransportDto.transport_name} - ${i}`;
         seats.push(seat);
       }
-      const data = {
-        name: createTransportDto.transport_name,
-        description: createTransportDto.transport_description,
-        capacity: createTransportDto.capacity,
-        company,
-        seats,
-      };
+      const transport = new TransportCompany();
+      transport.name = createTransportDto.transport_name;
+      transport.description = createTransportDto.transport_description;
+      transport.capacity = createTransportDto.capacity;
+      transport.company = company;
+      transport.seats = seats;
 
       return this.transportSeatsRepository
-        .save(data)
+        .save(transport)
         .then((transport: TransportSeats) => {
           return {
             success: true,
@@ -75,7 +72,7 @@ export class TransportService {
   }
 
   async findAll(params: PaginationParams) {
-    const {limit = 0, page = 1} = params;
+    const { limit = 0, page = 1 } = params;
     const transports = this.transportCompanyRepository
       .createQueryBuilder('transport')
       .leftJoinAndSelect('transport.company', 'company')
@@ -102,7 +99,7 @@ export class TransportService {
   async update(id: number, updateTransportDto: UpdateTransportDto) {
     try {
       const foundTransport = await this.transportRepository.findOne({
-        where: {id},
+        where: { id },
       });
       if (!foundTransport) throw new NotFoundException('Transport not found');
       foundTransport.name = updateTransportDto.transport_name;
@@ -129,9 +126,9 @@ export class TransportService {
       const transports = await this.transportSeatsRepository
         .createQueryBuilder('transport')
         .leftJoinAndSelect('transport.seats', 'seats')
-        .select(["transport.id", "transport.name", "seats.id", "seats.title"])
+        .select(['transport.id', 'transport.name', 'seats.id', 'seats.title'])
         .where('transport.id IN (:...ids)', { ids })
-        .getMany()
+        .getMany();
       await this.transportSeatsRepository.softRemove(transports);
       return {
         success: true,

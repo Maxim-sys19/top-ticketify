@@ -1,29 +1,26 @@
 import React, {JSX, memo} from 'react';
-import {ListGroup} from "react-bootstrap";
+import BaseList, { IBaseList } from '../../../Components/Lists/BaseList';
 import UsersCompanyModal from "../../../Components/Modal/BaseModal";
 
-interface ICompanyUsers<T> {
-  data: T[] | null
+interface ICompanyUsersList<T> extends IBaseList<T>{
   show: boolean
   onClose: () => void
 }
 
-function BaseList<T extends Record<string, any>>({data, onClose, show}: ICompanyUsers<T>) {
+function CompanyUsersList<T extends Record<string, any>>({data, onClose, show}: ICompanyUsersList<T>) {
   return (
     <UsersCompanyModal title="users" show={show} onHide={onClose}>
-      {
-        data?.length !== 0 ?
-          <ListGroup>
-            {data?.map((row) => <ListGroup.Item key={row.id}>{row.name}</ListGroup.Item>)}
-          </ListGroup> :
-          <p>no users...</p>
-      }
+      <BaseList<T>
+        data={data}
+        renderItem={(item: T) => <>{item.name}</>}
+        keyExtractor={(item) => item.id}
+      />
     </UsersCompanyModal>
   );
 }
 
-const MemoBaseList = memo(BaseList) as <T>(
-  props: ICompanyUsers<T>
+const MemoCompanyUsersList = memo(CompanyUsersList) as <T>(
+  props: ICompanyUsersList<T>
 ) => JSX.Element
 
-export default MemoBaseList
+export default MemoCompanyUsersList

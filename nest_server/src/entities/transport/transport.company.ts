@@ -1,10 +1,11 @@
-import { Transport } from './transport.entity';
 import { ChildEntity, ManyToOne } from 'typeorm';
 import { CompanyTransports } from '../company/company.transports';
-import { Company } from '../company/company.entity';
+import { TransportSeats } from './transport.seats';
 
 @ChildEntity()
-export class TransportCompany extends Transport {
-  @ManyToOne(() => CompanyTransports, (company) => company.transports)
-  company: CompanyTransports | Company;
+export class TransportCompany extends TransportSeats {
+  @ManyToOne(() => CompanyTransports, (company) => company.transports, {
+    onDelete: 'CASCADE',
+  })
+  company: CompanyTransports;
 }

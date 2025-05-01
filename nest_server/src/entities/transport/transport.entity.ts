@@ -21,7 +21,7 @@ export class Transport {
   capacity: number;
   @Column({ type: 'date', nullable: true })
   maintenanceDate: Date;
-  @Column({ default: true })
+  @Column({ default: false })
   isActive: boolean;
   @CreateDateColumn()
   createdAt: Date;

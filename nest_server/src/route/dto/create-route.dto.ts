@@ -1,5 +1,5 @@
-import {Type} from "class-transformer";
-import {IsDate, IsNotEmpty} from "class-validator";
+import { Type } from 'class-transformer';
+import { IsDate, IsNotEmpty } from 'class-validator';
 
 export class CreateRouteDto {
   @IsNotEmpty()

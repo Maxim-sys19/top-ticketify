@@ -28,7 +28,7 @@ export const queryWithParams = (base: string, params: any) => {
 export const companyApiService = createApi({
   reducerPath: 'api/company',
   baseQuery,
-  tagTypes: ['Company'],
+  tagTypes: ['Company', 'Transport'],
   endpoints: (builder) => ({
     createCompany: builder.mutation({
       query: (body) => ({
@@ -57,9 +57,13 @@ export const companyApiService = createApi({
       transformErrorResponse: (err: any) => {
         console.log('get companies error :', err)
       },
-      providesTags: (result: any): any => {
-        return result ? result.data.map(({id}: any) => ({type: 'Company', id})) : ['Company']
-      }
+      providesTags: (result: any): any =>
+        result
+          ? [
+            ...result.data.map(({id}: any) => ({type: 'Company' as const, id})),
+            {type: 'Company', id: 'LIST'}
+          ]
+          : [{type: 'Company', id: 'LIST'}]
     }),
     updateCompany: builder.mutation({
       query: ({id, body}: any) => ({
@@ -85,7 +89,6 @@ export const companyApiService = createApi({
         method: 'DELETE',
         body
       }),
-      invalidatesTags: (result, error, {id}) => [{type: 'Company', id}],
       transformResponse: (res: any) => {
         if (res.success && res.success === true) {
           toast(res.message, toastOptions('success'))
@@ -94,7 +97,13 @@ export const companyApiService = createApi({
       },
       transformErrorResponse: (err: any) => {
         console.log('D err :', err)
-      }
+        return err
+      },
+      invalidatesTags: (result, error, {ids}: any) => [
+        ...ids.map((id: number) => ({type: 'Company' as const, id})),
+        {type: 'Company', id: 'LIST'},
+        {type: 'Transport', id: 'LIST'},
+      ],
     })
   })
 })

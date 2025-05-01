@@ -1,12 +1,11 @@
 import React from 'react';
 import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {isAuth} from "../helpers/isAuth";
-import {useAppSelector} from "../hooks/useApiHooks";
+import { useRoles } from '../hooks/useRoles';
 
 const GuardRoutes = () => {
+  const {isAuth} = useRoles()
   const location = useLocation()
-  const token = useAppSelector(state => state.jwtToken.token)
-  const auth = isAuth(token)
+  const auth = isAuth
   if (location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/forgot-password') {
     return <Navigate to="/profile"/>
   }

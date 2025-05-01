@@ -12,6 +12,7 @@ import { TransportModule } from './transport/transport.module';
 import { TicketModule } from './ticket/ticket.module';
 import { SeatModule } from './seat/seat.module';
 import { RouteModule } from './route/route.module';
+import { RabbitClientProxyModule } from './ampq/rabbit.client.proxy.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RouteModule } from './route/route.module';
     TicketModule,
     SeatModule,
     RouteModule,
+    RabbitClientProxyModule,
   ],
   controllers: [],
   providers: [],

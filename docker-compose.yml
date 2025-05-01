@@ -46,6 +46,19 @@ services:
     networks:
       - app-network
 
+  rabbitmq_service:
+    image: rabbitmq:3-management
+    container_name: top-ticketify-tabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
+
+volumes:
+  rabbitmq_data:
 networks:
   app-network:
     driver: bridge

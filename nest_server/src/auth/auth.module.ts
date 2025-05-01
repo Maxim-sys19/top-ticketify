@@ -26,5 +26,4 @@ import { UserRoles } from '../entities/user/user.roles.entity';
   controllers: [AuthController],
   providers: [AuthService, MailService, Logger, JwtStrategy],
 })
-export class AuthModule {
-}
+export class AuthModule {}

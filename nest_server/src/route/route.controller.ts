@@ -1,17 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
 import { RouteService } from './route.service';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
+import { Pagination, PaginationParams } from '../decorators/pagination';
+import { BulkDeleteDto } from 'src/dto/bulk-delete.dto';
 
-@Controller('route')
+@Controller('routes')
 export class RouteController {
   constructor(private readonly routeService: RouteService) {}
 
@@ -21,8 +23,8 @@ export class RouteController {
   }
 
   @Get()
-  findAll() {
-    return this.routeService.findAll();
+  findAll(@Pagination() params: PaginationParams) {
+    return this.routeService.findAll(params);
   }
 
   @Get(':id')
@@ -30,13 +32,13 @@ export class RouteController {
     return this.routeService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateRouteDto: UpdateRouteDto) {
     return this.routeService.update(+id, updateRouteDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.routeService.remove(+id);
+  @Delete('bulk-delete')
+  remove(@Body() bulkDeleteDto: BulkDeleteDto) {
+    return this.routeService.remove(bulkDeleteDto);
   }
 }

@@ -4,12 +4,11 @@ import {BASE_URL} from "../../../utils";
 import {toast} from "react-toastify";
 import {toastOptions} from "../../../../toast/toastOptions";
 import {ErrorResponseTypes} from "../../auth/types";
-import {ValidationError} from "../../../../helpers/parseErrors";
 
 export const transportApiService = createApi({
   reducerPath: 'api/transport',
   baseQuery,
-  tagTypes: ['Transport'],
+  tagTypes: ['Transport', 'Company'],
   endpoints: (builder) => ({
     createTransport: builder.mutation({
       query: (body) => ({
@@ -38,9 +37,12 @@ export const transportApiService = createApi({
       transformErrorResponse: (err) => {
         console.log('transports error ', err)
       },
-      providesTags: (result: any) => {
-        return result ? result.data.map(({id}: any) => ({type: 'Transport', id})) : ['Transport']
-      }
+      providesTags: (result: any) => result
+        ? [
+          ...result.data.map(({id}: any) => ({type: 'Transport' as const, id})),
+          {type: 'Transport', id: 'LIST'},
+        ]
+        : [{type: 'Transport', id: 'LIST'}],
     }),
     updateTransport: builder.mutation({
       query: (data) => ({
@@ -82,4 +84,9 @@ export const transportApiService = createApi({
   })
 })
 
-export const {useCreateTransportMutation, useGetTransportsQuery, useUpdateTransportMutation, useDeleteAllTransportsMutation} = transportApiService
+export const {
+  useCreateTransportMutation,
+  useGetTransportsQuery,
+  useUpdateTransportMutation,
+  useDeleteAllTransportsMutation
+} = transportApiService

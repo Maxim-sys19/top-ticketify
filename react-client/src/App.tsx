@@ -5,17 +5,14 @@ import {ToastContainer} from 'react-toastify';
 import './App.css';
 import BaseNavBar from "./Components/NavBar/BaseNavBar";
 import {routes} from "./routes/routes";
-import {useAppSelector} from "./hooks/useApiHooks";
-import {isAdmin, isCompany} from "./helpers/isAdmin";
+import { useAuthInit } from './hooks/useAuthInit';
 
 function App() {
-  const {roles} = useAppSelector(state => state.profile.user)
-  const adminUser = roles && isAdmin(roles)
-  const companyUser = roles && isCompany(roles)
+  useAuthInit()
   return (
     <Router>
       <ToastContainer />
-      <BaseNavBar isAdmin={adminUser} isCompanyUser={companyUser} />
+      <BaseNavBar />
       <Routes>
         {
           routes!.map((route, idx) => (
