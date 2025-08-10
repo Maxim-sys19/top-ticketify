@@ -11,7 +11,7 @@ export class ResetPasswordToken {
   id: number;
 
   @Column()
-  userId: number;
+  userId: string;
 
   @Column()
   token: string;

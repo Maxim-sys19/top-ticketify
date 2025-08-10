@@ -10,10 +10,15 @@ import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt.strategy';
 import { ResetPasswordToken } from '../entities/reset.password.token.entity';
 import { UserRoles } from '../entities/user/user.roles.entity';
+import { OAuthController } from './oauth.controller';
+import { GoogleStrategy } from './google.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { OauthService } from './oauth.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, UserRoles, Role, ResetPasswordToken]),
+    PassportModule.register({ session: false }),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -23,7 +28,14 @@ import { UserRoles } from '../entities/user/user.roles.entity';
       }),
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, MailService, Logger, JwtStrategy],
+  providers: [
+    AuthService,
+    OauthService,
+    MailService,
+    Logger,
+    JwtStrategy,
+    GoogleStrategy,
+  ],
+  controllers: [AuthController, OAuthController],
 })
 export class AuthModule {}

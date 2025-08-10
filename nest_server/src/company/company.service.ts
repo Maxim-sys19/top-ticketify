@@ -62,12 +62,13 @@ export class CompanyService {
         );
       } else {
         const hashedPwd = await hashPwd(password, 10);
-        const role = new Role();
-        role.role_name = roles.role_name;
         const company = new CompanyTransports();
         company.name = company_name;
         company.description = company_description;
         await this.companyTransportsRepository.save(company);
+        const role = new Role();
+        role.role_name = roles.role_name;
+        await this.roleRepository.save(role);
         const user = this.companyUserRepository.create({
           name,
           email,
@@ -76,16 +77,6 @@ export class CompanyService {
           company: company,
           roles: [role],
         });
-        // const data = {
-        //   name: name,
-        //   email: email,
-        //   password: hashedPwd,
-        //   status: UserStatus.Active,
-        //   company,
-        //   role: [role],
-        // };
-        // const companyUser = this.companyUserRepository.create(data);
-        // console.log(companyUser)
         await this.companyUserRepository.save(user);
         return { status: user.status, company: { name: company_name } };
       }
@@ -164,8 +155,11 @@ export class CompanyService {
 
   async remove(ids: number[]) {
     try {
-      const company = await this.companyRepository.createQueryBuilder('company')
-        .select(['company.id', 'company.name']).where('company.id IN (:...ids)', { ids }).getMany();
+      const company = await this.companyRepository
+        .createQueryBuilder('company')
+        .select(['company.id', 'company.name'])
+        .where('company.id IN (:...ids)', { ids })
+        .getMany();
       const companiesUser: TransportCompany[] =
         await this.transportCompanyRepository
           .createQueryBuilder('transport')
@@ -193,7 +187,7 @@ export class CompanyService {
           await this.transportCompanyRepository.softDelete(companyUser.id);
         }
       }
-      if(company) {
+      if (company) {
         await this.companyRepository.softDelete(ids);
       }
       return {

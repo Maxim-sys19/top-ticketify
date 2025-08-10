@@ -22,4 +22,24 @@ export class MailServiceController {
       channel.nack(message);
     }
   }
+  @EventPattern('email.resetPwd')
+  async emailResetPwd(
+    @Payload() payload: any,
+    @Ctx() context: RmqContext,
+  ): Promise<{ messageId: string }> {
+    const { user, generateToken } = payload;
+    const channel = context.getChannelRef();
+    const message = context.getMessage();
+    try {
+      const messageId = await this.mailService.emailResetPassword(
+        user,
+        generateToken,
+      );
+      channel.ack(message);
+      return { messageId };
+    } catch (err) {
+      console.log('Error consuming email reset pwd :', err);
+      channel.nack(message);
+    }
+  }
 }

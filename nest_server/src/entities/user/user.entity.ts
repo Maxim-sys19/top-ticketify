@@ -3,20 +3,22 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
   TableInheritance,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserStatus } from '../../enums/user.enums';
 import { Exclude } from 'class-transformer';
+import {
+  AuthProviderEnums,
+  AuthProviderType,
+} from '../../enums/auth.provider.enums';
+import { BaseEntityWithID } from '../base.entity';
 
 @Entity({
   name: 'users',
 })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class User extends BaseEntityWithID {
   @Column({
     type: 'varchar',
   })
@@ -27,9 +29,16 @@ export class User {
   email: string;
   @Column({
     type: 'varchar',
+    nullable: true,
   })
   @Exclude()
   password: string;
+  @Column({
+    type: 'enum',
+    enum: AuthProviderEnums,
+    default: AuthProviderEnums.LOCAL,
+  })
+  authProvider: AuthProviderType;
   @Column({
     type: 'enum',
     enum: UserStatus,

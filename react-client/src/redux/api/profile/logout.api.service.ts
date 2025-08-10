@@ -5,5 +5,6 @@ import {clearProfile} from "./profile.slice";
 export const logoutAction = createAsyncThunk('/logout', async (_, {dispatch}) => {
   localStorage.removeItem('jwtToken')
   dispatch(clearProfile())
+  // window.google?.accounts.id.disableAutoSelect();
   return null
 })

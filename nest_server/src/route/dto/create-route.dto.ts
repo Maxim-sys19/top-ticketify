@@ -1,11 +1,19 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsNotEmpty } from 'class-validator';
+import { IsDate, IsNotEmpty, ValidateNested } from 'class-validator';
+import { CoordinateDto } from './coordinate.dto';
 
 export class CreateRouteDto {
   @IsNotEmpty()
-  start: string;
-  @IsNotEmpty()
-  end: string;
+  routeName: string;
+  @ValidateNested({ message: 'please apply location for start' })
+  @Type(() => CoordinateDto)
+  start: CoordinateDto;
+  @ValidateNested({ message: 'please apply location for end' })
+  @Type(() => CoordinateDto)
+  end: CoordinateDto;
+  @ValidateNested({ each: true })
+  @Type(() => CoordinateDto)
+  path: CoordinateDto[];
   @IsDate()
   @Type(() => Date)
   departureTime: Date;

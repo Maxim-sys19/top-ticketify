@@ -6,6 +6,7 @@ import CompanyForm from "../../../Components/Form/BaseForm";
 import CompanyModal from '../../../Components/Modal/BaseModal'
 import {Button} from "react-bootstrap";
 import useOpenModal from "../../../hooks/useOpenModal";
+import {useFormHandlers} from "../../../hooks/useFormHandlers";
 
 interface CompanyFormValues {
   name: string
@@ -20,7 +21,7 @@ const companyFormFields: Field[] = [
   {name: 'name', type: 'text', inputType: 'input', label: 'name', placeholder: 'name'},
   {name: 'email', type: 'email', inputType: 'input', label: 'email', placeholder: 'email'},
   {name: 'password', type: 'password', inputType: 'input', label: 'password', placeholder: 'password'},
-  {name: 'role_name', type: 'select', label: 'select user role', placeholder: 'role'},
+  {name: 'role_name', type: 'select', inputType: 'select', label: 'select user role', placeholder: 'role'},
   {name: 'company_name', type: 'text', inputType: 'input', label: 'name of company', placeholder: 'company name'},
   {
     name: 'company_description',
@@ -44,10 +45,8 @@ const selectValues = ['user', 'company_user', 'admin_user']
 
 function CreateCompany() {
   const [createCompany, {isLoading, error, data}] = useCreateCompanyMutation()
-  const {show, close, open} = useOpenModal()
-  const errors = parseErrors(error)
   const isSuccess = data && data === 'active'
-  const handleSubmit = async (data: CompanyFormValues) => {
+  const onSubmit = async (data: CompanyFormValues) => {
     let companyBody = {
       name: data.name,
       email: data.email,
@@ -68,6 +67,15 @@ function CreateCompany() {
       }
     })
   }
+  const {values, handleSubmit, handleChange} = useFormHandlers<CompanyFormValues>({
+    initialValue: initialValues,
+    onSubmit,
+    onDone: isSuccess
+  })
+
+  const {show, close, open} = useOpenModal()
+  const errors = parseErrors(error)
+  // console.log(companyFormFields)
   return (
     <>
       <Button onClick={() => open('create')}>+</Button>
@@ -79,12 +87,12 @@ function CreateCompany() {
       >
         <CompanyForm<CompanyFormValues>
           selectValues={selectValues}
-          done={isSuccess}
           buttonSubmitTitle="create company"
           loading={isLoading}
           errors={errors}
           fields={companyFormFields}
-          initialValue={initialValues}
+          values={values}
+          onChange={handleChange}
           onSubmit={handleSubmit}
         />
       </CompanyModal>

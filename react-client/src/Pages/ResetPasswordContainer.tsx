@@ -5,6 +5,7 @@ import ResetPasswordForm from '../Components/Form/BaseForm'
 import {Field} from "../Components/Form/FormFieldTypes";
 import {useResetPasswordMutation} from "../redux/api/auth/forgot.password.service";
 import {parseErrors, ValidationError} from "../helpers/parseErrors";
+import {useFormHandlers} from "../hooks/useFormHandlers";
 
 interface ResetPasswordFormValues {
   reset_token: string | null;
@@ -28,9 +29,10 @@ const ResetPasswordContainer = () => {
   const [resetPassword, {error, isLoading, data}] = useResetPasswordMutation()
   const errors: ValidationError[] | undefined = parseErrors(error)
   const isDone = data && data.success
-  const handleSubmit = async (body: ResetPasswordFormValues) => {
-    await resetPassword(body).unwrap().catch(error => error)
-  }
+   const onSubmit = async (body: ResetPasswordFormValues) => {
+      await resetPassword(body).unwrap().catch(error => error)
+    }
+  const {values, handleSubmit, handleChange} = useFormHandlers<ResetPasswordFormValues>({initialValue: initialValues, onSubmit, onDone: isDone})
   return (
     <Container fluid={true} className="text-center mt-5">
       <h1>Reset password</h1>
@@ -40,9 +42,10 @@ const ResetPasswordContainer = () => {
             <ResetPasswordFormValues>
             buttonSubmitTitle="reset password"
             onSubmit={handleSubmit}
+            onChange={handleChange}
             fields={resetPasswordFormFields}
-            initialValue={initialValues}
             done={isDone}
+            values={values}
             errors={errors}
             loading={isLoading}
           />

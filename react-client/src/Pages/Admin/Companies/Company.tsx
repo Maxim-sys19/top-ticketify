@@ -9,12 +9,11 @@ import CompanyPagination from "../../../Components/Pagination/BasePagination";
 import CompanyUsers from "./CompanyUsers";
 import EditCompany from "./EditCompany";
 import {useGsapRemove} from "../../../hooks/useGsapRemove";
-import {useAppSelector} from "../../../hooks/useApiHooks";
 import useOpenModal from "../../../hooks/useOpenModal";
 import CompanyTable from "./CompanyTable";
 import useSelectedIds, {useSelectRow} from '../../../hooks/useSelectedIds';
-import { useSafePagination } from '../../../hooks/useSafePagination';
-import { useRoles } from '../../../hooks/useRoles';
+import {useSafePagination} from '../../../hooks/useSafePagination';
+import {useRoles} from '../../../hooks/useRoles';
 
 export interface Company {
   id: number;
@@ -84,7 +83,7 @@ function CompanyPage() {
     close()
     clearSelectedRow()
     clearCompanyUsersRow()
-  }, [close])
+  }, [clearCompanyUsersRow, clearSelectedRow, close])
 
 
   return (

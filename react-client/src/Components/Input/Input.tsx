@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Form} from "react-bootstrap";
 
-const Input = ({field, onChange, values}: any) => {
+const Input = ({field, onChange, value}: any) => {
+  console.log('Input');
   return (
     <Form.Group className="mb-3">
       <Form.Control
@@ -12,7 +13,7 @@ const Input = ({field, onChange, values}: any) => {
         id={field.name}
         placeholder={field.placeholder}
         onChange={onChange}
-        value={values[field.name]}
+        value={value}
         min="1"
       />
       <Form.Control.Feedback type="invalid">Invalid {field.name}</Form.Control.Feedback>
@@ -20,4 +21,4 @@ const Input = ({field, onChange, values}: any) => {
   )
 };
 
-export default Input;
+export default memo(Input);

@@ -25,6 +25,7 @@ import { TicketSeat } from '../entities/ticket/ticket.seat';
 import { SeatTicket } from '../entities/seat/seat.ticket';
 import { TransportCompany } from '../entities/transport/transport.company';
 import { CompanyTransports } from '../entities/company/company.transports';
+import { Booking } from '../entities/booking/booking.entity';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { CompanyTransports } from '../entities/company/company.transports';
           RouteTransport,
           RouteTickets,
           RouteCompany,
+          Booking,
         ],
         connectTimeout: 10000,
         retryAttempts: 5,

@@ -2,8 +2,9 @@ import React, {memo, useMemo} from 'react';
 import BaseTable from "../../../Components/Table/BaseTable";
 import {Column} from "../../../Components/Table/types";
 import {Route} from "./RoutesPage";
-import {Button, InputGroup} from "react-bootstrap";
+import {Dropdown, InputGroup} from "react-bootstrap";
 import {InteractWithTablePros} from '../Companies/CompanyTable';
+import RouteDropDown from '../../../Components/DropDown/BaseDropDown'
 
 function RoutesTable<T extends Route>({title, checked, addElement, handleCheck, handleEdit, data, role, variant}: InteractWithTablePros<T>) {
   const routeColumns = useMemo<Column<T>[]>(() => {
@@ -15,22 +16,30 @@ function RoutesTable<T extends Route>({title, checked, addElement, handleCheck, 
       {header: 'arrival time', accessor: 'arrivalTime'},
       {header: 'route code', accessor: 'routeCode'},
     ]
-    if(role) {
+    if (role) {
       routeColumns.push(
-        {header: 'Edit', accessor: (row) => <Button className="btn btn-warning" onClick={() => handleEdit(row)}>Edit</Button>},
-        {header: 'Delete', accessor: (row) => <InputGroup>
+        {
+          header: 'Action',
+          accessor: (row) =>
+            <RouteDropDown title="action">
+              <Dropdown.Item onClick={() => handleEdit(row)}>Edit</Dropdown.Item>
+            </RouteDropDown>
+        },
+        {
+          header: 'Delete', accessor: (row: T) => <InputGroup>
             <InputGroup.Checkbox
               onChange={() => handleCheck(row.id)}
               type="checkbox"
               checked={checked?.has(row.id)}
             />
-        </InputGroup>,},
+          </InputGroup>,
+        },
       )
     }
     return routeColumns
-  }, [role, checked, handleCheck])
+  }, [role, handleEdit, checked, handleCheck])
   return (
-    <BaseTable<T> title={title} data={data} addElement={addElement} variant={variant} columns={routeColumns}/>
+    <BaseTable<T> title={title} data={data} addElement={addElement} variant={variant} columns={routeColumns} />
   );
 }
 

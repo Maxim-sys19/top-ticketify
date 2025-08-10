@@ -6,6 +6,7 @@ import {companyApiService} from "./api/admin/company/company.api.service";
 import {transportApiService} from "./api/admin/transport/transport.api.service";
 import {myCompanyApiService} from './api/admin/company/myCompany.api.service';
 import {routesApiService} from "./api/admin/routes/routes.api.service";
+import {oauthService} from "./api/auth/oauth.service";
 
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     jwtToken: authJwtTokenReducer,
     profile: profileReducer,
     [authService.reducerPath]: authService.reducer,
+    [oauthService.reducerPath]: oauthService.reducer,
     [companyApiService.reducerPath]: companyApiService.reducer,
     [transportApiService.reducerPath]: transportApiService.reducer,
     [myCompanyApiService.reducerPath]: myCompanyApiService.reducer,
@@ -21,6 +23,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       authService.middleware,
+      oauthService.middleware,
       companyApiService.middleware,
       transportApiService.middleware,
       myCompanyApiService.middleware,

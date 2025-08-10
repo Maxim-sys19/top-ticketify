@@ -1,6 +1,4 @@
 import {
-  AfterInsert,
-  AfterUpdate,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -19,9 +17,13 @@ export class Route {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  start: string;
-  @Column()
-  end: string;
+  routeName: string;
+  @Column({ type: 'json' })
+  start: { lat: number; lng: number };
+  @Column({ type: 'json' })
+  end: { lat: number; lng: number };
+  @Column({ type: 'json' })
+  path: { lat: number; lng: number }[];
   @Column({ unique: true, type: 'varchar', length: 100, nullable: true })
   routeCode?: string;
   @Column({ unique: true })
@@ -46,7 +48,7 @@ export class Route {
   @BeforeUpdate()
   async generateRouteCode() {
     if (this.start && this.end) {
-      this.routeCode = `${this.start}-${this.end}-${JSON.stringify(this.uid)}`
+      this.routeCode = `${this.routeName}-${JSON.stringify(this.uid)}`
         .toUpperCase()
         .replace(/"/g, '')
         .slice(0, 100);

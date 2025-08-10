@@ -15,4 +15,8 @@ export default () => ({
   smtp_mailer_host: process.env.SMTP_MAILER_HOST,
   smtp_mailer_port: process.env.SMTP_MAILER_PORT,
   amq_connection: process.env.AMQ_URL,
+  oauth_google_client_id: process.env.OAUTH_GOOGLE_CLIENT_ID,
+  oauth_google_client_secret_key: process.env.OAUTH_GOOGLE_CLIENT_SECRET_KEY,
+  oauth_google_callback_url: process.env.OAUTH_GOOGLE_CALLBACK_URL,
+  google_map_api_key: process.env.GOOGLE_MAP_API_KEY
 });

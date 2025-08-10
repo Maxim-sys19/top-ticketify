@@ -35,5 +35,5 @@ export function useAuthInit() {
         window.removeEventListener("visibilitychange", handleVisibility)
       }
     }
-  }, [token, fetchProfile, startInterval])
+  }, [token, fetchProfile, startInterval, dispatch])
 }

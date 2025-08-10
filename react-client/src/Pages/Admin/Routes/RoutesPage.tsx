@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import CreateRoute from "./CreateRoute";
 import RoutesTable from "./RoutesTable";
 import {useDeleteRoutesMutation, useGetRoutesQuery} from "../../../redux/api/admin/routes/routes.api.service";
-import {useAppSelector} from "../../../hooks/useApiHooks";
 import RoutesPagination from '../../../Components/Pagination/BasePagination'
 import useSelectedIds, {useSelectRow} from '../../../hooks/useSelectedIds';
 import {Button} from 'react-bootstrap';
@@ -10,10 +9,11 @@ import {useGsapRemove} from '../../../hooks/useGsapRemove';
 import EditRoute from './EditRoute';
 import useOpenModal from '../../../hooks/useOpenModal';
 import {useSafePagination} from '../../../hooks/useSafePagination';
-import { useRoles } from '../../../hooks/useRoles';
+import {useRoles} from '../../../hooks/useRoles';
 
 export interface Route {
   id: number;
+  routeName: string,
   start: string;
   end: string;
   departureTime: string;
@@ -50,7 +50,7 @@ const RoutesPage = () => {
   const handleCloseRow = useCallback(() => {
     clearSelectedRow()
     close()
-  }, [])
+  }, [clearSelectedRow, close])
   const handleDeleteRoutes = async () => {
     const body = {
       ids: Array.from(selectIds)

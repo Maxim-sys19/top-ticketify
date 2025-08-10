@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import CreateTransport from "./CreateTransport";
 import TransportPagination from '../../../Components/Pagination/BasePagination'
 import {
@@ -6,13 +6,12 @@ import {
   useGetTransportsQuery
 } from "../../../redux/api/admin/transport/transport.api.service";
 import {TransportTable} from "./TransportTable";
-import {useAppSelector} from "../../../hooks/useApiHooks";
 import EditTransport from "./EditTransport";
 import useOpenModal from "../../../hooks/useOpenModal";
 import {useGsapRemove} from '../../../hooks/useGsapRemove';
 import useSelectedIds, {useSelectRow} from '../../../hooks/useSelectedIds';
 import {useSafePagination} from '../../../hooks/useSafePagination';
-import { useRoles } from '../../../hooks/useRoles';
+import {useRoles} from '../../../hooks/useRoles';
 
 
 export interface Transport {
@@ -62,7 +61,7 @@ function TransportPage() {
   const handleClose = useCallback(() => {
     close()
     clearSelectedRow()
-  }, [])
+  }, [clearSelectedRow, close])
   const handleDelete = async () => {
     const data = {ids: Array.from(selectIds)}
     await deleteAllTransports(data).unwrap().then((success) => {

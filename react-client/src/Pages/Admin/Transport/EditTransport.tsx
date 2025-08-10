@@ -1,16 +1,16 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import EditTransportModal from '../../../Components/Modal/BaseModal'
 import EditTransportForm from '../../../Components/Form/BaseForm'
 import {Field} from "../../../Components/Form/FormFieldTypes";
 import {useUpdateTransportMutation} from '../../../redux/api/admin/transport/transport.api.service';
 import {parseErrors} from '../../../helpers/parseErrors';
 import {IEditEntityProps} from '../../../interfaces/create-entitie-interfaces';
+import {useFormHandlers} from "../../../hooks/useFormHandlers";
 
 interface EditTransportFormValues {
   transport_name: string
   transport_description: string
   capacity: number
-  company_name: string
 }
 
 const editTransportFormFields: Field[] = [
@@ -29,30 +29,36 @@ const editTransportFormFields: Field[] = [
     placeholder: 'Edit transport description'
   },
   {name: 'capacity', type: 'number', inputType: 'input', label: 'Transport seats', placeholder: 'Edit transport seats'},
-  {name: 'company_name', type: 'text', inputType: 'input', label: 'Company of transport', placeholder: 'Edit company'},
 ]
 
 function EditTransport<T extends Record<string, any>>({entity, show, onClose}: IEditEntityProps<T>) {
   const [updateTransport, {isLoading, error}] = useUpdateTransportMutation()
   const errors = parseErrors(error)
-  const initialValues: EditTransportFormValues = {
-    transport_name: entity?.name,
-    transport_description: entity?.description,
-    capacity: entity?.capacity,
-    company_name: entity?.company?.name
-  }
-  const handleSubmit = async (body: EditTransportFormValues) => {
+  const initialValues = useMemo(() => {
+    return {
+      transport_name: entity?.name,
+      transport_description: entity?.description,
+      capacity: entity?.capacity,
+    }
+  }, [entity?.capacity, entity?.description, entity?.name])
+  const onSubmit = async (body: EditTransportFormValues) => {
     await updateTransport({id: entity?.id, body})
+    console.log(body)
   }
+  const {values, handleChange, handleSubmit} = useFormHandlers<EditTransportFormValues>({
+    initialValue: initialValues,
+    onSubmit
+  })
   return (
     <EditTransportModal backdrop="static" title="Edit transport" show={show} onHide={onClose}>
       <EditTransportForm<EditTransportFormValues>
-        initialValue={initialValues}
+        values={values}
         errors={errors}
         loading={isLoading}
         buttonSubmitTitle="update transport"
         fields={editTransportFormFields}
         onSubmit={handleSubmit}
+        onChange={handleChange}
       />
     </EditTransportModal>
   );

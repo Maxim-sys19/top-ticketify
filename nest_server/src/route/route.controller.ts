@@ -19,6 +19,7 @@ export class RouteController {
 
   @Post()
   create(@Body() createRouteDto: CreateRouteDto) {
+    // console.log('create new route ', createRouteDto);
     return this.routeService.create(createRouteDto);
   }
 

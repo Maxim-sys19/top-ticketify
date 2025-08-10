@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
-import ForgotPasswordForm from '../Components/Form/BaseForm'
-import {useForgotPasswordMutation} from "../redux/api/auth/forgot.password.service";
-import {Field} from "../Components/Form/FormFieldTypes";
-import {parseErrors, ValidationError} from "../helpers/parseErrors";
+import ForgotPasswordForm from '../../Components/Form/BaseForm'
+import {useForgotPasswordMutation} from "../../redux/api/auth/forgot.password.service";
+import {Field} from "../../Components/Form/FormFieldTypes";
+import {parseErrors, ValidationError} from "../../helpers/parseErrors";
+import {useFormHandlers} from "../../hooks/useFormHandlers";
 
 interface ForgotPasswordFormValues {
   email: string;
@@ -17,11 +18,12 @@ const forgotPasswordFormFields: Field[] = [
 ]
 const ForgotPasswordContainer = () => {
   const [forgotPassword, {error, isLoading, data}] = useForgotPasswordMutation()
-  const errors: ValidationError[] | undefined = parseErrors(error)
   const isDone = data && data.success
-  const handleSubmit = async (body: ForgotPasswordFormValues) => {
-    await forgotPassword(body).unwrap().catch(error => error)
-  }
+  const onSubmit = async (body: ForgotPasswordFormValues) => {
+      await forgotPassword(body).unwrap().catch(error => error)
+    }
+  const {values, handleChange, handleSubmit} = useFormHandlers<ForgotPasswordFormValues>({initialValue: initialValues, onSubmit, onDone: isDone})
+  const errors: ValidationError[] | undefined = parseErrors(error)
   return (
     <Container className="text-center mt-5">
       <h1>Forgot password</h1>
@@ -32,9 +34,9 @@ const ForgotPasswordContainer = () => {
             fields={forgotPasswordFormFields}
             loading={isLoading}
             errors={errors}
-            done={isDone}
-            initialValue={initialValues}
+            values={values}
             onSubmit={handleSubmit}
+            onChange={handleChange}
             buttonSubmitTitle="submit"
           />
         </Col>

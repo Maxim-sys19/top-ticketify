@@ -29,6 +29,7 @@ async function bootstrap() {
           errors: formattedError,
         });
       },
+      transform: true,
     }),
   );
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));

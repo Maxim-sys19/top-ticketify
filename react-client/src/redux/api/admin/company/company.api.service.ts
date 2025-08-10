@@ -1,9 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {BASE_URL} from "../../../utils";
+import {BASE_URL} from "../../../constants/urls_constants";
 import {RootState} from "../../../store";
 import {ErrorResponseTypes} from "../../auth/types";
 import {toast} from "react-toastify";
 import {toastOptions} from "../../../../toast/toastOptions";
+import {ErrorCode} from "../../../constants/error_response/error_codes";
+import {ERROR_MESSAGES} from "../../../constants/error_response/error_messages";
 
 export const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, {getState}) => {
@@ -56,6 +58,7 @@ export const companyApiService = createApi({
       },
       transformErrorResponse: (err: any) => {
         console.log('get companies error :', err)
+        if (err.status === ErrorCode.FETCH_ERROR) toast(ERROR_MESSAGES.FETCH_ERROR, toastOptions('error'))
       },
       providesTags: (result: any): any =>
         result

@@ -1,9 +1,11 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {baseQuery, queryWithParams} from "../company/company.api.service";
-import {BASE_URL} from "../../../utils";
+import {BASE_URL} from "../../../constants/urls_constants";
 import {ErrorResponseTypes} from "../../auth/types";
 import {toast} from "react-toastify";
 import {toastOptions} from "../../../../toast/toastOptions";
+import {ErrorCode} from "../../../constants/error_response/error_codes";
+import {ERROR_MESSAGES} from "../../../constants/error_response/error_messages";
 
 export const routesApiService = createApi({
   reducerPath: 'api/routes',
@@ -17,7 +19,7 @@ export const routesApiService = createApi({
         body
       }),
       transformResponse: (res: any) => {
-        console.log('create rote with success :', res);
+        if (res.success) toast("created", toastOptions("success"))
         return res.success;
 
       },
@@ -31,10 +33,16 @@ export const routesApiService = createApi({
     getRoutes: builder.query({
       query: (params) => queryWithParams('/routes?', params),
       transformResponse: (res: any) => {
-        return res;
+        let formatedData =  res.data.map((el: any) => ({
+          ...el,
+          departureTime: new Date(el.departureTime).toLocaleString(),
+          arrivalTime: new Date(el.arrivalTime).toLocaleString(),
+        }))
+        return {...res, data: formatedData};
       },
       transformErrorResponse: (err: any) => {
         console.log('getRoutes with error :', err);
+        if(err.status === ErrorCode.FETCH_ERROR) toast(ERROR_MESSAGES.FETCH_ERROR, toastOptions('error'))
       },
       providesTags: (result: any): any => {
         return result?.data ?

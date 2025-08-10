@@ -1,9 +1,11 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {baseQuery, queryWithParams} from "../company/company.api.service";
-import {BASE_URL} from "../../../utils";
+import {BASE_URL} from "../../../constants/urls_constants";
 import {toast} from "react-toastify";
 import {toastOptions} from "../../../../toast/toastOptions";
 import {ErrorResponseTypes} from "../../auth/types";
+import {ErrorCode} from "../../../constants/error_response/error_codes";
+import {ERROR_MESSAGES} from "../../../constants/error_response/error_messages";
 
 export const transportApiService = createApi({
   reducerPath: 'api/transport',
@@ -36,6 +38,7 @@ export const transportApiService = createApi({
       },
       transformErrorResponse: (err) => {
         console.log('transports error ', err)
+        if(err.status === ErrorCode.FETCH_ERROR) toast(ERROR_MESSAGES.FETCH_ERROR, toastOptions('error'))
       },
       providesTags: (result: any) => result
         ? [
@@ -48,7 +51,10 @@ export const transportApiService = createApi({
       query: (data) => ({
         url: `${BASE_URL}/transport/${data.id}`,
         method: 'PUT',
-        body: JSON.stringify(data.body)
+        body: data.body,
+        headers: {
+          'Content-Type': 'application/json',
+        }
       }),
       transformResponse: (res: any) => {
         if (res && res.success === true) {
@@ -61,7 +67,7 @@ export const transportApiService = createApi({
           return err.data.errors
         }
       },
-      invalidatesTags: [{type: 'Transport'}],
+      invalidatesTags: (result, error, {id}) => [{type: 'Transport', id}]
     }),
     deleteAllTransports: builder.mutation({
       query: (body: any) => ({

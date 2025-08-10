@@ -1,5 +1,5 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
-import {BASE_URL} from "../../../utils";
+import {BASE_URL} from "../../../constants/urls_constants";
 import {baseQuery} from "./company.api.service";
 
 export const myCompanyApiService = createApi({

@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { CreateTransportDto } from './dto/create-transport.dto';
 import { UpdateTransportDto } from './dto/update-transport.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Transport } from '../entities/transport/transport.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Seat } from '../entities/seat/seat.entity';
 import { TransportSeats } from '../entities/transport/transport.seats';
 import { Company } from '../entities/company/company.entity';
@@ -30,6 +30,7 @@ export class TransportService {
     private readonly companyRepository: Repository<Company>,
     @InjectRepository(TransportCompany)
     private readonly transportCompanyRepository: Repository<TransportCompany>,
+    @InjectDataSource() private readonly dataSource: DataSource,
   ) {}
 
   async create(createTransportDto: CreateTransportDto) {
@@ -102,16 +103,25 @@ export class TransportService {
         where: { id },
       });
       if (!foundTransport) throw new NotFoundException('Transport not found');
-      foundTransport.name = updateTransportDto.transport_name;
-      foundTransport.description = updateTransportDto.transport_description;
-      foundTransport.capacity = updateTransportDto.capacity;
-      const updatedTransport =
-        await this.transportRepository.save(foundTransport);
-      return {
-        success: true,
-        message: 'Updated transport successfully.',
-        data: updatedTransport,
-      };
+      return await this.dataSource.transaction(async (manager) => {
+        await manager.update(TransportCompany, id, {
+          name: updateTransportDto.transport_name,
+          description: updateTransportDto.transport_description,
+          capacity: updateTransportDto.capacity,
+        });
+        await manager.delete(SeatTransport, { transport: { id } });
+        const seats = Array.from(
+          { length: updateTransportDto.capacity },
+          (_, index) => {
+            const seat = new SeatTransport();
+            seat.transport = { id } as TransportCompany;
+            seat.title = `A${index + 1}`;
+            return seat;
+          },
+        );
+        await manager.save(SeatTransport, seats);
+        return { success: true, message: 'Updated successfully' };
+      });
     } catch (err) {
       this.logger.error(err.message, {
         statusCode: err.status,

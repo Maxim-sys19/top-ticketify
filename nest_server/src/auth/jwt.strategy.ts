@@ -1,12 +1,11 @@
 import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import Redis from 'ioredis';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     configService: ConfigService,
     private readonly redisService: RedisService,

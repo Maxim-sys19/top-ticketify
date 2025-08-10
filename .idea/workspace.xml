@@ -5,45 +5,70 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ec5ab35-9266-4799-9b2f-1541d24676f4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Lists/BaseList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/CreateRoute.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/EditRoute.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RoutesTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useAuthInit.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useRoles.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useSafePagination.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useSelectedIds.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/interfaces/create-entitie-interfaces.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/interfaces/routes/route-handles-interface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/routes/routes.api.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/DropDown/BaseDropDown.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Components/Map/BaseGoogleMap.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/MyCompany/MyCompany.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RouteFormWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RouteGoogleMapWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Login/LoginFormWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Login/LoginWithGoogle.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/Pages/Register/RegisterFormWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/context/user/UserContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/declares/google.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/helpers/validateOnchange.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useFormHandlers.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/hooks/useGoogleMapHandlers.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/oauth.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/constants/error_response/error_codes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/constants/error_response/error_messages.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react-client/src/redux/constants/urls_constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7/storage_v2/_src_/schema/TopTicketify.uyLKaA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/11a1f349-4cbf-4712-84a2-b0a59e1ae5f7/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/DateTimePicker/DateTimePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/DateTimePicker/DateTimePicker.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/BaseForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/NavBar/BaseNavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Pagination/BasePagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Pagination/BasePagination.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Table/BaseTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Form/FormComponentPropTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Input/Input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/Select/Select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/Select/Select.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Components/SideBar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Components/SideBar/Sidebar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/Company.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CompanyUsers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CreateCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/CreateCompany.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/EditCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies/EditCompany.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/CreateRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/CreateRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/EditRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/EditRoute.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RoutesPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RoutesPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RoutesTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Routes/RoutesTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/CreateTransport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/CreateTransport.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/EditTransport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/EditTransport.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/TransportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/TransportPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/TransportTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Admin/Transport/TransportTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/helpers/isAdmin.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/helpers/isAuth.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/hooks/useGsapRemove.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/hooks/useGsapRemove.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/ForgotPasswordContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/ForgotPassword/ForgotPasswordContainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/LoginPageContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Login/LoginPageContainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/RegisterPageContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/Register/RegisterPageContainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/Pages/ResetPasswordContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/Pages/ResetPasswordContainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/hooks/useAuthInit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/hooks/useAuthInit.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/interfaces/routes/route-handles-interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/interfaces/routes/route-handles-interface.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/company.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/company.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/myCompany.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/company/myCompany.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/admin/routes/routes.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/routes/routes.api.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/admin/transport/transport.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/admin/transport/transport.api.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/auth/auth.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/profile/logout.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/logout.api.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/api/profile/profile.api.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/redux/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/redux/utils.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/react-client/src/routes/AdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/AdminRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/GuardRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/PublicRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/react-client/src/routes/routes.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,18 +97,22 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;disable.download.node.interpreter.editor.notification&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/user/sites/top-ticketify/nest_server/src/common&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;22.17.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;22.15.33&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/jetbrains/top-ticketify/react-client/node_modules&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/user/sites/top-ticketify/nest_server/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/user/sites/top-ticketify/react-client/node_modules/typescript/lib&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/jetbrains/top-ticketify/nest_server/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/jetbrains/top-ticketify/react-client/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -92,23 +121,53 @@
     ]
   }
 }</component>
+  <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
+    <layout>
+      <window_info id="Bookmarks" side_tool="true" />
+      <window_info id="Merge Requests" />
+      <window_info id="Backup and Sync History" />
+      <window_info id="Commit_Guest" show_stripe_button="false" />
+      <window_info id="Pull Requests" />
+      <window_info id="Robo tasks" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12675676" />
+      <window_info id="Commit" order="1" weight="0.25" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="TypeScript" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="File Transfer" />
+      <window_info anchor="bottom" id="Find" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Problems" order="1" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3300095" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Services" order="4" />
+      <window_info anchor="right" id="make" side_tool="true" />
+      <window_info anchor="right" id="Coverage" side_tool="true" />
+      <window_info anchor="right" id="Notifications" order="0" weight="0.25" />
+      <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
+      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.121351354" />
+      <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="4" weight="0.25" />
+    </layout>
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/nest_server/src/common" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/react-client/src/redux/api/admin" />
-      <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin/Companies" />
-      <recent name="$PROJECT_DIR$/react-client/src/Pages/Admin" />
-      <recent name="$PROJECT_DIR$/react-client/src/Components/NavBar" />
-      <recent name="$PROJECT_DIR$/nest_server/src/entities/route" />
+      <recent name="$PROJECT_DIR$/react-client/src/redux/constants/error_response" />
+      <recent name="$PROJECT_DIR$/react-client/src/redux/constants" />
+      <recent name="$PROJECT_DIR$/nest_server" />
+      <recent name="$PROJECT_DIR$/nest_server/src/booking/presentation/controllers" />
+      <recent name="$PROJECT_DIR$/react-client/src/Pages/ForgotPassword" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-PS-251.23774.436" />
-        <option value="bundled-php-predefined-a98d8de5180a-aaeaa8632555-com.jetbrains.php.sharedIndexes-PS-251.23774.436" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-PS-252.23892.178" />
+        <option value="bundled-php-predefined-a98d8de5180a-cae9313a75b1-com.jetbrains.php.sharedIndexes-PS-252.23892.178" />
       </set>
     </attachedChunks>
   </component>
@@ -159,12 +218,29 @@
       <workItem from="1745082923685" duration="7000" />
       <workItem from="1745082948481" duration="10000" />
       <workItem from="1745083210684" duration="8000" />
-      <workItem from="1745083699144" duration="44427000" />
+      <workItem from="1745083699144" duration="62272000" />
+      <workItem from="1746775619080" duration="66471000" />
+      <workItem from="1748074967654" duration="650000" />
+      <workItem from="1748076197217" duration="654000" />
+      <workItem from="1748076930778" duration="12000" />
+      <workItem from="1748078405809" duration="896000" />
+      <workItem from="1748082151333" duration="5934000" />
+      <workItem from="1748596599951" duration="2623000" />
+      <workItem from="1748853434048" duration="53862000" />
+      <workItem from="1750334996663" duration="76341000" />
+      <workItem from="1752851001130" duration="98005000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/nest_server/test/app.e2e-spec.d.ts" />
+        <option value="$PROJECT_DIR$/nest_server/test/app.e2e-spec.js" />
+        <option value="$PROJECT_DIR$/nest_server/test/app.e2e-spec.js.map" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

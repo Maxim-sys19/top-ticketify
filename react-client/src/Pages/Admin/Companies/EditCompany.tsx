@@ -1,10 +1,11 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import EditCompanyForm from '../../../Components/Form/BaseForm'
 import EditCompanyModal from '../../../Components/Modal/BaseModal'
 import {Field} from "../../../Components/Form/FormFieldTypes";
 import {useUpdateCompanyMutation} from "../../../redux/api/admin/company/company.api.service";
 import {parseErrors} from "../../../helpers/parseErrors";
-import { IEditEntityProps } from '../../../interfaces/create-entitie-interfaces';
+import {IEditEntityProps} from '../../../interfaces/create-entitie-interfaces';
+import {useFormHandlers} from "../../../hooks/useFormHandlers";
 
 
 interface EditCompanyFormValues {
@@ -14,17 +15,25 @@ interface EditCompanyFormValues {
 
 const editCompanyFormFields: Field[] = [
   {name: 'company_name', type: 'text', inputType: 'input', label: 'edit name', placeholder: 'edit company name'},
-  {name: 'company_description', type: 'textarea', inputType: 'textarea', label: 'edit description', placeholder: 'edit company description'},
+  {
+    name: 'company_description',
+    type: 'textarea',
+    inputType: 'textarea',
+    label: 'edit description',
+    placeholder: 'edit company description'
+  },
 ]
 
 function EditCompany<T extends Record<string, any>>({show, onClose, entity}: IEditEntityProps<T>) {
   const [updateCompany, {isLoading, error}] = useUpdateCompanyMutation()
   const errors = parseErrors(error)
-  const initialValues: EditCompanyFormValues = {
-    company_name: entity?.name,
-    company_description: entity?.description
-  }
-  const handleSubmit = async (data: EditCompanyFormValues) => {
+  const initialValues = useMemo(() => {
+    return {
+      company_name: entity?.name,
+      company_description: entity?.description
+    }
+  }, [entity?.description, entity?.name])
+  const handleUpdateCompany = async (data: EditCompanyFormValues) => {
     const companyData = {
       id: entity?.id,
       body: {
@@ -34,6 +43,10 @@ function EditCompany<T extends Record<string, any>>({show, onClose, entity}: IEd
     }
     await updateCompany(companyData)
   }
+  const {values, handleChange, handleSubmit} = useFormHandlers<EditCompanyFormValues>({
+    initialValue: initialValues,
+    onSubmit: handleUpdateCompany
+  })
   return (
     <EditCompanyModal title="Edit company" show={show} backdrop="static" onHide={onClose}>
       <>
@@ -42,8 +55,9 @@ function EditCompany<T extends Record<string, any>>({show, onClose, entity}: IEd
           errors={errors}
           loading={isLoading}
           fields={editCompanyFormFields}
-          initialValue={initialValues}
+          values={values}
           onSubmit={handleSubmit}
+          onChange={handleChange}
         />
       </>
     </EditCompanyModal>

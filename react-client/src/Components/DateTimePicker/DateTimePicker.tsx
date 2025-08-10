@@ -1,17 +1,19 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker'
 interface DateTimePickerProps {
   label: string
-  selectedDate: Date | null
+  value: Date | null
   onChange: (date: Date | null) => void
 }
-const DateTimePicker = ({label, onChange, selectedDate}: DateTimePickerProps) => {
+const DateTimePicker = ({label, onChange, value}: DateTimePickerProps) => {
+  console.log('DatePicker');
+  // console.log('D value :', value)
   return (
     <Form.Group className="mt-3">
       <Form.Label>{label}</Form.Label>
       <DatePicker
-        selected={selectedDate}
+        selected={value}
         onChange={onChange}
         showTimeSelect
         timeFormat="HH:mm"
@@ -23,4 +25,4 @@ const DateTimePicker = ({label, onChange, selectedDate}: DateTimePickerProps) =>
   )
 }
 
-export default DateTimePicker;
+export default memo(DateTimePicker);

@@ -19,7 +19,6 @@ import {
   hashPwd,
 } from '../helpers/authHelpers';
 import { Role } from '../entities/role/role.entity';
-import { MailService } from '../mail/mail.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '../dto/auth/login.dto';
 import { ResetPasswordToken } from '../entities/reset.password.token.entity';
@@ -30,6 +29,7 @@ import { UserRoles } from '../entities/user/user.roles.entity';
 import { UserRole } from '../enums/role.enums';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -44,7 +44,6 @@ export class AuthService {
     private readonly roleRepository: Repository<Role>,
     @InjectRepository(ResetPasswordToken)
     private readonly resetPwdTokenRepository: Repository<ResetPasswordToken>,
-    private readonly mailService: MailService,
     private readonly jwtService: JwtService,
     private readonly redisService: RedisService,
     @Inject('EMAIL_QUEUE_CLIENT') private client: ClientProxy,
@@ -76,7 +75,8 @@ export class AuthService {
       const token = await this.jwtService.signAsync({
         email: dto.email,
       });
-      const savedUser = await this.userRepository.save(data);
+      const createdUser = this.userRepository.create(data);
+      const savedUser = await this.userRepository.save(createdUser);
       setImmediate(() => {
         console.log('set immediate:');
         this.client.emit('email.verification', { user: data, token });
@@ -176,9 +176,11 @@ export class AuthService {
       resetPasswordToken.token = generateToken;
       resetPasswordToken.expiresAt = expiresAt;
       await this.resetPwdTokenRepository.save(resetPasswordToken);
-      const messageId = await this.mailService.emailResetPassword(
-        user,
-        generateToken,
+      const { messageId } = await lastValueFrom(
+        this.client.send('email.resetPwd', {
+          user,
+          generateToken,
+        }),
       );
       return { success: true, id: messageId };
     } catch (err) {

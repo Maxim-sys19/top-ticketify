@@ -29,14 +29,17 @@ export class RouteService {
   async create(createRouteDto: CreateRouteDto) {
     try {
       const route = this.routeRepository.create(createRouteDto);
+      // console.log('route: ', route);
       const createdRoute = await this.routeRepository.save(route);
+      console.log('createdRoute created', createdRoute);
       return { success: true, data: createdRoute };
     } catch (err) {
-      this.logger.error(err.response.message, {
-        statusCode: err.response.statusCode,
-        stack: err.stack,
-      });
-      throw new HttpException(err.response.message, err.response.statusCode);
+      console.log('create route error: ', err);
+      // this.logger.error(err.response.message, {
+      //   statusCode: err.response.statusCode,
+      //   stack: err.stack,
+      // });
+      // throw new HttpException(err.response.message, err.response.statusCode);
     }
   }
 

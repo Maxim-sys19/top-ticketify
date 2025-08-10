@@ -1,0 +1,8 @@
+enum ErrorCode {
+  FETCH_ERROR = 'FETCH_ERROR',
+  UNAUTHORIZED = 'UNAUTHORIZED',
+  BAD_REQUEST = 'BAD_REQUEST',
+  NOT_FOUND = 'NOT_FOUND',
+}
+
+export{ErrorCode}
