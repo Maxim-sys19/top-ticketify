@@ -6,7 +6,6 @@ import {
   ValidationError,
   ValidationPipe,
 } from '@nestjs/common';
-import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { flattenValidationError } from './validationPipe/flattenValidationError';
@@ -33,8 +32,9 @@ async function bootstrap() {
     }),
   );
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  app.setBaseViewsDir(join(__dirname, '../src', 'templates'));
-  app.setViewEngine('hbs');
+  // app.setBaseViewsDir(templatesDir);
+  // app.setViewEngine('hbs');
+  // registerHbsPartialRecursive(partialsDir);
   app.enableShutdownHooks();
   app.enableCors({
     origin: config.get('origin_cors'),

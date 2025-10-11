@@ -1,6 +1,9 @@
 import 'winston-daily-rotate-file';
 import * as winston from 'winston';
-
+export const filterOnly = (level: string) =>
+  winston.format((info) => {
+    return info.level === level ? info : false;
+  })();
 export const errorTransport = new winston.transports.DailyRotateFile({
   filename: 'logs/error-%DATE%.log',
   datePattern: 'YYYY-MM-DD',
@@ -9,6 +12,7 @@ export const errorTransport = new winston.transports.DailyRotateFile({
   maxFiles: '14d',
   level: 'error',
   format: winston.format.combine(
+    filterOnly('error'),
     winston.format.timestamp(),
     winston.format.json(),
   ),

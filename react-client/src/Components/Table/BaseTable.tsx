@@ -25,8 +25,8 @@ function BaseTable<T>({variant, title, data, columns, addElement}: IBaseTablePro
             <tr key={(row as any).id || rowIndex} ref={(e) => addElement ? addElement((row as any).id || rowIndex, e) : null}>
               {columns?.map((col, colIndex) => (
                 <td key={colIndex}>
-                  {typeof col.accessor === 'function'
-                    ? col.accessor(row)
+                  {typeof col.cell === 'function'
+                    ? col.cell(row)
                     : String(row[col.accessor as keyof T])}
                 </td>
               ))}

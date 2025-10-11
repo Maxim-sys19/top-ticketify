@@ -41,4 +41,26 @@ export const AmpqProviders: ClientsProviderAsyncOptions[] = [
       },
     }),
   },
+  {
+    name: 'BOOKING_EXPIRE_CLIENT',
+    inject: [ConfigService],
+    useFactory: (configService: ConfigService): CustomRmqOptions => ({
+      transport: Transport.RMQ,
+      options: {
+        urls: [configService.get<string>('amq_connection')],
+        queue: 'booking.delay.15m',
+        exchange: 'booking.delay.exchange',
+        exchangeType: 'direct',
+        routingKeys: ['booking.delay'],
+        queueOptions: {
+          durable: true,
+          arguments: {
+            'x-message-ttl': 15 * 60 * 1000,
+            'x-dead-letter-exchange': 'booking.expire.exchange',
+            'x-dead-letter-routing-key': 'booking.expire',
+          },
+        },
+      },
+    }),
+  },
 ];

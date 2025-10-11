@@ -12,8 +12,13 @@ export class BookingRepositoryImpl implements BookingRepository {
     @InjectRepository(OrmBookingEntity)
     private readonly repository: Repository<OrmBookingEntity>,
   ) {}
-  async save(booking: Booking): Promise<any> {
+  async save(booking: Booking): Promise<OrmBookingEntity> {
     const orm = BookingMapper.toOrm(booking);
     return await this.repository.save(orm);
+  }
+  async findById(id: string): Promise<Booking> {
+    const orm = await this.repository.findOne({ where: { id } });
+    if (!orm) return null;
+    return BookingMapper.toDomain(orm);
   }
 }

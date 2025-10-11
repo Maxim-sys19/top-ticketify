@@ -19,21 +19,25 @@ export const routesApiService = createApi({
         body
       }),
       transformResponse: (res: any) => {
+        console.log('create route success', res)
         if (res.success) toast("created", toastOptions("success"))
         return res.success;
 
       },
       transformErrorResponse: (err: ErrorResponseTypes) => {
-        if (err.status === 400) {
+        console.log('create route Error: ', err)
+        if (err.status >= 500) toast(err.data.message || ERROR_MESSAGES.BAD_GATEWAY, toastOptions('error'))
+        if (err.data.errors) {
           return err.data.errors
         }
+        if (err.status === 400) toast(err.data.message, toastOptions('error'))
       },
       invalidatesTags: [{type: 'Route'}]
     }),
     getRoutes: builder.query({
       query: (params) => queryWithParams('/routes?', params),
       transformResponse: (res: any) => {
-        let formatedData =  res.data.map((el: any) => ({
+        let formatedData = res.data.map((el: any) => ({
           ...el,
           departureTime: new Date(el.departureTime).toLocaleString(),
           arrivalTime: new Date(el.arrivalTime).toLocaleString(),
@@ -42,7 +46,7 @@ export const routesApiService = createApi({
       },
       transformErrorResponse: (err: any) => {
         console.log('getRoutes with error :', err);
-        if(err.status === ErrorCode.FETCH_ERROR) toast(ERROR_MESSAGES.FETCH_ERROR, toastOptions('error'))
+        if (err.status === ErrorCode.FETCH_ERROR) toast(ERROR_MESSAGES.FETCH_ERROR, toastOptions('error'))
       },
       providesTags: (result: any): any => {
         return result?.data ?
@@ -57,6 +61,7 @@ export const routesApiService = createApi({
         url: `${BASE_URL}/routes/${data.id}`,
         method: 'PUT',
         body: JSON.stringify({
+          routeName: data.routeName,
           start: data.start,
           end: data.end,
           departureTime: data.departureTime,
@@ -69,11 +74,14 @@ export const routesApiService = createApi({
         }
       },
       transformErrorResponse: (err: ErrorResponseTypes) => {
+        console.log('update route err :', err)
+        if (err.status >= 500) toast(err.data.message || ERROR_MESSAGES.BAD_GATEWAY, toastOptions('error'))
+        if (err.status === 404) toast(err.data.message, toastOptions('error'))
         if (err.status === 400) {
           return err.data.errors
         }
       },
-      invalidatesTags: (result: any, error, {id}): any => [{type: 'Route', id}],
+      invalidatesTags: (_, __, {id}): any => [{type: 'Route', id}],
     }),
     deleteRoutes: builder.mutation({
       query: (body) => ({

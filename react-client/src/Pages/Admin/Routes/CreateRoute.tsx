@@ -5,7 +5,7 @@ import CreateRouteModal from "../../../Components/Modal/BaseModal"
 import useOpenModal from "../../../hooks/useOpenModal";
 import {useCreateRouteMutation} from "../../../redux/api/admin/routes/routes.api.service";
 import {parseErrors} from "../../../helpers/parseErrors";
-import {RoutesInputTypes} from '../../../interfaces/routes/route-handles-interface';
+import {CreateRouteInputTypes} from '../../../interfaces/routes/route-handles-interface';
 import RouteFormWrapper from "./RouteFormWrapper";
 
 export const routesFields: Field[] = [
@@ -33,7 +33,7 @@ function CreateRoute() {
   const errors = parseErrors(error)
   const done = data && data === true
   const {show, close, open} = useOpenModal()
-  const submitHandler = useCallback(async (value: RoutesInputTypes) => {
+  const submitHandler = useCallback(async (value: CreateRouteInputTypes) => {
     const data = {
       ...value,
       departureTime: value.departureTime?.toISOString(),
@@ -41,18 +41,25 @@ function CreateRoute() {
     }
     await createRoute(data)
   }, [createRoute])
+  const initialValue = useMemo(() => ({
+    routeName: '',
+    start: null,
+    end: null,
+    departureTime: new Date(),
+    arrivalTime: new Date(),
+  }), [])
   return (
     <div>
       <Button onClick={() => open('create')}>+</Button>
       <CreateRouteModal backdrop="static" title="Create route" show={show === 'create'} onHide={close}>
         <>
-          <RouteFormWrapper<RoutesInputTypes>
+          <RouteFormWrapper<CreateRouteInputTypes>
             done={done}
             errors={errors}
             fields={routesFields}
             loading={isLoading}
             buttonSubmitTitle="create route"
-            // initialValue={initialValues}
+            initialValue={initialValue}
             onSubmit={submitHandler}
           />
         </>

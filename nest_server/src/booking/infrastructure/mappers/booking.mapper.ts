@@ -1,5 +1,6 @@
 import { Booking } from '../../domain/booking';
-import { Booking as OrmBookingEntity } from '../../../entities/booking/booking.entity';
+import { Booking as OrmBookingEntity } from 'src/entities/booking/booking.entity';
+import { BookingStatus } from 'src/booking/domain/value-objects/BookingStatus';
 
 export class BookingMapper {
   static toOrm(domain: Booking): OrmBookingEntity {
@@ -11,10 +12,10 @@ export class BookingMapper {
       orm.routeId = domain.routeId;
       orm.companyId = domain.companyId;
       orm.transportId = domain.transportId;
-      orm.seatId = domain.seatId;
+      orm.seatIds = domain.seatIds;
       orm.bookingTime = domain.bookingTime;
       orm.expirationTime = domain.expirationTime;
-      orm.status = domain.status;
+      orm.status = domain.status.toEnum();
       return orm;
     } catch (error) {
       console.log('BookingMapper error :  ', error);
@@ -27,10 +28,10 @@ export class BookingMapper {
       orm.routeId,
       orm.companyId,
       orm.transportId,
-      orm.seatId,
+      orm.seatIds,
       orm.bookingTime,
       orm.expirationTime,
-      orm.status,
+      BookingStatus.from(orm.status),
     );
   }
 }

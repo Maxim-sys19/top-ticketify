@@ -20,6 +20,7 @@ services:
   phpstorm_remote:
     image: jetbrains-remote
     container_name: phpstorm-container
+    hostname: "phpstorm-${RANDOM_ID}"
     volumes:
       - /home/user/jetbrains/cache:/home/jetbrains/.cache/JetBrains
       - /home/user/sites/top-ticketify:/home/jetbrains/top-ticketify
@@ -61,7 +62,7 @@ services:
 
   rabbitmq_service:
     image: rabbitmq:3-management
-    container_name: top-ticketify-tabbitmq
+    container_name: top-ticketify-rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"

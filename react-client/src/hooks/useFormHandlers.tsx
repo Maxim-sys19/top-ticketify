@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect, useRef} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useMemo, useRef} from "react";
 import {validateOnchange} from "../helpers/validateOnchange";
 
 interface IUseFormHandlers<T> {
@@ -11,12 +11,18 @@ interface IUseFormHandlers<T> {
 }
 
 export function useFormHandlers<T>({initialValue, onSubmit, validators, onDone}: IUseFormHandlers<T>) {
+  console.log('useFormHandlers')
   const [values, setValues] = React.useState<T>(initialValue);
+  // console.log(' useForm values: ', values)
+  // console.log(' useForm initialVaue: ', initialValue)
   useEffect(() => {
     if (onDone !== undefined && onDone) {
       setValues(initialValue);
     }
-  }, [initialValue, onDone]);
+  }, [onDone]);
+  useEffect(() => {
+    setValues(initialValue)
+  }, [initialValue]);
   const getCacheHandler = useRef(new Map<keyof T, (date: Date | null) => void>())
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     const {name, value, type} = e.target;
@@ -59,10 +65,11 @@ export function useFormHandlers<T>({initialValue, onSubmit, validators, onDone}:
     getCacheHandler.current.set(field, handler)
     return handler
   }, [handleDateChange])
-
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // console.log('submit :', values)
     onSubmit(values);
   }, [onSubmit, values]);
-  return {handleChange, memoHandleDateChange, handleSubmit, values, setValues};
+  const memoValues = useMemo(() => values, [values])
+  return {handleChange, memoHandleDateChange, handleSubmit, values: memoValues, setValues};
 }

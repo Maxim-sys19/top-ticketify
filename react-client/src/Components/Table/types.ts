@@ -8,7 +8,8 @@ export enum UserRole {
 
 export interface Column<T> {
   header: string,
-  accessor?: keyof T | ((row: T) => React.ReactNode)
+  cell? : (row: T) => React.ReactNode;
+  accessor?: keyof T | string
 }
 
 export interface TableConfig<T> {

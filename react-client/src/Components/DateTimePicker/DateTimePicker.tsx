@@ -7,7 +7,7 @@ interface DateTimePickerProps {
   onChange: (date: Date | null) => void
 }
 const DateTimePicker = ({label, onChange, value}: DateTimePickerProps) => {
-  console.log('DatePicker');
+  // console.log('DatePicker');
   // console.log('D value :', value)
   return (
     <Form.Group className="mt-3">

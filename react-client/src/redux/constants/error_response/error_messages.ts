@@ -5,6 +5,7 @@ const ERROR_MESSAGES: Record<ErrorCode, string> = {
   [ErrorCode.UNAUTHORIZED]: 'Please login again',
   [ErrorCode.BAD_REQUEST]: 'Invalid request. Please check your data',
   [ErrorCode.NOT_FOUND]: 'Not found',
+  [ErrorCode.BAD_GATEWAY]: 'Internal server error',
 }
 
 export {ERROR_MESSAGES}

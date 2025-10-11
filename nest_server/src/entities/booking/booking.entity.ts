@@ -7,7 +7,7 @@ import {
   Index,
   UpdateDateColumn,
 } from 'typeorm';
-import { BookingStatusEnum } from '../../enums/booking.enums';
+import { BookingStatusEnum } from 'src/enums/booking.enums';
 import { BaseEntityWithID } from '../base.entity';
 import { customAlphabet } from 'nanoid';
 
@@ -18,14 +18,14 @@ const generateBookingCode = customAlphabet(
 @Index(['userId', 'routeId'])
 @Entity('bookings')
 export class Booking extends BaseEntityWithID {
-  @Column()
+  @Column({ type: 'varchar', length: 36 })
   userId: string;
-  @Column()
+  @Column({ type: 'varchar', length: 36 })
   routeId: string;
-  @Column()
+  @Column({ type: 'varchar', length: 36 })
   transportId: string;
-  @Column()
-  seatId: string;
+  @Column({ type: 'varchar', length: 36 })
+  seatIds: string[];
   @Column({
     type: 'enum',
     enum: BookingStatusEnum,
@@ -34,10 +34,10 @@ export class Booking extends BaseEntityWithID {
   status: BookingStatusEnum;
   @Column({ unique: true })
   uniqueId: string;
-  @Column()
+  @Column({ type: 'varchar', length: 36 })
   companyId: string;
-  @Column()
-  bookingTime: Date;
+  @Column({ type: 'datetime' })
+  bookingTime: Date | string;
   @Column()
   expirationTime: Date;
   @CreateDateColumn()

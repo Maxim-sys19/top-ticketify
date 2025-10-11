@@ -6,12 +6,12 @@ import {
   TableInheritance,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserStatus } from '../../enums/user.enums';
+import { UserStatus } from 'src/enums/user.enums';
 import { Exclude } from 'class-transformer';
 import {
   AuthProviderEnums,
   AuthProviderType,
-} from '../../enums/auth.provider.enums';
+} from 'src/enums/auth.provider.enums';
 import { BaseEntityWithID } from '../base.entity';
 
 @Entity({

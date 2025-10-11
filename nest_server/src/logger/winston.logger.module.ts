@@ -6,6 +6,8 @@ import {
 import * as winston from 'winston';
 import { errorTransport } from './error.transport';
 import { infoTransport } from './info.transport';
+import {warnTransport} from "./warning.transport";
+import {exceptionTransport} from "./exceptions.transport";
 
 @Global()
 @Module({
@@ -25,21 +27,10 @@ import { infoTransport } from './info.transport';
           ),
         }),
         infoTransport,
+        warnTransport,
         errorTransport,
       ],
-      exceptionHandlers: [
-        new winston.transports.DailyRotateFile({
-          filename: 'logs/exceptions-%DATE%.log',
-          datePattern: 'YYYY-MM-DD',
-          zippedArchive: true,
-          maxSize: '20m',
-          maxFiles: '14d',
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.json(),
-          ),
-        }),
-      ],
+      exceptionHandlers: [exceptionTransport],
     }),
   ],
   exports: [WinstonModule],

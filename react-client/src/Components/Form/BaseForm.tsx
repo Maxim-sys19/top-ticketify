@@ -7,6 +7,7 @@ import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import {useFormHandlers} from "../../hooks/useFormHandlers";
 
 const BaseForm = <T extends Record<string, any>>(props: any) => {
+  // console.log('BaseForm')
   const {
     fields,
     values,
@@ -18,7 +19,6 @@ const BaseForm = <T extends Record<string, any>>(props: any) => {
     loading,
     errors,
   } = props;
-
   return (
     <Form onSubmit={onSubmit}>
       {
@@ -42,7 +42,8 @@ const BaseForm = <T extends Record<string, any>>(props: any) => {
             />
           }
           {
-            (field.inputType === 'input' || field.inputType === 'textarea') && (<Input field={field} onChange={onChange} value={values[field?.name] ?? ''} />)
+            (field.inputType === 'input' || field.inputType === 'textarea') && (
+              <Input field={field} onChange={onChange} value={values[field?.name] ?? ''} />)
           }
         </div>
       ))}

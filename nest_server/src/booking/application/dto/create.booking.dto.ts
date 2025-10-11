@@ -1,4 +1,10 @@
-import { IsDateString, IsNotEmpty } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsDateString,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export class CreateBookingDto {
   @IsNotEmpty()
@@ -10,8 +16,10 @@ export class CreateBookingDto {
   @IsNotEmpty()
   transportId: string;
 
-  @IsNotEmpty()
-  seatId: string;
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsString({ each: true })
+  seatIds: string[];
 
   @IsDateString()
   bookingTime: string;

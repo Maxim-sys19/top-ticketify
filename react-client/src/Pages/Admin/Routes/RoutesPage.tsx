@@ -10,12 +10,15 @@ import EditRoute from './EditRoute';
 import useOpenModal from '../../../hooks/useOpenModal';
 import {useSafePagination} from '../../../hooks/useSafePagination';
 import {useRoles} from '../../../hooks/useRoles';
+import {CreateRouteInputTypes} from "../../../interfaces/routes/route-handles-interface";
 
 export interface Route {
   id: number;
   routeName: string,
-  start: string;
-  end: string;
+  start_address: string;
+  end_address: string;
+  distance_meters: {text: string, value: number},
+  duration_seconds: {text: string, value: number},
   departureTime: string;
   arrivalTime: string;
   routeCode: string;
@@ -79,7 +82,7 @@ const RoutesPage = () => {
               <Button className="btn btn-danger float-lg-end" onClick={handleDeleteRoutes}>Delete</Button>}
             {selectRow &&
               <EditRoute<Route> show={show === 'edit'} onClose={handleCloseRow}
-                                entity={show === 'edit' ? selectRow : undefined} />
+                                entity={selectRow!} />
             }
             <RoutesTable<Route>
               title="Routes"

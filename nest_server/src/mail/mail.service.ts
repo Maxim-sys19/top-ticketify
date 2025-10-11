@@ -1,6 +1,7 @@
-import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { User } from '../entities/user/user.entity';
+import { PayloadTypes } from 'src/mail/send.email.payload.types';
 
 @Injectable()
 export class MailService {
@@ -50,6 +51,32 @@ export class MailService {
         });
     } catch (err) {
       throw new HttpException(err.message, err.status);
+    }
+  }
+  async emailBooking({
+    email,
+    subject,
+    title,
+    template,
+    payload,
+  }: PayloadTypes) {
+    // console.log(template);
+    try {
+      return await this.mailerService.sendMail({
+        to: email,
+        subject,
+        template: 'email_notifications',
+        context: {
+          title,
+          partialName: template,
+          ...payload,
+        },
+      });
+    } catch (e) {
+      this.logger.error(e.message, {
+        statusCode: HttpStatus.SERVICE_UNAVAILABLE,
+        stack: e.stack,
+      });
     }
   }
 }

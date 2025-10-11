@@ -97,7 +97,7 @@ function CompanyPage() {
           Delete
         </Button>
       }
-      {selectRow && <EditCompany<Omit<Company, 'id' | 'users'>> show={show === 'edit'} onClose={handleClose} entity={selectRow} />}
+      {selectRow && <EditCompany<Omit<Company, 'id' | 'users'>> show={show === 'edit'} onClose={handleClose} entity={selectRow!} />}
       <CompanyTable<Company>
         checked={selectIds}
         handleCheck={handleCheckCompany}

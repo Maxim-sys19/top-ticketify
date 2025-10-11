@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {Form} from "react-bootstrap";
 
 const Input = ({field, onChange, value}: any) => {
-  console.log('Input');
+  // console.log('Input');
   return (
     <Form.Group className="mb-3">
       <Form.Control

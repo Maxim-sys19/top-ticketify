@@ -1,37 +1,30 @@
-import React, {memo, useMemo, useRef} from 'react';
+import React, {memo, useMemo} from 'react';
 import BaseForm from "../../../Components/Form/BaseForm";
 import {FormComponentPropTypes} from "../../../Components/Form/FormComponentPropTypes";
-import {RoutesInputTypes} from "../../../interfaces/routes/route-handles-interface";
+import {CreateRouteInputTypes} from "../../../interfaces/routes/route-handles-interface";
 import {useFormHandlers} from "../../../hooks/useFormHandlers";
 import RouteGoogleMapWrapper from "./RouteGoogleMapWrapper";
 import {useGoogleMapHandlers} from "../../../hooks/useGoogleMapHandlers";
 
-function RouteFormWrapper<T extends RoutesInputTypes>({
+function RouteFormWrapper<T extends CreateRouteInputTypes>({
                                                         loading,
                                                         fields,
                                                         selectValues,
-                                                        // initialValue,
+                                                        initialValue,
                                                         onSubmit,
                                                         buttonSubmitTitle,
                                                         errors,
                                                         done
                                                       }: FormComponentPropTypes<T>) {
   // console.log(2)
-  const memoInitialValues: RoutesInputTypes = useMemo(() => ({
-    routeName: '',
-    start: null,
-    end: null,
-    departureTime: new Date(),
-    arrivalTime: new Date(),
-  }), [])
   const {
     handleSubmit,
     memoHandleDateChange,
     handleChange,
     values,
     setValues
-  } = useFormHandlers<RoutesInputTypes>({
-    initialValue: memoInitialValues, onSubmit, onDone: done, validators: {
+  } = useFormHandlers<CreateRouteInputTypes>({
+    initialValue, onSubmit, onDone: done, validators: {
       arrivalTime: (val, prev): Partial<T> => {
         if (val) {
           const selectedDate = new Date(val)
@@ -56,10 +49,10 @@ function RouteFormWrapper<T extends RoutesInputTypes>({
       }
     }
   })
-  const stableInitialStartEnd = useRef({
-    start: values.start,
-    end: values.end
-  });
+  const stableInitialStartEnd = useMemo(() => ({
+    start: initialValue.start,
+    end: initialValue.end
+  }), [initialValue.start, initialValue.end])
   const memoValues = useMemo(() => ({
     routeName: values.routeName,
     departureTime: values.departureTime,
@@ -68,14 +61,13 @@ function RouteFormWrapper<T extends RoutesInputTypes>({
   const {
     routes,
     mapHandleClick,
-    clearDirection,
-    directions,
     isLoaded,
+    setMapInstance,
     applyPoint
   } = useGoogleMapHandlers<Pick<T, 'start' | 'end'>>({
-    initialRoutes: {start: stableInitialStartEnd.current.start, end: stableInitialStartEnd.current.end},
+    initialRoutes: stableInitialStartEnd,
     onPointChange: (pointType, latLng) => {
-      if(pointType === 'start') {
+      if (pointType === 'start') {
         setValues((prev) => ({
           ...prev,
           start: latLng,
@@ -90,17 +82,17 @@ function RouteFormWrapper<T extends RoutesInputTypes>({
       }
     }
   })
+  if(!isLoaded) return <p>loading map...</p>
   return <>
-    <RouteGoogleMapWrapper
+    {isLoaded  && <RouteGoogleMapWrapper
+      setMapInstance={setMapInstance}
       start={routes.start}
       end={routes.end}
-      directions={directions}
-      isLoaded={isLoaded}
+      // isLoaded={isLoaded}
       mapHandleClick={mapHandleClick}
-      clearDirection={clearDirection}
       applyPoint={applyPoint}
-    />
-    <BaseForm<RoutesInputTypes>
+    />}
+    <BaseForm<CreateRouteInputTypes>
       buttonSubmitTitle={buttonSubmitTitle}
       loading={loading}
       values={memoValues}

@@ -9,7 +9,7 @@ export const rabbitMicroservices = async (
     {
       transport: Transport.RMQ,
       options: {
-        urls: [config.get<string>('amq_connection')], //amqp://guest:guest@172.18.0.3:5672
+        urls: [config.get<string>('amq_connection')],
         queue: 'user_queue',
         queueOptions: { durable: false },
       },
@@ -17,12 +17,21 @@ export const rabbitMicroservices = async (
     {
       transport: Transport.RMQ,
       options: {
-        urls: [config.get<string>('amq_connection')], // amqp://guest:guest@172.18.0.3:5672
+        urls: [config.get<string>('amq_connection')],
         queue: 'email_queue',
         queueOptions: { durable: false },
         prefetchCount: 100,
         noAck: false,
       },
     },
+    // {
+    //   transport: Transport.RMQ,
+    //   options: {
+    //     urls: [config.get<string>('amq_connection')],
+    //     queue: 'booking.expire.queue',
+    //     queueOptions: { durable: true },
+    //     noAck: false,
+    //   },
+    // },
   ];
 };

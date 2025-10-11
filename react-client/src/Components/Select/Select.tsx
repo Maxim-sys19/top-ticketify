@@ -15,6 +15,7 @@ interface BaseSelectProps{
 }
 
 function Select({onChange, value, field, selectValues}: BaseSelectProps) {
+  console.log('Select')
   return (
     <Form.Select name={field?.name} onChange={onChange} value={value} aria-label="Default select example">
       <option value="">{field?.label}</option>

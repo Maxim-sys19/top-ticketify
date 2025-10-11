@@ -3,6 +3,7 @@ import BaseTable, {IBaseTableProps} from "../../../Components/Table/BaseTable";
 import {Button, InputGroup} from "react-bootstrap";
 import {Column} from "../../../Components/Table/types";
 import {SelectedUsersRowType} from "./Company";
+import {createColumn, createColumnAction} from "../../../helpers/createColumn";
 
 export interface InteractWithTablePros<T> extends IBaseTableProps<T> {
   handleEdit: (row: T) => void,
@@ -25,22 +26,22 @@ function CompanyTable<T extends {id: number, name: string, users: SelectedUsersR
   }, [handleCheck])
   const companyColumns = useMemo<Column<T>[]>(() => {
     const companyColumns: Column<T>[] = [
-      {header: '#', accessor: 'id'},
-      {header: 'Company', accessor: 'name'},
-      {header: 'Users of company', accessor: (row) => <Button onClick={() => handleUserClick(row.users)}>users</Button>},
+      createColumn<T>('ID', 'id'),
+      createColumn<T>('Company', 'name'),
+      createColumnAction('users', (row) => <Button onClick={() => handleUserClick(row.users)}>users</Button>),
     ]
     if (role) {
       companyColumns!.push(
-        {header: 'Edit', accessor: (row) => <Button className="btn btn-warning" onClick={() => handleEditClick(row)}>edit</Button>},
-        {header: 'Delete', accessor: (row) => <InputGroup>
-            <InputGroup.Checkbox
-              onChange={() => handleCheckChange((row as T).id)}
-              type="checkbox"
-              id={`cmp_${row.id}`}
-              checked={checked?.has(row.id)}
-            />
-          </InputGroup>
-        }
+        createColumnAction('Edit', (row) => <Button className="btn btn-warning" onClick={() => handleEditClick(row)}>edit</Button>),
+        createColumnAction('Delete', (row) =>
+          <InputGroup>
+          <InputGroup.Checkbox
+            onChange={() => handleCheckChange((row as T).id)}
+            type="checkbox"
+            id={`cmp_${row.id}`}
+            checked={checked?.has(row.id)}
+          />
+        </InputGroup>),
       )
     }
         return companyColumns

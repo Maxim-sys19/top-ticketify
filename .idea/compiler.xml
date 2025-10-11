@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="TypeScriptCompiler">
-    <option name="nodeInterpreterTextField" value="$PROJECT_DIR$/react-client/node_modules/node/bin/node" />
+    <option name="nodeInterpreterTextField" value="$APPLICATION_CONFIG_DIR$/node/versions/22.20.0/bin/node" />
     <option name="recompileOnChanges" value="true" />
+    <option name="typeScriptServiceDirectory" value="$PROJECT_DIR$/nest_server/node_modules/typescript" />
+    <option name="versionType" value="SERVICE_DIRECTORY" />
   </component>
 </project>

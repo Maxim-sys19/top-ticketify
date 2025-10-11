@@ -2,27 +2,25 @@ import React, {useEffect, useRef} from 'react';
 import {BaseGoogleMap, BaseGoogleMapProps} from "../../../Components/Map/BaseGoogleMap";
 import {LatLngLiteral} from "../../../interfaces/routes/route-handles-interface";
 import {SourceType} from "../../../hooks/useGoogleMapHandlers";
-import {Autocomplete, DirectionsRenderer, Marker} from "@react-google-maps/api";
+import {Autocomplete} from "@react-google-maps/api";
 import {useReverseGeocoding} from "../../../hooks/useReverseGeocoding";
 
 interface RouteGoogleMapWrapperProps extends BaseGoogleMapProps {
   start: LatLngLiteral | null,
   end: LatLngLiteral | null,
-  directions: google.maps.DirectionsResult | null,
-  clearDirection: () => void,
-  isLoaded: boolean,
+  // isLoaded: boolean,
   applyPoint: (lat: number, lng: number, source: SourceType) => void
 }
 
 function RouteGoogleMapWrapper({
                                  start,
                                  end,
+                                 setMapInstance,
                                  applyPoint,
-                                 clearDirection,
-                                 directions,
-                                 isLoaded,
+                                 // isLoaded, // !
                                  mapHandleClick
                                }: RouteGoogleMapWrapperProps) {
+  // console.log('RouteGoogleMapWrapper')
   const startAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const endAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const startInputRef = useRef<HTMLInputElement | null>(null);
@@ -60,7 +58,7 @@ function RouteGoogleMapWrapper({
     const ac = endAutocompleteRef.current
     if (!ac) return
     const place = ac.getPlace()
-    if (!place.geometry) return
+    if (!place!.geometry) return
     if (!place.geometry.location) return
     const lat = place.geometry.location.lat();
     const lng = place.geometry.location.lng();
@@ -68,26 +66,22 @@ function RouteGoogleMapWrapper({
     console.log('end place lng :', lng)
     applyPoint(lat, lng, 'endAutocomplete')
   }
-  if (!isLoaded) return (<p>... google map loading</p>)
   return (
     <>
-      {isLoaded && (
-        <>
-          <Autocomplete onLoad={(ref) => (startAutocompleteRef.current = ref)} onPlaceChanged={onStartPlaceChanged}>
-            <input ref={startInputRef} type="text" placeholder="start route" className="form-control mb-3" />
-          </Autocomplete>
-          <Autocomplete onLoad={(ref) => (endAutocompleteRef.current = ref)} onPlaceChanged={onEndPlaceChanged}>
-            <input ref={endInputRef} disabled={!start} type="text" placeholder="end route" className="form-control mb-3" />
-          </Autocomplete>
-          <BaseGoogleMap mapHandleClick={mapHandleClick}>
-            {() => (<>
-              {!directions && start && <Marker position={start} label="A" />}
-              {!directions && end && <Marker position={end} label="B" />}
-              {directions && <DirectionsRenderer directions={directions} />}
-            </>)}
-          </BaseGoogleMap>
-        </>
-      )}
+      <Autocomplete onLoad={(ref) => (startAutocompleteRef.current = ref)} onPlaceChanged={onStartPlaceChanged}>
+        <input ref={startInputRef} type="text" placeholder="start route" className="form-control mb-3" />
+      </Autocomplete>
+      <Autocomplete onLoad={(ref) => (endAutocompleteRef.current = ref)} onPlaceChanged={onEndPlaceChanged}>
+        <input ref={endInputRef} disabled={!start} type="text" placeholder="end route"
+               className="form-control mb-3" />
+      </Autocomplete>
+      <BaseGoogleMap mapHandleClick={mapHandleClick} setMapInstance={setMapInstance}>
+        {() => (<>
+          {/*{!directions && start && <Marker position={start} label="A" />}*/}
+          {/*{!directions && end && <Marker position={end} label="B" />}*/}
+          {/*{directions && <DirectionsRenderer directions={directions} />}*/}
+        </>)}
+      </BaseGoogleMap>
     </>
   )
 }

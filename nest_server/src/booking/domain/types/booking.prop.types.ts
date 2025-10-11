@@ -3,6 +3,8 @@ export interface BookingPropTypes {
   routeId: string;
   companyId: string;
   transportId: string;
-  seatId: string;
-  bookingTime: Date;
+  seatIds: string[];
+  bookingTime: string | Date;
+  // userName?: string;
+  // userEmail?: string;
 }

@@ -29,13 +29,13 @@ function EditCompany<T extends Record<string, any>>({show, onClose, entity}: IEd
   const errors = parseErrors(error)
   const initialValues = useMemo(() => {
     return {
-      company_name: entity?.name,
-      company_description: entity?.description
+      company_name: entity.name,
+      company_description: entity.description
     }
-  }, [entity?.description, entity?.name])
+  }, [entity.description, entity.name])
   const handleUpdateCompany = async (data: EditCompanyFormValues) => {
     const companyData = {
-      id: entity?.id,
+      id: entity.id,
       body: {
         company_name: data.company_name,
         company_description: data.company_description

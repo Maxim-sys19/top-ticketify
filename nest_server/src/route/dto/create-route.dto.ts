@@ -11,9 +11,6 @@ export class CreateRouteDto {
   @ValidateNested({ message: 'please apply location for end' })
   @Type(() => CoordinateDto)
   end: CoordinateDto;
-  @ValidateNested({ each: true })
-  @Type(() => CoordinateDto)
-  path: CoordinateDto[];
   @IsDate()
   @Type(() => Date)
   departureTime: Date;
