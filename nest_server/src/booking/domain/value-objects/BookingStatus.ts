@@ -1,8 +1,7 @@
-import {BookingStatusEnum} from 'src/enums/booking.enums';
+import { BookingStatusEnum } from 'src/enums/booking.enums';
 
 export class BookingStatus {
-  constructor(private readonly value: BookingStatusEnum) {
-  }
+  constructor(private readonly value: BookingStatusEnum) {}
 
   static Booked = new BookingStatus(BookingStatusEnum.BOOKED);
   static Confirmed = new BookingStatus(BookingStatusEnum.CONFIRMED);
@@ -88,6 +87,10 @@ export class BookingStatus {
   }
 
   toExpired(): BookingStatus {
+    if (this.value === BookingStatusEnum.EXPIRED) {
+      console.log('isExpired');
+      return this;
+    }
     if (
       ![BookingStatusEnum.PENDING, BookingStatusEnum.BOOKED].includes(
         this.value,

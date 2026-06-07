@@ -5,13 +5,14 @@ type Option = {
   label: string;
   value: string | number;
 }
-interface BaseSelectProps{
+export interface BaseSelectProps{
   label? :string;
   options? : Option[];
-  value: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value: any
+  onChange?: (e: any) => void;
   field: any,
   selectValues?: any[],
+  multiple?: boolean;
 }
 
 function Select({onChange, value, field, selectValues}: BaseSelectProps) {

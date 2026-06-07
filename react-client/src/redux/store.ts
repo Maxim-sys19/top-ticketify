@@ -7,6 +7,7 @@ import {transportApiService} from "./api/admin/transport/transport.api.service";
 import {myCompanyApiService} from './api/admin/company/myCompany.api.service';
 import {routesApiService} from "./api/admin/routes/routes.api.service";
 import {oauthService} from "./api/auth/oauth.service";
+import {companyWithTransportsApiService} from "./api/admin/company/company.with.transports.api.service";
 
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     [transportApiService.reducerPath]: transportApiService.reducer,
     [myCompanyApiService.reducerPath]: myCompanyApiService.reducer,
     [routesApiService.reducerPath]: routesApiService.reducer,
+    [companyWithTransportsApiService.reducerPath]: companyWithTransportsApiService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
@@ -28,6 +30,7 @@ export const store = configureStore({
       transportApiService.middleware,
       myCompanyApiService.middleware,
       routesApiService.middleware,
+      companyWithTransportsApiService.middleware,
     ])
 });
 

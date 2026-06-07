@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ReleaseSeatsCommand } from 'src/booking/application/commands/release.seats.command';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Seat } from 'src/entities/seat/seat.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
@@ -26,7 +26,7 @@ export class ReleaseSeatsCommandHandler
         })
         .whereInIds(command.seatIds)
         .execute();
-      console.log('Seats released : ', updatedSeats);
+      console.log('Seats released1 : ', updatedSeats);
     } catch (err) {
       console.log('Error ReleaseSeatsCommandHandler : ', err);
       throw err;

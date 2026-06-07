@@ -26,6 +26,7 @@ import { SeatTicket } from '../entities/seat/seat.ticket';
 import { TransportCompany } from '../entities/transport/transport.company';
 import { CompanyTransports } from '../entities/company/company.transports';
 import { Booking } from '../entities/booking/booking.entity';
+import { OutboxEntity } from 'src/entities/outbox/infrastructure/outbox.entity';
 
 @Module({
   imports: [
@@ -65,11 +66,13 @@ import { Booking } from '../entities/booking/booking.entity';
           RouteTickets,
           RouteCompany,
           Booking,
+          OutboxEntity,
         ],
         connectTimeout: 10000,
         retryAttempts: 5,
         retryDelay: 3000,
-        synchronize: true,
+        synchronize: false,
+        migrationsRun: false,
       }),
     }),
   ],

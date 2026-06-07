@@ -1,9 +1,9 @@
 import { ValidateNested } from 'class-validator';
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { UserDto } from '../../dto/auth/user.dto';
+import { UserDto } from 'src/dto/auth/user.dto';
 import { Type } from 'class-transformer';
 import { CompanyDto } from './company.dto';
-import { RolesDto } from '../../dto/roles/roles.dto';
+import { RolesDto } from 'src/dto/roles/roles.dto';
 
 export class CreateCompanyUserDto extends OmitType(PartialType(UserDto), [
   'confirm_password',

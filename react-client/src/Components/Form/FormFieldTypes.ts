@@ -1,4 +1,4 @@
-type FieldType = 'text' | 'number' | 'email' | 'password' | 'select' | 'textarea' | 'datetime-local';
+type FieldType = 'text' | 'number' | 'email' | 'password' | 'select' | 'textarea' | 'datetime-local' | 'optgroup' | 'option';
 
 export interface Field {
   name: string;
@@ -6,4 +6,5 @@ export interface Field {
   label: string;
   type: FieldType;
   placeholder?: string;
+  children?: Field[]
 }

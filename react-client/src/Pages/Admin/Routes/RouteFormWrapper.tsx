@@ -7,16 +7,15 @@ import RouteGoogleMapWrapper from "./RouteGoogleMapWrapper";
 import {useGoogleMapHandlers} from "../../../hooks/useGoogleMapHandlers";
 
 function RouteFormWrapper<T extends CreateRouteInputTypes>({
-                                                        loading,
-                                                        fields,
-                                                        selectValues,
-                                                        initialValue,
-                                                        onSubmit,
-                                                        buttonSubmitTitle,
-                                                        errors,
-                                                        done
-                                                      }: FormComponentPropTypes<T>) {
-  // console.log(2)
+                                                             loading,
+                                                             fields,
+                                                             selectValues,
+                                                             initialValue,
+                                                             onSubmit,
+                                                             buttonSubmitTitle,
+                                                             errors,
+                                                             done
+                                                           }: FormComponentPropTypes<T>) {
   const {
     handleSubmit,
     memoHandleDateChange,
@@ -57,7 +56,16 @@ function RouteFormWrapper<T extends CreateRouteInputTypes>({
     routeName: values.routeName,
     departureTime: values.departureTime,
     arrivalTime: values.arrivalTime,
-  }), [values.routeName, values.departureTime, values.arrivalTime])
+    company: {
+      id: values.company?.id,
+      transports: values.company?.transports?.map((transport) => ({
+        id: transport?.id,
+        seatIds: transport?.seatIds
+      })),
+    },
+  }), [values.routeName, values.departureTime, values.arrivalTime, values.company?.id, values.company?.transports])
+  // console.log('values --- ', values)
+  // console.log('memoValues :', memoValues)
   const {
     routes,
     mapHandleClick,
@@ -82,9 +90,9 @@ function RouteFormWrapper<T extends CreateRouteInputTypes>({
       }
     }
   })
-  if(!isLoaded) return <p>loading map...</p>
+  if (!isLoaded) return <p>loading map...</p>
   return <>
-    {isLoaded  && <RouteGoogleMapWrapper
+    {isLoaded && <RouteGoogleMapWrapper
       setMapInstance={setMapInstance}
       start={routes.start}
       end={routes.end}

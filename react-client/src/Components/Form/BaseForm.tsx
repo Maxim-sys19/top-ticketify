@@ -1,10 +1,10 @@
-import React, {JSX, memo, useEffect} from 'react';
-import {FormComponentPropTypes} from "./FormComponentPropTypes";
+import React, {JSX, memo} from 'react';
 import {Button, Form} from "react-bootstrap";
 import Input from "../Input/Input";
 import Select from "../Select/Select";
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
-import {useFormHandlers} from "../../hooks/useFormHandlers";
+import NestedSelect from "../Select/NestedSelect";
+import {getNestedValue, getRootName} from "../../helpers/getNestedValue";
 
 const BaseForm = <T extends Record<string, any>>(props: any) => {
   // console.log('BaseForm')
@@ -19,6 +19,7 @@ const BaseForm = <T extends Record<string, any>>(props: any) => {
     loading,
     errors,
   } = props;
+  // console.log('Values :', values)
   return (
     <Form onSubmit={onSubmit}>
       {
@@ -32,6 +33,13 @@ const BaseForm = <T extends Record<string, any>>(props: any) => {
             field.inputType === 'select' &&
             <Select selectValues={selectValues} field={field} onChange={onChange}
                     value={values[field?.name] ?? ''} />
+          }
+          {
+            field.inputType === 'group-select' &&
+            <NestedSelect
+              selectValues={selectValues} onChange={onChange}
+              value={getNestedValue(values, getRootName(field.name)) ?? {}}
+              field={field} />
           }
           {
             field.inputType === 'datetime-local' &&

@@ -1,8 +1,6 @@
-import {Controller} from "@nestjs/common";
+import { Controller } from '@nestjs/common';
 
 @Controller('/payment')
 export class PaymentController {
-  async pay() {
-
-  }
+  async pay() {}
 }

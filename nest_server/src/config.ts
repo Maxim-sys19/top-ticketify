@@ -18,5 +18,6 @@ export default () => ({
   oauth_google_client_id: process.env.OAUTH_GOOGLE_CLIENT_ID,
   oauth_google_client_secret_key: process.env.OAUTH_GOOGLE_CLIENT_SECRET_KEY,
   oauth_google_callback_url: process.env.OAUTH_GOOGLE_CALLBACK_URL,
-  google_map_api_key: process.env.GOOGLE_MAP_API_KEY
+  google_map_api_key: process.env.GOOGLE_MAP_API_KEY,
+  test_stripe_secret_key: process.env.TEST_STRIPE_SECRET_KEY,
 });

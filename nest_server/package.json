@@ -17,7 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d src/database/migration-datasource.ts",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@liaoliaots/nestjs-redis": "^10.0.0",
@@ -46,7 +50,7 @@
     "hbs": "^4.2.0",
     "ioredis": "^5.4.1",
     "mysql2": "^3.11.0",
-    "nanoid": "^5.1.5",
+    "nanoid": "^4.0.2",
     "nest-winston": "^1.9.7",
     "nodemailer": "^6.9.14",
     "passport": "^0.7.0",
@@ -54,6 +58,7 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "stripe": "^19.3.1",
     "typeorm": "^0.3.20",
     "uuid": "^10.0.0",
     "winston": "^3.14.2",

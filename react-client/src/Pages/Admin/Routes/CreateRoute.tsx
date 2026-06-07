@@ -1,34 +1,20 @@
 import React, {useCallback, useMemo} from 'react';
 import {Button} from 'react-bootstrap';
-import {Field} from "../../../Components/Form/FormFieldTypes";
 import CreateRouteModal from "../../../Components/Modal/BaseModal"
 import useOpenModal from "../../../hooks/useOpenModal";
 import {useCreateRouteMutation} from "../../../redux/api/admin/routes/routes.api.service";
 import {parseErrors} from "../../../helpers/parseErrors";
 import {CreateRouteInputTypes} from '../../../interfaces/routes/route-handles-interface';
 import RouteFormWrapper from "./RouteFormWrapper";
+import {createRouteFields} from "./inputFields/createRouteFields";
+import {
+  useGetAllCompaniesWithTransportsAndSeatsQuery
+} from "../../../redux/api/admin/company/company.with.transports.api.service";
 
-export const routesFields: Field[] = [
-  {name: 'routeName', type: 'text', inputType: 'input', label: 'route name', placeholder: 'create route name'},
-  // {name: 'start', type: 'text', inputType: 'input', label: 'from', placeholder: 'start place'},
-  // {name: 'end', type: 'text', inputType: 'input', label: 'to', placeholder: 'end place'},
-  {
-    name: 'departureTime',
-    type: 'datetime-local',
-    inputType: 'datetime-local',
-    label: 'departure time',
-    placeholder: 'departure time'
-  },
-  {
-    name: 'arrivalTime',
-    type: 'datetime-local',
-    inputType: 'datetime-local',
-    label: 'arrival time',
-    placeholder: 'arrival time'
-  }
-]
 
 function CreateRoute() {
+  const {data: companies} = useGetAllCompaniesWithTransportsAndSeatsQuery({})
+
   const [createRoute, {isLoading, error, data}] = useCreateRouteMutation()
   const errors = parseErrors(error)
   const done = data && data === true
@@ -38,15 +24,18 @@ function CreateRoute() {
       ...value,
       departureTime: value.departureTime?.toISOString(),
       arrivalTime: value.arrivalTime?.toISOString(),
+      company: {id: Number(value.company?.id)},
+      transports: value.company?.transports?.map((t) => ({id: Number(t.id), seatIds: t.seatIds})) ?? [],
     }
     await createRoute(data)
   }, [createRoute])
-  const initialValue = useMemo(() => ({
+  const initialValue = useMemo<CreateRouteInputTypes>(() => ({
     routeName: '',
     start: null,
     end: null,
     departureTime: new Date(),
     arrivalTime: new Date(),
+    company: {id: 0, transports: [{id: 0, seatIds: []}],},
   }), [])
   return (
     <div>
@@ -56,11 +45,12 @@ function CreateRoute() {
           <RouteFormWrapper<CreateRouteInputTypes>
             done={done}
             errors={errors}
-            fields={routesFields}
+            fields={createRouteFields}
             loading={isLoading}
             buttonSubmitTitle="create route"
             initialValue={initialValue}
             onSubmit={submitHandler}
+            selectValues={companies as any[]}
           />
         </>
       </CreateRouteModal>

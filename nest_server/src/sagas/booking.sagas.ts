@@ -1,21 +1,14 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { CommandBus, ofType, Saga, UnhandledExceptionBus } from '@nestjs/cqrs';
-import {
-  catchError,
-  EMPTY,
-  from,
-  mergeMap,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { mergeMap, Observable, of, Subject, takeUntil } from 'rxjs';
 import { BookingCreatedEvent } from 'src/booking/domain/events/booking.created.event';
 import { BookingExpiredEvent } from 'src/booking/domain/events/booking.expired.event';
 import { ReleaseSeatsCommand } from 'src/booking/application/commands/release.seats.command';
 import { ScheduleBookingExpirationCommand } from 'src/booking/application/commands/schedule.booking.expiration.command';
 import { LockSeatCommand } from 'src/seat/application/commands/lock.seat.command';
 import { CancelledBookingCommand } from 'src/booking/application/commands/cancelled.booking.command';
+import { SeatLockedEvent } from 'src/seat/domain/events/seat.locked.event';
+import { BookingBookedCommand } from 'src/booking/application/commands/booking.booked.command';
 
 @Injectable()
 export class BookingSagas implements OnModuleDestroy {
@@ -27,7 +20,13 @@ export class BookingSagas implements OnModuleDestroy {
   ) {
     this.unhandledExceptionBus
       .pipe(takeUntil(this.destroy$))
-      .subscribe((exceptionInfo) => {
+      .subscribe(async (exceptionInfo) => {
+        const { cause } = exceptionInfo;
+        if (cause instanceof LockSeatCommand) {
+          await this.commandBus.execute(
+            new CancelledBookingCommand(cause.bookingId),
+          );
+        }
         console.log('Unhandled Exceptions Bus :', exceptionInfo);
       });
   }
@@ -37,31 +36,27 @@ export class BookingSagas implements OnModuleDestroy {
     return events$.pipe(
       ofType(BookingCreatedEvent),
       mergeMap((event: BookingCreatedEvent) =>
-        from(
-          this.commandBus.execute(
-            new LockSeatCommand(event.seatIds, event.id, event.expiresAt),
-          ),
-        ).pipe(
-          tap((result) => console.log('BCCE :', result)),
-          mergeMap((result: any) => {
-            if (!result.isSuccess) {
-              return from([new CancelledBookingCommand(event.id)]);
-            }
-            return from([
-              new ScheduleBookingExpirationCommand(
-                event.id,
-                event.expiresAt,
-                event.userId,
-                event.seatIds,
-              ),
-            ]);
-          }),
-          catchError((err) => {
-            console.log('BookingCreationSaga Err :', err);
-            return EMPTY;
-          }),
+        of(event).pipe(
+          mergeMap((evt) => [
+            new LockSeatCommand(evt.seatIds, evt.id, evt.expiresAt, evt.userId),
+          ]),
         ),
       ),
+    );
+  };
+  @Saga()
+  seatLocked = (events$: Observable<any>) => {
+    return events$.pipe(
+      ofType(SeatLockedEvent),
+      mergeMap((event: SeatLockedEvent) => [
+        new BookingBookedCommand(event.bookingId, event.userId),
+        new ScheduleBookingExpirationCommand(
+          event.bookingId,
+          event.expiresAt,
+          event.userId,
+          event.seatIds,
+        ),
+      ]),
     );
   };
   @Saga()

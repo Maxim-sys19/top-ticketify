@@ -24,7 +24,7 @@ export class Booking extends BaseEntityWithID {
   routeId: string;
   @Column({ type: 'varchar', length: 36 })
   transportId: string;
-  @Column({ type: 'varchar', length: 36 })
+  @Column({ type: 'json' })
   seatIds: string[];
   @Column({
     type: 'enum',

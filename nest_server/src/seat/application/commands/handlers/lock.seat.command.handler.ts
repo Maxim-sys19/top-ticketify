@@ -1,9 +1,13 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { LockSeatCommand } from 'src/seat/application/commands/lock.seat.command';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import {
+  LockSeatCommand,
+  ReturnLockSeatCommandType,
+} from 'src/seat/application/commands/lock.seat.command';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Result } from 'src/shared/result';
+import { Result, ResultSuccessType } from 'src/shared/result';
 import { SeatTransport } from 'src/entities/seat/seat.transport';
+import { SeatLockedEvent } from 'src/seat/domain/events/seat.locked.event';
 
 @CommandHandler(LockSeatCommand)
 export class LockSeatCommandHandler
@@ -12,11 +16,24 @@ export class LockSeatCommandHandler
   constructor(
     @InjectRepository(SeatTransport)
     private readonly seatRepository: Repository<SeatTransport>,
+    private readonly eventBus: EventBus,
   ) {}
 
-  async execute(command: LockSeatCommand): Promise<Result<any>> {
-    const { seatIds, expiresAt, bookingId } = command;
+  async execute(
+    command: LockSeatCommand,
+  ): Promise<ResultSuccessType<ReturnLockSeatCommandType>> {
+    console.log('LockSeatCommandHandler executed :', command);
+    const { seatIds, expiresAt, bookingId, userId } = command;
     try {
+      const existingSeats = await this.seatRepository
+        .createQueryBuilder('seat')
+        .where('seat.id IN (:...seatIds)', { seatIds })
+        .getMany();
+      if (existingSeats.length !== seatIds.length) {
+        const existingIds = existingSeats.map((s) => s.id);
+        const missingIds = seatIds.filter((id) => !existingIds.includes(id));
+        throw new Error(`Seats with ID: ${missingIds.join(', ')} not found`);
+      }
       const updatedAvailableSeats = await this.seatRepository
         .createQueryBuilder()
         .update()
@@ -32,11 +49,14 @@ export class LockSeatCommandHandler
         )
         .execute();
       if (updatedAvailableSeats.affected === 0) {
-        return Result.fail(`Seats not found : ${seatIds.join(', ')}`);
+        throw new Error(`Seats not found : ${seatIds.join(', ')}`);
       }
+      await this.eventBus.publish(
+        new SeatLockedEvent(bookingId, seatIds, userId, expiresAt),
+      );
       return Result.ok({ success: true });
     } catch (err) {
-      console.log('UPDATESEAT ERR :', err);
+      throw err;
     }
   }
 }

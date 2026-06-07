@@ -1,13 +1,17 @@
 import React, {memo, useMemo} from 'react';
 import EditRouteModal from '../../../Components/Modal/BaseModal';
 import {IEditEntityProps} from '../../../interfaces/create-entitie-interfaces';
-import {routesFields} from './CreateRoute';
 import {CreateRouteInputTypes} from '../../../interfaces/routes/route-handles-interface';
 import {useUpdateRouteMutation} from '../../../redux/api/admin/routes/routes.api.service';
 import {parseErrors} from '../../../helpers/parseErrors';
 import RouteFormWrapper from "./RouteFormWrapper";
+import {
+  useGetAllCompaniesWithTransportsAndSeatsQuery
+} from "../../../redux/api/admin/company/company.with.transports.api.service";
+import {editRouteFields} from "./inputFields/editRouteFields";
 
 function EditRoute<T extends Record<string, any>>({entity, show, onClose}: IEditEntityProps<T>) {
+  const {data: companies} = useGetAllCompaniesWithTransportsAndSeatsQuery({})
   const [updateRoute, {error, isLoading}] = useUpdateRouteMutation()
   const errors = error && parseErrors(error)
   const initialValues = useMemo(() => {
@@ -19,7 +23,6 @@ function EditRoute<T extends Record<string, any>>({entity, show, onClose}: IEdit
       arrivalTime: entity.arrivalTime
     }
   }, [entity.start, entity.end, entity.departureTime, entity.arrivalTime, entity.routeName])
-  // console.log(initialValues)
   const handleUpdate = async (body: CreateRouteInputTypes) => {
     const data = {
       id: entity!.id,
@@ -35,10 +38,11 @@ function EditRoute<T extends Record<string, any>>({entity, show, onClose}: IEdit
     <EditRouteModal title="Edit Route" show={show} backdrop="static" onHide={onClose}>
       <RouteFormWrapper<CreateRouteInputTypes>
         errors={errors}
-        fields={routesFields}
+        fields={editRouteFields}
         initialValue={initialValues}
         buttonSubmitTitle="Update Route"
         loading={isLoading}
+        selectValues={companies as any[]}
         onSubmit={handleUpdate}
       />
     </EditRouteModal>

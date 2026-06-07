@@ -10,7 +10,6 @@ import EditRoute from './EditRoute';
 import useOpenModal from '../../../hooks/useOpenModal';
 import {useSafePagination} from '../../../hooks/useSafePagination';
 import {useRoles} from '../../../hooks/useRoles';
-import {CreateRouteInputTypes} from "../../../interfaces/routes/route-handles-interface";
 
 export interface Route {
   id: number;

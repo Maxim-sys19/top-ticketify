@@ -51,25 +51,9 @@ export class Booking extends AggregateRoot {
     );
     return booking;
   }
-  booked(
-    bookingId: string,
-    bookingTime: string | Date,
-    userId: string,
-    seatId: string,
-    transportId: string,
-    routeId: string,
-  ) {
+  booked(bookingId: string, userId: string) {
     this.status = this.status.toBooked();
-    this.apply(
-      new BookingBookedEvent(
-        userId,
-        routeId,
-        seatId,
-        transportId,
-        bookingId,
-        bookingTime,
-      ),
-    );
+    this.apply(new BookingBookedEvent(bookingId, userId));
   }
   confirm() {
     this.status = this.status.toConfirmed();
@@ -77,6 +61,7 @@ export class Booking extends AggregateRoot {
   }
   cancel() {
     this.status = this.status.toCancelled();
+    this.seatIds = [];
     this.apply(new BookingCancelEvent(this.id, this.userId));
   }
   reject() {
@@ -88,8 +73,10 @@ export class Booking extends AggregateRoot {
     this.apply(new BookingCompleteEvent(this.id));
   }
   expired() {
+    const releasedSeatsIds = [...this.seatIds];
     this.status = this.status.toExpired();
-    this.apply(new BookingExpiredEvent(this.id, this.seatIds, this.userId));
+    this.apply(new BookingExpiredEvent(this.id, releasedSeatsIds, this.userId));
+    this.seatIds = [];
   }
   failed() {
     this.status = this.status.toFailed();

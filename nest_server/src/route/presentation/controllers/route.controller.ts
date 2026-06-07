@@ -7,10 +7,10 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { RouteService } from './route.service';
-import { CreateRouteDto } from './dto/create-route.dto';
-import { UpdateRouteDto } from './dto/update-route.dto';
-import { Pagination, PaginationParams } from '../decorators/pagination';
+import { RouteService } from '../../application/services/route.service';
+import { CreateRouteDto } from 'src/route/application/dto/create-route.dto';
+import { UpdateRouteDto } from 'src/route/application/dto/update-route.dto';
+import { Pagination, PaginationParams } from 'src/decorators/pagination';
 import { BulkDeleteDto } from 'src/dto/bulk-delete.dto';
 
 @Controller('routes')
@@ -19,6 +19,7 @@ export class RouteController {
 
   @Post()
   create(@Body() createRouteDto: CreateRouteDto) {
+    console.log('createRouteDTO :', createRouteDto);
     return this.routeService.create(createRouteDto);
   }
 

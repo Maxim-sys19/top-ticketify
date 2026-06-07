@@ -22,7 +22,7 @@ export class MyCronServiceTsService implements OnModuleDestroy {
 
   addCronJob(name: string, cronTime: string, callback: () => void) {
     const job = new CronJob(cronTime, callback);
-    this.schedulerRegistry.addCronJob(name, job);
+    this.schedulerRegistry.addCronJob(name, job as any);
     job.start();
     console.log(`Cron job ${name}: added and started`);
   }

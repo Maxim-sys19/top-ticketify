@@ -7,7 +7,6 @@ import {Field} from "../../../Components/Form/FormFieldTypes";
 import {Button} from "react-bootstrap";
 import useOpenModal from "../../../hooks/useOpenModal";
 import CreateTransportModal from '../../../Components/Modal/BaseModal'
-import {Company} from "../Companies/Company";
 import {useFormHandlers} from "../../../hooks/useFormHandlers";
 
 interface TransportInputTypes {

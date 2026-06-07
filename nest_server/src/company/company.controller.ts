@@ -17,11 +17,15 @@ import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../enums/role.enums';
 import { BulkDeleteDto } from '../dto/bulk-delete.dto';
 import { Pagination, PaginationParams } from '../decorators/pagination';
+import { CompanyTransportsSeatsService } from 'src/company/company.transports.seats.service';
 
 @Controller('company')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CompanyController {
-  constructor(private readonly companyService: CompanyService) {}
+  constructor(
+    private readonly companyService: CompanyService,
+    private readonly companyTransportsSeatsService: CompanyTransportsSeatsService,
+  ) {}
 
   @Post()
   @Roles(UserRole.ADMIN_USER, UserRole.COMPANY_USER)
@@ -51,5 +55,9 @@ export class CompanyController {
     return this.companyService.remove(ids).then((result) => {
       return result;
     });
+  }
+  @Get('transports/seats')
+  async getCompanyTransports() {
+    return this.companyTransportsSeatsService.getTransportsSeatsBelongCompany();
   }
 }

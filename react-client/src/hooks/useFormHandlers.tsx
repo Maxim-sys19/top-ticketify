@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useCallback, useEffect, useMemo, useRef} from "react";
 import {validateOnchange} from "../helpers/validateOnchange";
+import set from "lodash/set"
+import {PropertyPath} from "lodash"
 
 interface IUseFormHandlers<T> {
   initialValue: T;
@@ -10,7 +12,7 @@ interface IUseFormHandlers<T> {
   onDone?: boolean | undefined
 }
 
-export function useFormHandlers<T>({initialValue, onSubmit, validators, onDone}: IUseFormHandlers<T>) {
+export function useFormHandlers<T extends object>({initialValue, onSubmit, validators, onDone}: IUseFormHandlers<T>) {
   console.log('useFormHandlers')
   const [values, setValues] = React.useState<T>(initialValue);
   // console.log(' useForm values: ', values)
@@ -27,19 +29,20 @@ export function useFormHandlers<T>({initialValue, onSubmit, validators, onDone}:
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     const {name, value, type} = e.target;
     setValues(prev => {
+      const updated = structuredClone(prev);
+      let newValue: any = value
       if (type === "number") {
         if (/^[1-9]\d*$/.test(value) || value === '') {
-          return {
-            ...prev,
-            [name]: value,
-          };
+          newValue = value === "" ? "" : Number(value);
+        } else {
+          return prev;
         }
-        return prev;
       }
-      return {
-        ...prev,
-        [name]: value,
-      };
+      if (Array.isArray(newValue) && newValue.length === 1 && Array.isArray(newValue[0])) {
+        newValue = newValue[0];
+      }
+      set(updated as T, name as PropertyPath, newValue);
+      return updated
     });
   }, [])
   const handleDateChange = useCallback((field: keyof typeof values, date: Date | null) => {
@@ -67,7 +70,6 @@ export function useFormHandlers<T>({initialValue, onSubmit, validators, onDone}:
   }, [handleDateChange])
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log('submit :', values)
     onSubmit(values);
   }, [onSubmit, values]);
   const memoValues = useMemo(() => values, [values])

@@ -1,7 +1,7 @@
-import {Command, ICommand} from "@nestjs/cqrs";
+import { Command } from '@nestjs/cqrs';
 
 export class CancelledBookingCommand extends Command<any> {
   constructor(public readonly bookingId: string) {
-    super()
+    super();
   }
 }

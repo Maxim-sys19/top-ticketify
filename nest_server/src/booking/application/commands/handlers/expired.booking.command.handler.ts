@@ -11,21 +11,26 @@ export class ExpiredBookingCommandHandler
     private readonly bookingRepository: BookingRepository,
     private readonly eventPublisher: EventPublisher,
   ) {}
-  async execute({ bookingId }: ExpiredBookingCommand): Promise<any> {
-    console.log('ExpiredBookingCommandHandler : ', bookingId);
+  async execute({
+    bookingId,
+    triggeredBy,
+  }: ExpiredBookingCommand): Promise<any> {
+    console.log(
+      `ExpiredBookingCommandHandler triggered by - ${triggeredBy}  : ${bookingId}`,
+    );
     try {
       const booking = await this.bookingRepository.findById(bookingId);
-      // console.log('foundBooking by id :', booking.id);
       if (!booking)
         throw new NotFoundException(
           `Booking with ID - ${booking.id} not found`,
         );
       const bockingMergeCtx = this.eventPublisher.mergeObjectContext(booking);
       bockingMergeCtx.expired();
-      await this.bookingRepository.save(bockingMergeCtx);
       bockingMergeCtx.commit();
+      await this.bookingRepository.save(bockingMergeCtx);
     } catch (err) {
       console.log('ExpiredBookingCommandHandler Err :', err);
+      throw err;
     }
   }
 }

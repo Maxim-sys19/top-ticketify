@@ -17,18 +17,6 @@ services:
   #      - db_service
   #    networks:
   #      - app-network
-  phpstorm_remote:
-    image: jetbrains-remote
-    container_name: phpstorm-container
-    hostname: "phpstorm-${RANDOM_ID}"
-    volumes:
-      - /home/user/jetbrains/cache:/home/jetbrains/.cache/JetBrains
-      - /home/user/sites/top-ticketify:/home/jetbrains/top-ticketify
-    restart: unless-stopped
-    ports:
-      - "2222:22"
-    networks:
-      - top-ticketify_app-network
 
   db_service:
     image: mysql:latest
@@ -70,6 +58,22 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - top-ticketify_app-network
+
+  stripe_service:
+    image: stripe/stripe-cli:v1.32.0
+    container_name: top-ticketify-stripe
+    command: [ "listen", "--forward-to", "http://host.docker.internal:8000/webhook/stripe" ]
+    env_file:
+      - ./nest_server/.env
+    environment:
+      - STRIPE_API_KEY=${TEST_STRIPE_SECRET_KEY}
+    volumes:
+      - ./stripe:/root/.config/stripe
+    ports:
+      - "12111:12111"
+    networks:
+      - top-ticketify_app-network
+    restart: unless-stopped
 
 volumes:
   rabbitmq_data:

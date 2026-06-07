@@ -1,5 +1,5 @@
-import {Injectable} from "@nestjs/common";
-import {EventBus} from "@nestjs/cqrs";
+import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 
 @Injectable()
 export class DebugService {

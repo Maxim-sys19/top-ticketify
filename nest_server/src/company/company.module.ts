@@ -13,6 +13,7 @@ import { CompanyTransports } from 'src/entities/company/company.transports';
 import { TransportSeats } from 'src/entities/transport/transport.seats';
 import { TransportCompany } from 'src/entities/transport/transport.company';
 import { Seat } from 'src/entities/seat/seat.entity';
+import { CompanyTransportsSeatsService } from 'src/company/company.transports.seats.service';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import { Seat } from 'src/entities/seat/seat.entity';
     ]),
   ],
   controllers: [CompanyController, MyCompanyController],
-  providers: [CompanyService, JwtStrategy],
+  providers: [CompanyService, CompanyTransportsSeatsService, JwtStrategy],
 })
 export class CompanyModule {}

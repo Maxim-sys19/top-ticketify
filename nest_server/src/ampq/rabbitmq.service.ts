@@ -1,84 +1,125 @@
-import {
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-  OnModuleInit,
-} from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import * as amqp from 'amqplib';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
-  private conn: amqp.Connection | null = null;
-  private ch: amqp.Channel;
+export class RabbitmqService implements OnModuleDestroy {
+  private conn: amqp.ChannelModel | null;
+  private connecting: Promise<void> | null = null;
   private readonly logger = new Logger(RabbitmqService.name);
   constructor(private readonly configService: ConfigService) {}
-  async onModuleInit() {
-    await this.connect();
-  }
   async connect() {
+    if (this.conn) return;
+    this.connecting = (async () => {
+      try {
+        this.conn = await amqp.connect(
+          this.configService.get<string>('amq_connection'),
+        );
+        this.conn.on('error', (err) => {
+          this.logger.error('AMQP connections error :', err);
+        });
+        this.conn.on('close', () => {
+          this.logger.log('AMQP connection close');
+          this.conn = null;
+        });
+        this.logger.log('AMQP connected');
+      } catch (err) {
+        this.logger.error(`AMQP connection failed:`, err);
+        this.conn = null;
+        throw err;
+      }
+    })();
     try {
-      this.conn = await amqp.connect(
-        this.configService.get<string>('amq_connection'),
-      );
-      this.ch = await this.conn.createChannel();
-      console.log('Connected to AMQP and channel created');
-    } catch (err) {
-      console.log(`AMQP Error connection :`, err);
-      throw err;
+      await this.connecting;
+    } finally {
+      this.connecting = null;
     }
   }
-  getChannel(): amqp.Channel {
-    if (!this.ch) throw new Error('RabbitMq channel is not initialized');
-    return this.ch;
+  async getConnection() {
+    return this.conn;
   }
-  async assertQueue(queueName: string, options?: amqp.Options.AssertQueue) {
-    return this.getChannel().assertQueue(queueName, options);
+  async createChannel() {
+    await this.connect();
+
+    if (!this.conn) {
+      throw new Error('Connection is null');
+    }
+
+    const ch = await this.conn.createChannel();
+
+    ch.on('error', (err) => {
+      this.logger.error('AMQP channel error', err as any);
+    });
+
+    ch.on('close', () => {
+      this.logger.warn('AMQP channel closed');
+    });
+
+    return ch;
   }
-  async assertExchange(
+  async assertQueueWithChannel(
+    ch: amqp.Channel,
+    queueName: string,
+    options?: amqp.Options.AssertQueue,
+  ) {
+    return ch.assertQueue(queueName, options);
+  }
+  async assertExchangeWithChannel(
+    ch: amqp.Channel,
     exchangeName: string,
     type: string = 'direct',
     options?: amqp.Options.AssertExchange,
   ) {
-    return this.getChannel().assertExchange(exchangeName, type, options);
+    return ch.assertExchange(exchangeName, type, options);
   }
-  async bindQueue(queueName: string, exchangeName: string, routingKey: string) {
-    return this.getChannel().bindQueue(queueName, exchangeName, routingKey);
+  async bindQueueWithChannel(
+    ch: amqp.Channel,
+    queueName: string,
+    exchangeName: string,
+    routingKey: string,
+  ) {
+    return ch.bindQueue(queueName, exchangeName, routingKey);
   }
-  async publishToQueue(
+  async publishToQueueWithChannel(
+    ch: amqp.Channel,
     queueName: string,
     message: any,
     options?: amqp.Options.Publish,
   ) {
     const buffer = Buffer.from(JSON.stringify(message));
-    return this.getChannel().sendToQueue(queueName, buffer, options);
+    return ch.sendToQueue(queueName, buffer, options);
   }
   async publishToExchange(
+    ch: amqp.Channel,
     exchangeName: string,
     routingKey: string,
     message: any,
     options?: amqp.Options.Publish,
   ) {
     const buffer = Buffer.from(JSON.stringify(message));
-    return this.getChannel().publish(exchangeName, routingKey, buffer, options);
+    return ch.publish(exchangeName, routingKey, buffer, options);
   }
   async consume(
+    ch: amqp.Channel,
     queueName: string,
     onMessage: (msg: amqp.ConsumeMessage) => void,
-    options?: amqp.Options.Consume,
+    options?: amqp.Options.Consume & { prefetch: number },
   ) {
-    return this.getChannel().consume(queueName, onMessage, options);
+    try {
+      return ch.consume(queueName, onMessage, options);
+    } catch (err) {
+      throw err;
+    }
   }
-  async ack(msg: amqp.ConsumeMessage) {
-    return this.getChannel().ack(msg);
+  async ack(ch: amqp.Channel, msg: amqp.ConsumeMessage) {
+    return ch.ack(msg);
   }
-  async nack(msg: amqp.ConsumeMessage, requeue = false) {
-    return this.getChannel().nack(msg, false, requeue);
+  async nack(ch: amqp.Channel, msg: amqp.ConsumeMessage, requeue = false) {
+    return ch.nack(msg, false, requeue);
   }
   async onModuleDestroy() {
     try {
-      await this.ch?.close();
-      await this.conn?.close();
+      if (this.conn) await this.conn.close();
       console.log('AMQP connections closed with success');
     } catch (err) {
       console.log('AMQP connections closed with error :', err);

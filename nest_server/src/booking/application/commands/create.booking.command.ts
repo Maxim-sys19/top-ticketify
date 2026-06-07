@@ -1,9 +1,9 @@
 import { Command } from '@nestjs/cqrs';
-
-export class CreateBookingCommand extends Command<{
+export type CreateBookingCommandReturnType = {
   success: boolean;
   message: string;
-}> {
+};
+export class CreateBookingCommand extends Command<CreateBookingCommandReturnType> {
   constructor(
     public readonly userId: string,
     public readonly routeId: string,

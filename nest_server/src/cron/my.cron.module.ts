@@ -11,6 +11,11 @@ import { CompanyCronService } from './company.cron.service';
 import { CompanyUser } from 'src/entities/user/company.user';
 import { Company } from 'src/entities/company/company.entity';
 import { CompanyTransports } from '../entities/company/company.transports';
+import { BookingExpirationWorker } from 'src/booking/application/services/booking.expiration.worker';
+import { Booking } from 'src/entities/booking/booking.entity';
+import { BookingRepository } from 'src/booking/domain/repositories/booking.repository';
+import { BookingRepositoryImpl } from 'src/booking/infrastructure/repositories/booking.repository.impl';
+import { OutboxEntity } from 'src/entities/outbox/infrastructure/outbox.entity';
 
 @Module({
   imports: [
@@ -20,12 +25,16 @@ import { CompanyTransports } from '../entities/company/company.transports';
       CompanyUser,
       Company,
       CompanyTransports,
+      Booking,
+      OutboxEntity,
     ]),
   ],
   providers: [
+    { provide: BookingRepository, useClass: BookingRepositoryImpl },
     SchedulerRegistry,
     MyCronServiceTsService,
     ResetExpiredPwdService,
+    BookingExpirationWorker,
     CompanyCronService,
     CronJobProvider,
   ],

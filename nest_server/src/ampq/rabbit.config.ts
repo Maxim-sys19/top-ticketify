@@ -24,14 +24,5 @@ export const rabbitMicroservices = async (
         noAck: false,
       },
     },
-    // {
-    //   transport: Transport.RMQ,
-    //   options: {
-    //     urls: [config.get<string>('amq_connection')],
-    //     queue: 'booking.expire.queue',
-    //     queueOptions: { durable: true },
-    //     noAck: false,
-    //   },
-    // },
   ];
 };
