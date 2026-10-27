@@ -11,6 +11,7 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { flattenValidationError } from './validationPipe/flattenValidationError';
 import { rabbitMicroservices } from './ampq/rabbit.config';
 import { RmqOptions } from '@nestjs/microservices/interfaces/microservice-configuration.interface';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -32,8 +33,9 @@ async function bootstrap() {
     }),
   );
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  // app.setBaseViewsDir(templatesDir);
-  // app.setViewEngine('hbs');
+  // console.log(__dirname, '..', 'templates');
+  app.setBaseViewsDir(join(__dirname, 'templates'));
+  app.setViewEngine('hbs');
   // registerHbsPartialRecursive(partialsDir);
   app.enableShutdownHooks();
   app.enableCors({
@@ -42,6 +44,7 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: '*',
   });
+  app.setGlobalPrefix('api');
   await app.startAllMicroservices();
   await app.listen(config.get('port')); // 8000
 }

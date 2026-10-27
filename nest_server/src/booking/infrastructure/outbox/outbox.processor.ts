@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Cron } from '@nestjs/schedule';
 import { OutboxRepository } from 'src/outbox/infrastructure/repository/outbox.repository';
+import { BookingBookendIntegrationEvent } from '../events/booking.booked-integration-event';
 
 @Injectable()
 export class OutboxProcessor {
@@ -23,16 +24,14 @@ export class OutboxProcessor {
     }
     console.log(1, outboxEvents);
     for (const event of outboxEvents) {
-      const integrationEvent = {
+      const integrationEvent: BookingBookendIntegrationEvent = {
         eventType: event.eventType,
         aggregateId: event.aggregateId,
         payload: event.payload,
         occuredAt: event.createdAt,
       };
-      await this.clientProxy.emit(event.routingKey, integrationEvent);
+      this.clientProxy.emit(event.routingKey, integrationEvent);
     }
-    await this.outboxRepositoty.markManyProcessed(
-      outboxEvents.map((e) => e.id),
-    );
+    this.outboxRepositoty.markManyProcessed(outboxEvents.map((e) => e.id));
   }
 }

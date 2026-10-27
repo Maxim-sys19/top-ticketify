@@ -6,7 +6,7 @@ import { PaymentPropTypes } from 'src/payment/domain/types/paymentPropTypes';
 import { Amount } from 'src/payment/domain/value-objects/Amount';
 import { PaymentCurrency } from 'src/payment/domain/value-objects/PaymentCurrency';
 import { StripePaymentStatusMapper } from 'src/payment/infrastucture/stripe/stripe-payment-status.mapper';
-import { PaymentCreatedEvent } from 'src/payment/domain/events/payment.created.event';
+import { PaymentCreatedApplicationEvent } from 'src/payment/domain/events/payment.created.application.event';
 
 export class Payment extends AggregateRoot {
   constructor(
@@ -33,7 +33,9 @@ export class Payment extends AggregateRoot {
       props.providerPaymentId,
       props.createdAt,
     );
-    payment.apply(new PaymentCreatedEvent(payment.paymentId, props.bookingId));
+    payment.apply(
+      new PaymentCreatedApplicationEvent(payment.paymentId, props.bookingId),
+    );
     return payment;
   }
   complete() {

@@ -43,12 +43,13 @@ export class AuthController {
   }
 
   @Render('email_confirmation')
-  @Get('/email-comfirmation')
+  @Get('/email-confirmation')
   async emailConfirmation(@Query('token') token: string) {
+    console.log('email-confirmation - endpoint');
     return this.authService
       .emailConfirmation(token)
       .then((user) => {
-        return { title: 'Email confirmation', name: user.name };
+        return { title: 'Email confirmation success', name: user.name };
       })
       .catch((err) => {
         return { message: err.message, error: err.status };

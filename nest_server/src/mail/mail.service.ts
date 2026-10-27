@@ -2,15 +2,19 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { User } from '../entities/user/user.entity';
 import { PayloadTypes } from 'src/mail/send.email.payload.types';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async emailVerification(user: any, token: string): Promise<any> {
     try {
-      const url = `http://localhost:8000/auth/email-comfirmation?token=${token}`;
+      const url = `http://ticketify.local:32713/api/auth/email-confirmation?token=${encodeURIComponent(token)}`;
       return await this.mailerService
         .sendMail({
           to: user.email,

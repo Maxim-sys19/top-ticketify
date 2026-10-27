@@ -5,7 +5,8 @@ import { OpenPaymentAccessCommand } from 'src/payment/application/commands/open.
 import { BookingExpiredEvent } from 'src/booking/domain/events/booking.expired.event';
 import { RevokePaymentCommand } from 'src/payment/application/commands/revoke.payment.command';
 import { SagasStateStore } from 'src/sagas/sagas.state.store';
-import { PaymentCreatedEvent } from 'src/payment/domain/events/payment.created.event';
+import { PaymentCreatedApplicationEvent } from 'src/payment/domain/events/payment.created.application.event';
+import { BookingBookedApplicationEvent } from 'src/payment/domain/events/booking.booked.application.event';
 
 @Injectable()
 export class PaymentSagas {
@@ -13,8 +14,9 @@ export class PaymentSagas {
   @Saga()
   openPaymentAccess = ($events: Observable<any>) => {
     return $events.pipe(
-      ofType(),
-      mergeMap((event: any) => {
+      ofType(BookingBookedApplicationEvent),
+      mergeMap((event: BookingBookedApplicationEvent) => {
+        console.log('PaymentSaga BookingBookedApplicationEvent :', event);
         return from(
           this.sagasStateStore.set(
             { bookingId: event.bookingId },
@@ -32,8 +34,8 @@ export class PaymentSagas {
   @Saga()
   setPaymentIntentId = ($events: Observable<any>) => {
     return $events.pipe(
-      ofType(PaymentCreatedEvent),
-      mergeMap((event: PaymentCreatedEvent) => {
+      ofType(PaymentCreatedApplicationEvent),
+      mergeMap((event: PaymentCreatedApplicationEvent) => {
         return from(
           this.sagasStateStore.update(`payment:${event.bookingId}`, {
             paymentIntentId: event.paymentIntentId,

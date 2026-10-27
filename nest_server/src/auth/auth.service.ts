@@ -126,7 +126,7 @@ export class AuthService {
           console.log('Failing set JTI :', err);
         });
       return { email: user.email, token };
-    } catch (err) {
+    } catch (err: any) {
       this.logger.error(err.message, {
         statusCode: err.status,
         stack: err.stack,
@@ -152,6 +152,7 @@ export class AuthService {
         throw new BadRequestException(`User with email ${email} is not found!`);
       }
       user.status = UserStatus.Active;
+      console.log('USER_Status - ', user.status);
       await this.userRepository.save(user);
       return user;
     } catch (err) {
