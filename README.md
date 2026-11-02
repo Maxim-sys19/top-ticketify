@@ -1,169 +1,85 @@
-<h1>Ticketify</h1>
+<h1 style="text-align: center;">🎟️ Ticketify</h1>
 
-A Full-Stack Transportation and Ticket Booking System
 
-Ticketify is a web application for a transportation and ticket booking domain, built with React, TypeScript, and NestJS. The project combines full-stack application development with hands-on infrastructure engineering, including containerized dependencies, Kubernetes networking, NGINX reverse proxying, and the Kubernetes Gateway API.
+### Full-Stack Transportation & Ticket Booking Platform
 
-The project is also a practical learning environment for backend architecture, API design, asynchronous messaging, authentication, payment integration, and infrastructure management.
+A hands-on full-stack project combining **React**, **NestJS**, and
+**Kubernetes networking**.
 
-Table of Contents
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![Redux
+Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=white)](https://redux-toolkit.js.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-Minikube-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![NGINX](https://img.shields.io/badge/NGINX-Gateway-009639?logo=nginx&logoColor=white)](https://nginx.org/)
 
-Overview
+[Overview](#-overview) · [Features](#-key-features) ·
+[Stack](#-technology-stack) · [Architecture](#-architecture) ·
+[Infrastructure](#-infrastructure--networking) ·
+[Setup](#-getting-started) · [Roadmap](#-development-roadmap)
+:::📌 Overview
+Ticketify is a transportation and ticket booking application built
+with React, TypeScript, and NestJS.
 
-Key Features
+The project combines application development with practical
+infrastructure engineering. Alongside the frontend and backend, it
+explores containerized dependencies, Kubernetes networking, NGINX
+reverse proxying, and the Kubernetes Gateway API.
 
-Technology Stack
+Ticketify is currently developed as a modular monolith. The backend
+remains a single NestJS application, while its business modules and
+integration patterns are being developed with clear boundaries in mind.
+Current deployment status: React and NestJS run locally on the
+development machine. NGINX and the Gateway API infrastructure run in a
+local Minikube cluster. The application frontend and backend have not
+yet been deployed as Kubernetes workloads.
 
-Architecture
-
-Infrastructure and Networking
-
-Project Structure
-
-Getting Started
-
-Environment Configuration
-
-Local Development
-
-Kubernetes Networking
-
-Development Roadmap
-
-Learning Objectives
-
-Overview
-
-Ticketify is designed around a transportation and ticket booking domain. It consists of a React frontend, a NestJS backend, a MySQL database, and supporting infrastructure services.
-
-The application is being developed alongside practical experiments in networking and backend architecture. The infrastructure work includes exposing an API through multiple entry points and understanding how requests travel between a browser, Kubernetes services, NGINX, and the backend.
-
-The project currently follows a modular backend approach, with an architectural learning path toward clearer bounded contexts, explicit service interfaces, and event-driven integration.
-
-Key Features
-
+✨ Key Features
 Application
-
-React-based user interface.
-
-Client-side routing and shared state management.
-
-Centralized API communication using Redux Toolkit Query.
-
-Transportation and ticket booking domain.
-
-Authentication using JWT and Passport.
-
-Google OAuth integration.
-
-Email delivery and email confirmation flows.
-
-Stripe payment integration and webhook support.
-
-Google Maps integration.
-
-Backend and Infrastructure
-
-REST API built with NestJS.
-
-MySQL persistence using TypeORM.
-
-Redis integration.
-
-RabbitMQ messaging infrastructure.
-
-Email testing with MailDev.
-
-Docker Compose for local infrastructure dependencies.
-
-Kubernetes networking experiments using Minikube.
-
-NGINX reverse proxy for API traffic.
-
-NGINX Gateway Fabric implementing the Kubernetes Gateway API.
-
-Technology Stack
-
-Area
-
-Technologies
-
-Frontend
-
-React 18, TypeScript
-
-State management
-
-Redux Toolkit, React Redux
-
-API client
-
-RTK Query
-
-Routing
-
-React Router
-
-UI
-
-Bootstrap, React Bootstrap
-
-Maps
-
-Google Maps JavaScript integration
-
-Backend
-
-NestJS 10, Node.js, TypeScript
-
-API and validation
-
-REST, class-validator, class-transformer
-
-Database
-
-MySQL
-
-ORM
-
-TypeORM
-
-Authentication
-
-JWT, Passport, Google OAuth
-
-Payments
-
-Stripe
-
-Caching and data access
-
-Redis
-
-Messaging
-
-RabbitMQ, AMQP
-
-Email
-
-Nodemailer, Handlebars templates, MailDev
-
-Local infrastructure
-
-Docker, Docker Compose
-
-Orchestration
-
-Kubernetes, Minikube
-
-Networking
-
-NGINX, NGINX Gateway Fabric, Kubernetes Gateway API
-
-Architecture
-
+- React-based user interface.
+- Client-side routing and shared state management.
+- API communication and caching with Redux Toolkit Query.
+- Transportation and ticket-booking domain functionality.
+- JWT authentication and Passport integration.
+- Google OAuth integration.
+- Email delivery and email confirmation flows.
+- Stripe payment integration and webhook support.
+- Google Maps integration.
+Backend & Infrastructure
+- REST API built with NestJS.
+- MySQL persistence through TypeORM.
+- Redis integration.
+- RabbitMQ messaging infrastructure.
+- MailDev for local email testing.
+- Docker Compose for local infrastructure dependencies.
+- Minikube-based Kubernetes networking experiments.
+- NGINX reverse proxy.
+- NGINX Gateway Fabric and Kubernetes Gateway API.
+🧰 Technology Stack
+  Area                   Technologies
+  Frontend               React 18, TypeScript
+  State management       Redux Toolkit, React Redux
+  API client             RTK Query
+  Routing                React Router
+  UI                     Bootstrap, React Bootstrap
+  Maps                   Google Maps integration
+  Backend                NestJS 10, Node.js, TypeScript
+  API & validation       REST, class-validator, class-transformer
+  Database               MySQL
+  ORM                    TypeORM
+  Authentication         JWT, Passport, Google OAuth
+  Payments               Stripe
+  Caching                Redis
+  Messaging              RabbitMQ, AMQP
+  Email                  Nodemailer, Handlebars, MailDev
+  Local infrastructure   Docker, Docker Compose
+  Orchestration          Kubernetes, Minikube
+  Networking             NGINX, NGINX Gateway Fabric, Gateway API
+🏗️ Architecture
 High-Level Architecture
-
+```mermaid
 flowchart TD
     User["User / Browser"]
     Frontend["React Frontend"]
@@ -187,260 +103,197 @@ flowchart TD
     Backend --> RabbitMQ
     Backend --> Stripe
     Backend --> Mail
-
-The diagram represents the intended request flow through the gateway and reverse proxy. During local development, the backend can also be accessed directly, and the NGINX NodePort can be used as an alternative entry point.
-
+```
+The diagram shows the intended API request path through the gateway and
+reverse proxy. During local development, the backend can also be
+accessed directly. The NGINX NodePort provides another entry point for
+testing the proxy independently.
 Frontend
+Located in react-client/.
 
-The frontend is located in react-client/.
-
-Its main responsibilities are:
-
-Rendering the user interface.
-
-Managing client-side navigation.
-
-Maintaining shared application state.
-
-Sending API requests through RTK Query.
-
-Handling API responses and presenting application data.
-
-RTK Query is part of Redux Toolkit and provides a centralized approach to API requests, caching, and request lifecycle management.
-
+The frontend is responsible for:
+- Rendering the user interface.
+- Managing client-side navigation.
+- Maintaining shared application state.
+- Sending API requests through RTK Query.
+- Handling API responses and presenting application data.
+RTK Query, part of Redux Toolkit, provides a centralized approach to API
+requests, caching, and request lifecycle management.
 Backend
+Located in nest_server/.
 
-The backend is located in nest_server/.
+The backend is built with NestJS and TypeScript. It handles API
+endpoints, business logic, persistence, authentication, and integrations
+with external services.
 
-It is built with NestJS and TypeScript and is responsible for API endpoints, business logic, persistence, authentication, and integrations with external services.
-
-The backend dependencies include TypeORM, MySQL, Redis, RabbitMQ, JWT authentication, Google OAuth, Stripe, and email templating.
-
-The architecture is being developed with an emphasis on modularity and clear boundaries between business logic and infrastructure concerns.
-
+The current backend architecture is a modular monolith. The project
+explores modular boundaries and separation of business logic from
+infrastructure concerns without claiming that the application has
+already been split into microservices.
 Supporting Services
+  Service      Purpose
+  MySQL        Relational data persistence
+  Redis        Caching and Redis-backed functionality
+  RabbitMQ     Asynchronous messaging
+  MailDev      Inspecting emails during development
+  Stripe CLI   Forwarding Stripe webhook events to the local backend
+🌐 Infrastructure & Networking
+A major technical focus of Ticketify is learning how to expose and route
+API traffic through Kubernetes networking components.
 
-The local infrastructure includes several supporting services:
-
-MySQL for relational persistence.
-
-Redis for caching and Redis-backed functionality.
-
-RabbitMQ for message-based communication.
-
-MailDev for inspecting emails during development.
-
-Stripe CLI for forwarding Stripe webhook events to the local backend.
-
-Infrastructure and Networking
-
-One of the main technical aspects of Ticketify is experimenting with different ways to expose a backend API through Kubernetes networking.
-
-The local Kubernetes environment uses Minikube with the Docker driver.
-
-Request Flow
-
-flowchart TD
-    Browser["Browser / React Client"]
-    Gateway["NGINX Gateway Fabric"]
-    GatewayService["Gateway NodePort"]
-    NginxService["NGINX NodePort Service"]
-    NginxPod["NGINX Pod"]
-    BackendService["Kubernetes Backend Service"]
-    Endpoint["Manual EndpointSlice"]
-    Nest["NestJS on Host"]
-
-    Browser --> GatewayService
-    GatewayService --> Gateway
-    Gateway --> NginxService
-    NginxService --> NginxPod
-    NginxPod --> BackendService
-    BackendService --> Endpoint
+The local Kubernetes environment uses Minikube. At the current
+stage, NGINX and the Gateway API components run inside the cluster,
+while the React frontend and NestJS backend remain on the host machine.
+Current Deployment Topology
+```mermaid
+flowchart TB
+    Browser["Browser"]
+    React["React Frontend<br/>Host: localhost:3000"]
+    subgraph Cluster["Minikube Kubernetes Cluster"]
+        Gateway["NGINX Gateway Fabric"]
+        Route["Gateway / HTTPRoute"]
+        Nginx["NGINX Deployment & Service"]
+        BackendSvc["Backend Service"]
+        Endpoint["EndpointSlice"]
+        Gateway --> Route
+        Route --> Nginx
+        Nginx --> BackendSvc
+        BackendSvc --> Endpoint
+    end
+    Nest["NestJS Backend<br/>Host: port 8000"]
+    Browser --> React
+    React --> Gateway
     Endpoint --> Nest
+```
 
-The backend currently runs on the host machine rather than inside the Minikube cluster. A Kubernetes Service and manually configured EndpointSlice provide the connection to the host backend.
+The backend currently runs on the host machine rather than inside
+Kubernetes. A Kubernetes Service and manually configured EndpointSlice
+provide connectivity from the cluster to the host-based backend.
 
-This setup is intended for local development and networking practice, not as a production deployment architecture.
+This is a local development and learning setup, not a production
+deployment architecture.
+Local Access Points
+  Component                  Address                          Purpose
+  React development server   http://localhost:3000          Frontend
+  NestJS backend             http://localhost:8000          Direct backend access
+  Gateway API                http://ticketify.local:32713   Gateway entry point
+  NGINX NodePort             http://192.168.49.2:32204      Direct NGINX access
 
-Three Ways to Access the Backend
-
-Entry point
-
-Local address
-
-Purpose
-
-Gateway API
-
-http://ticketify.local:32713
-
-Entry point through the Kubernetes Gateway API
-
-NGINX NodePort
-
-http://192.168.49.2:32204
-
-Direct access to the NGINX reverse proxy
-
-NestJS directly
-
-http://localhost:8000
-
-Direct access to the backend on the host
-
-The Gateway API route uses the hostname ticketify.local. The frontend API base URL must include the appropriate API prefix configured by the backend and proxy.
-
-For the Gateway-based setup, the local hostname can be mapped to the Minikube node IP in /etc/hosts:
-
+The values above describe the current local environment and may change
+when Minikube resources are recreated or reconfigured.
+Local Hostname
+The Gateway route uses the hostname ticketify.local. Add the following
+entry to /etc/hosts on the development machine:
 192.168.49.2 ticketify.local
-
-The corresponding frontend API base URL is:
-
+The frontend API base URL for Gateway testing is currently:
 http://ticketify.local:32713/api
-
-The direct backend and NGINX entry points are useful for isolating networking issues and testing individual parts of the request path.
-
+The API prefix must match the prefix configured in the NestJS
+application and the NGINX routing configuration.
 Kubernetes Components
+The local Kubernetes environment currently includes:
+- Minikube --- local Kubernetes cluster.
+- NGINX Gateway Fabric --- Gateway API implementation.
+- Gateway and HTTPRoute --- traffic routing resources.
+- NGINX Deployment and Service --- reverse proxy layer.
+- Backend Service and EndpointSlice --- connectivity to the
+  host-based NestJS process.
+- ConfigMaps --- non-sensitive configuration.
+- Secrets --- sensitive configuration where applicable.
+The application namespace is ticketify-dev. NGINX Gateway Fabric is
+installed in the nginx-gateway namespace.
 
-The local Kubernetes environment includes:
+Current environment values:
 
-Minikube as the local Kubernetes cluster.
+  Setting                        Current value
+  Minikube node IP               192.168.49.2
+  Gateway NodePort               32713
+  NGINX NodePort                 32204
+  Application namespace          ticketify-dev
+  Gateway controller namespace   nginx-gateway
 
-NGINX Gateway Fabric as the Gateway API implementation.
-
-Gateway and HTTPRoute resources for routing traffic.
-
-NGINX Deployment and Service for reverse proxying.
-
-Backend Service and EndpointSlice for reaching the host-based NestJS process.
-
-ConfigMaps for non-sensitive configuration.
-
-Secrets for sensitive configuration where applicable.
-
-The primary application namespace is ticketify-dev. The Gateway Fabric is installed in the nginx-gateway namespace.
-
-For the current local configuration, the Minikube node IP is 192.168.49.2, the Gateway NodePort is 32713, and the NGINX NodePort is 32204. These values are environment-specific and may change when the cluster is recreated.
-
-Project Structure
-
+These are environment-specific values, not fixed defaults for every
+installation.
+📁 Project Structure
 top-ticketify/
-├── react-client/             # React frontend
-├── nest_server/               # NestJS backend
-├── mysql/                     # MySQL configuration
-├── docker-compose.yml         # Local infrastructure services
+├── react-client/          # React frontend
+├── nest_server/           # NestJS backend
+│   └── k8s/                # Kubernetes manifests
+├── mysql/                 # MySQL configuration
+├── docker-compose.yml     # Local infrastructure services
 └── README.md
-
-The Kubernetes manifests are maintained separately under the backend project's k8s/ directory.
-
-The directory is used for declarative infrastructure configuration, including the namespace, backend connectivity, NGINX, Gateway API resources, and supporting services.
-
-Getting Started
-
+Kubernetes manifests are maintained under nest_server/k8s/. They
+describe the local cluster resources, including namespace configuration,
+backend connectivity, NGINX, and Gateway API resources.
+🚀 Getting Started
 Prerequisites
-
-Install the following tools before starting local development:
-
-Node.js and npm versions compatible with the project dependencies.
-
-Git.
-
-Docker and Docker Compose.
-
-MySQL client (optional, for database inspection).
-
-Minikube and kubectl (for Kubernetes networking).
-
-Helm, if needed to install NGINX Gateway Fabric.
-
-A Google Maps API key if using map functionality.
-
-Stripe test credentials if testing payment functionality.
-
+- Node.js and npm versions compatible with the project.
+- Git.
+- Docker and Docker Compose.
+- Minikube and kubectl for Kubernetes networking.
+- Helm if installing NGINX Gateway Fabric.
+- Google Maps API key if using map functionality.
+- Stripe test credentials if testing payment functionality.
 1. Clone the Repository
-
 git clone https://github.com/Maxim-sys19/top-ticketify.git
 cd top-ticketify
+2. Configure Environment Variables
+Review the project's environment configuration before starting services.
+Create local environment files using the variable names expected by the
+application and Compose configuration.
 
-2. Start Local Infrastructure Dependencies
+Do not commit .env files, production credentials, API keys, or real
+secrets.
+3. Start Local Infrastructure Dependencies
+The Compose configuration provides local supporting services. Review the
+service names and required environment variables in
+docker-compose.yml, then start the required dependencies.
 
-Review docker-compose.yml and configure the required environment variables before starting the services.
+For example, if these service names match the current Compose file:
+docker compose --env-file ./nest_server/.env up -d db_service redis_service rabbitmq_service maildev
+Start the Stripe CLI service separately when webhook testing is needed
+and its credentials are configured.
+The NestJS service definition is currently not enabled in Docker
+Compose. The backend is started separately on the host machine.
 
-docker compose up -d db_service redis_service rabbitmq_service maildev
-
-The Compose configuration also includes a Stripe CLI service. Start it separately when Stripe webhook testing is required and the relevant credentials are configured.
-
-Note that the NestJS service definition in the current Compose file is commented out. The backend is therefore started separately in the current development setup.
-
-3. Start the Backend
-
+4. Start the Backend
 cd nest_server
 npm install
-
-Configure the backend environment variables and database connection before running the application.
-
-Start the development server:
-
 npm run start:dev
+Configure the backend environment variables and database connection
+before starting the application.
 
-The backend listens on port 8000 in the current local setup.
-
-4. Start the Frontend
-
-Open another terminal:
-
+The current local backend port is 8000.
+5. Start the Frontend
+In a separate terminal:
 cd react-client
 npm install
 npm start
-
 The React development server normally runs at:
-
 http://localhost:3000
-
-Configure the frontend API base URL to point to the desired backend entry point.
-
-For direct local development, use the backend URL and API prefix configured by the application. For Gateway testing, use the ticketify.local hostname and Gateway NodePort described above.
-
-Environment Configuration
-
-The backend requires environment-specific configuration for database connectivity, authentication, email delivery, and external integrations.
-
-Depending on the enabled features, configuration may include:
-
-MySQL connection settings.
-
-Redis connection settings.
-
-RabbitMQ connection settings.
-
-JWT secrets and expiration settings.
-
-Google OAuth credentials.
-
-Stripe test credentials and webhook configuration.
-
-SMTP or MailDev settings.
-
-Google Maps API key for the frontend.
-
-Use the project's existing environment variable names and configuration files as the source of truth when setting up the application.
-
-Do not commit .env files, production credentials, API keys, or real secrets to version control. Use local environment files or an appropriate secrets management mechanism.
-
-Local Development
-
-Useful Commands
-
-Frontend
-
+Configure the frontend API base URL for the entry point you want to
+test: direct backend access or the Kubernetes Gateway.
+⚙️ Environment Configuration
+Depending on the enabled features, the application may require
+configuration for:
+- MySQL connection.
+- Redis connection.
+- RabbitMQ connection.
+- JWT secrets and token expiration.
+- Google OAuth credentials.
+- Stripe test credentials and webhook configuration.
+- SMTP or MailDev settings.
+- Google Maps API key.
+Use the environment variable names defined in the project's
+configuration as the source of truth. Never publish real credentials in
+the repository.
+🧪 Local Development
+Frontend Commands
 cd react-client
 
 npm start
 npm test
 npm run build
-
-Backend
-
+Backend Commands
 cd nest_server
 
 npm run start:dev
@@ -448,75 +301,69 @@ npm run build
 npm run test
 npm run test:e2e
 npm run migration:run
-
-The migration commands use the TypeORM configuration defined by the backend project.
-
-Troubleshooting
-
-The API returns 404 Cannot GET /
-
-This does not necessarily mean the backend is unavailable. The root route may not be defined. Test a known API endpoint with the configured global prefix.
-
-The Gateway returns the NGINX welcome page
-
-Verify that the request uses the hostname expected by the HTTPRoute, including ticketify.local.
-
-The browser cannot reach the API
-
-Check the frontend API base URL, the hostname mapping, the Gateway or NGINX NodePort, backend availability, and the backend CORS configuration.
-
-The NGINX proxy cannot reach NestJS
-
-Check the NGINX upstream configuration, the Kubernetes Service, its EndpointSlice, the host address, and host firewall rules.
-
-Development Roadmap
-
-The project also serves as a practical environment for learning and applying backend architecture concepts.
-
-Potential areas of continued development include:
-
-Strengthening modular boundaries in the NestJS application.
-
-Defining explicit public interfaces between business modules.
-
-Separating domain logic from infrastructure implementations.
-
-Exploring bounded contexts and service ownership.
-
-Introducing reliable asynchronous workflows with RabbitMQ.
-
-Applying the transactional outbox pattern where required.
-
-Improving Kubernetes manifests and service networking.
-
-Documenting API contracts and deployment procedures.
-
-Expanding automated testing and operational observability.
-
-These are development and learning directions rather than claims that every item is already implemented.
-
-Learning Objectives
-
+Run commands from the appropriate project directory. Available scripts
+are defined in each package's package.json.
+🔧 Troubleshooting
+<details>
+<summary>
+<strong>API returns 404 Cannot GET /</strong>
+</summary>
+This does not necessarily mean the backend is unavailable. The root
+route may not be defined. Test a known API endpoint using the configured
+global prefix.
+</details>
+<details>
+<summary>
+<strong>{=html}Gateway returns the NGINX welcome
+page</strong>{=html}
+</summary>
+Verify that the request uses the hostname expected by the HTTPRoute,
+including ticketify.local. Also check the Gateway listener, route
+attachment, and NGINX configuration.
+</details>
+<details>
+<summary>
+<strong>Browser cannot reach the API</strong>
+</summary>
+Check the frontend API base URL, hostname mapping, Gateway or NGINX
+NodePort, backend availability, and backend CORS configuration.
+</details>
+<details>
+<summary>
+<strong>NGINX cannot reach NestJS</strong>
+</summary>
+Check the NGINX upstream configuration, Kubernetes Service,
+EndpointSlice, host address, and host firewall rules.
+</details>
+🗺️ Development Roadmap
+The following items represent potential development directions, not
+necessarily completed features:
+- [ ] Continue strengthening modular boundaries in the NestJS
+  application.
+- [ ] Define explicit public interfaces between business modules.
+- [ ] Separate domain logic from infrastructure implementations.
+- [ ] Explore bounded contexts and service ownership.
+- [ ] Develop reliable asynchronous workflows with RabbitMQ.
+- [ ] Apply the transactional outbox pattern where appropriate.
+- [ ] Improve Kubernetes manifests and service networking.
+- [ ] Containerize and deploy the NestJS backend to Kubernetes.
+- [ ] Containerize and deploy the React frontend to Kubernetes.
+- [ ] Document API contracts and deployment procedures.
+- [ ] Expand automated testing and operational observability.
+🎯 Learning Objectives
 Through Ticketify, I am developing practical experience in:
+- Full-stack development with React and NestJS.
+- REST API integration and centralized client-side data fetching.
+- Authentication, authorization, and third-party integrations.
+- Relational database modeling and ORM-based persistence.
+- Asynchronous messaging and backend integration patterns.
+- Modular backend architecture and Domain-Driven Design concepts.
+- Docker-based local development environments.
+- Kubernetes Services, EndpointSlices, NodePorts, and Gateway API
+  routing.
+- Reverse proxy configuration and network troubleshooting.
+::: {align="center"}
+**Ticketify** · Built as an independent learning project
 
-Full-stack development with React and NestJS.
-
-REST API integration and centralized client-side data fetching.
-
-Authentication, authorization, and third-party integrations.
-
-Relational database modeling and ORM-based persistence.
-
-Asynchronous messaging and backend integration patterns.
-
-Modular backend architecture and domain-driven design concepts.
-
-Docker-based local development environments.
-
-Kubernetes Services, EndpointSlices, NodePorts, and Gateway API routing.
-
-Reverse proxy configuration and network troubleshooting.
-
-Repository
-
-GitHub: Maxim-sys19/top-ticketify
+[GitHub Repository](https://github.com/Maxim-sys19/top-ticketify)
+:::
