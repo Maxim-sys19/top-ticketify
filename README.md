@@ -1,4 +1,4 @@
-Ticketify
+<h1>Ticketify</h1>
 
 A Full-Stack Transportation and Ticket Booking System
 
