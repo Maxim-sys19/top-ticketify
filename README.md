@@ -314,8 +314,8 @@ global prefix.
 </details>
 <details>
 <summary>
-<strong>{=html}Gateway returns the NGINX welcome
-page</strong>{=html}
+<strong>Gateway returns the NGINX welcome
+page</strong>
 </summary>
 Verify that the request uses the hostname expected by the HTTPRoute,
 including ticketify.local. Also check the Gateway listener, route
@@ -362,8 +362,6 @@ Through Ticketify, I am developing practical experience in:
 - Kubernetes Services, EndpointSlices, NodePorts, and Gateway API
   routing.
 - Reverse proxy configuration and network troubleshooting.
-::: {align="center"}
 **Ticketify** · Built as an independent learning project
 
 [GitHub Repository](https://github.com/Maxim-sys19/top-ticketify)
-:::
