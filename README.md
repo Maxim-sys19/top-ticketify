@@ -344,6 +344,7 @@ NodePort, backend availability, and backend CORS configuration.
 </summary>
 Check the NGINX upstream configuration, Kubernetes Service,
 EndpointSlice, host address, and host firewall rules.
+  
 </details>
 
 ## 🗺️ Development Roadmap
