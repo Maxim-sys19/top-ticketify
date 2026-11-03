@@ -223,7 +223,7 @@ Current environment values:
 
 These are environment-specific values, not fixed defaults for every
 installation.
-📁 Project Structure
+## 📁 Project Structure
 top-ticketify/
 ├── react-client/          # React frontend
 ├── nest_server/           # NestJS backend
