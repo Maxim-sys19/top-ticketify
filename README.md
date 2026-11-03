@@ -343,7 +343,7 @@ EndpointSlice, host address, and host firewall rules.
 ## 🗺️ Development Roadmap
 The following items represent potential development directions, not
 necessarily completed features:
-- [ ] Continue strengthening modular boundaries in the NestJS
+-  Continue strengthening modular boundaries in the NestJS
   application.
 - [ ] Define explicit public interfaces between business modules.
 - [ ] Separate domain logic from infrastructure implementations.
