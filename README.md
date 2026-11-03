@@ -1,7 +1,4 @@
-<div align="center">
-<h1>🎟️ Ticketify</h1>
-<h3>Full-Stack Transportation &amp; Ticket Booking Platform</h3>
-</div>
+## 🎟️ Ticketify
 
 
 ### Full-Stack Transportation & Ticket Booking Platform
@@ -18,11 +15,16 @@ Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Minikube-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![NGINX](https://img.shields.io/badge/NGINX-Gateway-009639?logo=nginx&logoColor=white)](https://nginx.org/)
 
-[Overview](#-overview) · [Features](#-key-features) ·
-[Stack](#-technology-stack) · [Architecture](#-architecture) ·
-[Infrastructure](#-infrastructure--networking) ·
-[Setup](#-getting-started) · [Roadmap](#-development-roadmap)
-<br/>📌 Overview
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Architecture](#architecture)
+- [Infrastructure & Networking](#infrastructure--networking)
+- [Getting Started](#getting-started)
+- [Development Roadmap](#development-roadmap)
+## 📌 Overview
 Ticketify is a transportation and ticket booking application built
 with React, TypeScript, and NestJS.
 
@@ -39,7 +41,7 @@ development machine. NGINX and the Gateway API infrastructure run in a
 local Minikube cluster. The application frontend and backend have not
 yet been deployed as Kubernetes workloads.
 
-✨ Key Features
+## ✨ Key Features
 Application
 - React-based user interface.
 - Client-side routing and shared state management.
@@ -60,7 +62,7 @@ Backend & Infrastructure
 - Minikube-based Kubernetes networking experiments.
 - NGINX reverse proxy.
 - NGINX Gateway Fabric and Kubernetes Gateway API.
-🧰 Technology Stack
+## 🧰 Technology Stack
   Area                   Technologies
   Frontend               React 18, TypeScript
   State management       Redux Toolkit, React Redux
@@ -80,7 +82,7 @@ Backend & Infrastructure
   Local infrastructure   Docker, Docker Compose
   Orchestration          Kubernetes, Minikube
   Networking             NGINX, NGINX Gateway Fabric, Gateway API
-🏗️ Architecture
+## 🏗️ Architecture
 High-Level Architecture
 ```mermaid
 flowchart TD
@@ -140,7 +142,7 @@ Supporting Services
   RabbitMQ     Asynchronous messaging
   MailDev      Inspecting emails during development
   Stripe CLI   Forwarding Stripe webhook events to the local backend
-🌐 Infrastructure & Networking
+## 🌐 Infrastructure & Networking
 A major technical focus of Ticketify is learning how to expose and route
 API traffic through Kubernetes networking components.
 
@@ -227,7 +229,7 @@ top-ticketify/
 Kubernetes manifests are maintained under nest_server/k8s/. They
 describe the local cluster resources, including namespace configuration,
 backend connectivity, NGINX, and Gateway API resources.
-🚀 Getting Started
+## 🚀 Getting Started
 Prerequisites
 - Node.js and npm versions compatible with the project.
 - Git.
@@ -275,7 +277,7 @@ The React development server normally runs at:
 http://localhost:3000
 Configure the frontend API base URL for the entry point you want to
 test: direct backend access or the Kubernetes Gateway.
-⚙️ Environment Configuration
+## ⚙️ Environment Configuration
 Depending on the enabled features, the application may require
 configuration for:
 - MySQL connection.
@@ -289,7 +291,7 @@ configuration for:
 Use the environment variable names defined in the project's
 configuration as the source of truth. Never publish real credentials in
 the repository.
-🧪 Local Development
+## 🧪 Local Development
 Frontend Commands
 cd react-client
 
@@ -306,7 +308,7 @@ npm run test:e2e
 npm run migration:run
 Run commands from the appropriate project directory. Available scripts
 are defined in each package's package.json.
-🔧 Troubleshooting
+## 🔧 Troubleshooting
 <details>
 <summary>
 <strong>API returns 404 Cannot GET /</strong>
@@ -338,7 +340,7 @@ NodePort, backend availability, and backend CORS configuration.
 Check the NGINX upstream configuration, Kubernetes Service,
 EndpointSlice, host address, and host firewall rules.
 </details>
-🗺️ Development Roadmap
+## 🗺️ Development Roadmap
 The following items represent potential development directions, not
 necessarily completed features:
 - [ ] Continue strengthening modular boundaries in the NestJS
@@ -353,7 +355,7 @@ necessarily completed features:
 - [ ] Containerize and deploy the React frontend to Kubernetes.
 - [ ] Document API contracts and deployment procedures.
 - [ ] Expand automated testing and operational observability.
-🎯 Learning Objectives
+## 🎯 Learning Objectives
 Through Ticketify, I am developing practical experience in:
 - Full-stack development with React and NestJS.
 - REST API integration and centralized client-side data fetching.
