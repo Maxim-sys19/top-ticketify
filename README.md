@@ -346,10 +346,12 @@ Check the NGINX upstream configuration, Kubernetes Service,
 EndpointSlice, host address, and host firewall rules.
 </details>
 ## 🗺️ Development Roadmap
-The following items represent potential development directions, not
-necessarily completed features:
--  Continue strengthening modular boundaries in the NestJS
-  application.
+
+<details>
+<summary>Show development roadmap</summary>
+
+The following items represent potential development directions, not necessarily completed features:
+
 - [ ] Define explicit public interfaces between business modules.
 - [ ] Separate domain logic from infrastructure implementations.
 - [ ] Explore bounded contexts and service ownership.
@@ -360,8 +362,15 @@ necessarily completed features:
 - [ ] Containerize and deploy the React frontend to Kubernetes.
 - [ ] Document API contracts and deployment procedures.
 - [ ] Expand automated testing and operational observability.
+
+</details>
 ## 🎯 Learning Objectives
+
+<details>
+<summary>Show learning objectives</summary>
+
 Through Ticketify, I am developing practical experience in:
+
 - Full-stack development with React and NestJS.
 - REST API integration and centralized client-side data fetching.
 - Authentication, authorization, and third-party integrations.
@@ -369,9 +378,9 @@ Through Ticketify, I am developing practical experience in:
 - Asynchronous messaging and backend integration patterns.
 - Modular backend architecture and Domain-Driven Design concepts.
 - Docker-based local development environments.
-- Kubernetes Services, EndpointSlices, NodePorts, and Gateway API
-  routing.
+- Kubernetes Services, EndpointSlices, NodePorts, and Gateway API routing.
 - Reverse proxy configuration and network troubleshooting.
-**Ticketify** · Built as an independent learning project
+
+</details>
 
 [GitHub Repository](https://github.com/Maxim-sys19/top-ticketify)
