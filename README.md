@@ -347,7 +347,7 @@ EndpointSlice, host address, and host firewall rules.
   
 </details>
 
-## 🗺️ Development Roadmap
+## 🧭 Development Roadmap
 
 <details>
 <summary>Show development roadmap</summary>
