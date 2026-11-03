@@ -22,8 +22,13 @@ Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=
 - [Technology Stack](#technology-stack)
 - [Architecture](#architecture)
 - [Infrastructure & Networking](#infrastructure--networking)
+- [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
+- [Environment Configuration](#environment-configuration)
+- [Local Development](#local-development)
+- [Troubleshooting](#troubleshooting)
 - [Development Roadmap](#development-roadmap)
+- [Learning Objectives](#learning-objectives)
 ## 📌 Overview
 Ticketify is a transportation and ticket booking application built
 with React, TypeScript, and NestJS.
