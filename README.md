@@ -1,4 +1,6 @@
-<h1 style="text-align: center;">🎟️ Ticketify</h1>
+<div style="display: block;">
+  <span style="display: inline; text-align: center;">🎟️ Ticketify</span>
+</h1>
 
 
 ### Full-Stack Transportation & Ticket Booking Platform
