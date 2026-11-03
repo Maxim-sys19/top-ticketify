@@ -345,6 +345,7 @@ NodePort, backend availability, and backend CORS configuration.
 Check the NGINX upstream configuration, Kubernetes Service,
 EndpointSlice, host address, and host firewall rules.
 </details>
+
 ## 🗺️ Development Roadmap
 
 <details>
@@ -364,6 +365,7 @@ The following items represent potential development directions, not necessarily 
 - [ ] Expand automated testing and operational observability.
 
 </details>
+
 ## 🎯 Learning Objectives
 
 <details>
