@@ -17,10 +17,10 @@ Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Technology Stack](#technology-stack)
-- [Architecture](#architecture)
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [Architecture](#-architecture)
 - [Infrastructure & Networking](#infrastructure--networking)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
