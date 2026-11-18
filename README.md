@@ -155,28 +155,6 @@ The local Kubernetes environment uses Minikube. At the current
 stage, NGINX and the Gateway API components run inside the cluster,
 while the React frontend and NestJS backend remain on the host machine.
 ### Current Deployment Topology
-<box border radius="lg" padding={3} gap={2}>
-  **Текущее фактическое размещение компонентов**
-  <box background="rgba(59,130,246,0.07)" radius="md" padding={3} gap={2}>
-    **Linux Host**
-    - React: `localhost:3000`
-    - NestJS: `localhost:8000`
-    - systemd: MySQL Port Forward
-  </box>
-  <box align="center">
-    <icon name="arrow-down-up" color="secondary" size="lg"/>
-    <text color="secondary" size="xs">Port Forward: localhost:3307 → MySQL:3306</text>
-  </box>
-  <box background="rgba(16,185,129,0.07)" radius="md" padding={3} gap={2}>
-    **Minikube: ticketify-dev**
-    - NGINX Gateway Fabric
-    - Gateway / HTTPRoute
-    - NGINX Deployment / Service
-    - Backend Service / EndpointSlice
-    - MySQL Deployment / Service
-    - MySQL PVC / Secret
-  </box>
-</box>
 ```mermaid
 flowchart TB
     Browser["Browser"]
