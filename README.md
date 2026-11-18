@@ -211,8 +211,8 @@ The local Kubernetes environment currently includes:
 - Secrets --- sensitive configuration where applicable.
 The application namespace is ticketify-dev. NGINX Gateway Fabric is
 installed in the nginx-gateway namespace.
-### Current environment values:
 
+### Current environment values:
   Setting                        Current value
   Minikube node IP               192.168.49.2
   Gateway NodePort               32713
