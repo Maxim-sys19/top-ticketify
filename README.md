@@ -154,7 +154,7 @@ API traffic through Kubernetes networking components.
 The local Kubernetes environment uses Minikube. At the current
 stage, NGINX and the Gateway API components run inside the cluster,
 while the React frontend and NestJS backend remain on the host machine.
-Current Deployment Topology
+### Current Deployment Topology
 ```mermaid
 flowchart TB
     Browser["Browser"]
@@ -182,7 +182,7 @@ provide connectivity from the cluster to the host-based backend.
 
 This is a local development and learning setup, not a production
 deployment architecture.
-Local Access Points
+### Local Access Points
   Component                  Address                          Purpose
   React development server   http://localhost:3000          Frontend
   NestJS backend             http://localhost:8000          Direct backend access
@@ -191,7 +191,7 @@ Local Access Points
 
 The values above describe the current local environment and may change
 when Minikube resources are recreated or reconfigured.
-Local Hostname
+### Local Hostname
 The Gateway route uses the hostname ticketify.local. Add the following
 entry to /etc/hosts on the development machine:
 192.168.49.2 ticketify.local
@@ -199,7 +199,7 @@ The frontend API base URL for Gateway testing is currently:
 http://ticketify.local:32713/api
 The API prefix must match the prefix configured in the NestJS
 application and the NGINX routing configuration.
-Kubernetes Components
+### Kubernetes Components
 The local Kubernetes environment currently includes:
 - Minikube --- local Kubernetes cluster.
 - NGINX Gateway Fabric --- Gateway API implementation.
@@ -211,7 +211,7 @@ The local Kubernetes environment currently includes:
 - Secrets --- sensitive configuration where applicable.
 The application namespace is ticketify-dev. NGINX Gateway Fabric is
 installed in the nginx-gateway namespace.
-Current environment values:
+### Current environment values:
 
   Setting                        Current value
   Minikube node IP               192.168.49.2
