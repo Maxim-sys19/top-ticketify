@@ -159,23 +159,44 @@ while the React frontend and NestJS backend remain on the host machine.
 flowchart TB
     Browser["Browser"]
     React["React Frontend<br/>Host: localhost:3000"]
+
+    subgraph Host["Linux Host Machine"]
+        Nest["NestJS Backend<br/>Host: localhost:8000"]
+        Systemd["systemd User Service<br/>Ticketify MySQL Tunnel"]
+        PortForward["kubectl port-forward<br/>localhost:3307 → mysql:3306"]
+
+        Systemd --> PortForward
+        Nest -->|"DB connection<br/>localhost:3307"| PortForward
+    end
+
     subgraph Cluster["Minikube Kubernetes Cluster"]
         Gateway["NGINX Gateway Fabric"]
         Route["Gateway / HTTPRoute"]
         Nginx["NGINX Deployment & Service"]
         BackendSvc["Backend Service"]
         Endpoint["EndpointSlice"]
+
+        MysqlSvc["MySQL Service<br/>ClusterIP: 3306"]
+        MysqlPod["MySQL Deployment / Pod"]
+        MysqlPVC["PersistentVolumeClaim<br/>mysql-pvc"]
+        MysqlSecret["Secret<br/>mysql-secret"]
+
         Gateway --> Route
         Route --> Nginx
         Nginx --> BackendSvc
         BackendSvc --> Endpoint
+
+        MysqlSvc --> MysqlPod
+        MysqlPod --> MysqlPVC
+        MysqlPod -.-> MysqlSecret
     end
-    Nest["NestJS Backend<br/>Host: port 8000"]
+
     Browser --> React
     React --> Gateway
     Endpoint --> Nest
-```
 
+    PortForward -.->|"kubectl port-forward"| MysqlSvc
+```
 The backend currently runs on the host machine rather than inside
 Kubernetes. A Kubernetes Service and manually configured EndpointSlice
 provide connectivity from the cluster to the host-based backend.
