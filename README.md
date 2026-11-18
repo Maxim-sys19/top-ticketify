@@ -211,42 +211,6 @@ The local Kubernetes environment currently includes:
 - Secrets --- sensitive configuration where applicable.
 The application namespace is ticketify-dev. NGINX Gateway Fabric is
 installed in the nginx-gateway namespace.
-### MySQL Deployment
-
-MySQL is deployed inside the local Minikube cluster
-in the `ticketify-dev` namespace.
-
-The database is managed through Kubernetes resources:
-
-- Deployment --- manages the MySQL Pod.
-- Service (`mysql`) --- provides stable network access to MySQL.
-- PersistentVolumeClaim (`mysql-pvc`) --- provides persistent storage.
-- Secret (`mysql-secret`) --- stores the MySQL root password.
-
-**Kubernetes Service**
-
-| Setting | Value |
-|---|---|
-| Service name | `mysql` |
-| Namespace | `ticketify-dev` |
-| Service type | `ClusterIP` |
-| ClusterIP | `10.96.189.195` |
-| Service port | `3306` |
-| Internal DNS | `mysql.ticketify-dev.svc.cluster.local` |
-
-The ClusterIP is dynamically assigned and may change
-when the Service is recreated. Use the internal DNS name
-for application connectivity inside the cluster.
-
-**Local Development Access**
-
-Since the NestJS backend currently runs on the host machine,
-`kubectl port-forward` provides temporary local access
-to the MySQL Service.
-
-```bash
-kubectl port-forward svc/mysql 3307:3306 -n ticketify-dev
-
 Current environment values:
 
   Setting                        Current value
