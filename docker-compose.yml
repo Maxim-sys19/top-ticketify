@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   #  nest_service:
@@ -18,20 +18,22 @@ services:
   #    networks:
   #      - app-network
 
-  db_service:
-    image: mysql:latest
-    container_name: top-ticketify-mysql-db
-    restart: always
-    volumes:
-      - ./mysql/allow-remote.cnf:/etc/mysql/conf.d/allow-remote.cnf
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: TopTicketify
-    ports:
-      - '3307:3306'
-    networks:
-      - top-ticketify_app-network
+  # db_service:
+  #   image: mysql:latest
+  #   container_name: top-ticketify-mysql-db
+  #   restart: always
+  #   volumes:
+  #     - ./mysql/allow-remote.cnf:/etc/mysql/conf.d/allow-remote.cnf
+  #   env_file:
+  #     - ./nest_server/.env
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+  #     MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+  #     MYSQL_DATABASE: ${DATABASE}
+  #   ports:
+  #     - "3307:3306"
+  #   networks:
+  #     - top-ticketify_app-network
 
   maildev:
     image: maildev/maildev
@@ -44,7 +46,7 @@ services:
     image: redis:latest
     container_name: redis_service_top_ticketify
     ports:
-      - '6379:6379'
+      - "6379:6379"
     networks:
       - top-ticketify_app-network
 
@@ -62,7 +64,12 @@ services:
   stripe_service:
     image: stripe/stripe-cli:v1.32.0
     container_name: top-ticketify-stripe
-    command: [ "listen", "--forward-to", "http://host.docker.internal:8000/webhook/stripe" ]
+    command:
+      [
+        "listen",
+        "--forward-to",
+        "http://host.docker.internal:8000/webhook/stripe",
+      ]
     env_file:
       - ./nest_server/.env
     environment:
